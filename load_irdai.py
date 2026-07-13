@@ -2,508 +2,497 @@
 # -*- coding: utf-8 -*-
 
 """
-load_irdai.py
---------------
-Loader half of the IRDAI pipeline (irdai_watcher.py stays network-light and
-only writes data/corpus.json). This script does the heavy lifting:
+IRDAI Loader — corpus.json -> Supabase (irdai_documents + irdai_chunks)
+-----------------------------------------------------------------------
+The CERC/APTEL pattern, IRDAI edition:
 
-  1. Read data/corpus.json (keyed by slug, same shape irdai_watcher.py emits).
-  2. For each doc, download its attachment PDFs (all attachments concatenated,
-     each one header-tagged so chunks can carry an `attachment` filename).
-  3. Extract text with pymupdf4llm (markdown-aware), falling back to plain
-     PyMuPDF (fitz) text extraction if pymupdf4llm errors or is unavailable.
-  4. Hash the extracted text (sha1). Skip re-chunk/re-embed if unchanged from
-     what's already in Supabase, unless --refresh is passed.
-  5. Chunk (~1800 chars, 200 overlap), embed with all-MiniLM-L6-v2 (384-dim,
-     cosine-normalized), and upsert into irdai_documents / irdai_chunks via
-     the Supabase transaction pooler (port 6543).
+  - Reads data/corpus.json produced by irdai_watcher.py (the watcher stays
+    network-light; this script owns all heavy lifting).
+  - Metadata upsert for EVERY doc on every run (cheap, keeps wiki fields,
+    relations, and status edits in sync).
+  - PDFs are fetched INTO MEMORY only — extracted with pymupdf4llm
+    (fallback: plain pymupdf get_text), then the bytes are discarded.
+    Nothing is written to disk, nothing is committed to git.
+  - content_sha1 gate: a document is extracted + embedded exactly once;
+    re-runs skip it unless the text changes or --refresh is passed.
+  - Chunking: heading-aware markdown split, packed to ~1800 chars with
+    200-char overlap; each chunk keeps its nearest heading and source
+    attachment filename (multi-attachment issuances).
+  - Embeddings: sentence-transformers all-MiniLM-L6-v2 (384-dim,
+    normalized for cosine), lazy-loaded, batch-encoded.
+  - Upserts via the Supabase transaction pooler (port 6543), psycopg2 +
+    execute_values, ON CONFLICT DO UPDATE.
 
-Mirrors the cerc_scraper.py / load_cerc.py split: watcher = discovery +
-metadata, loader = extraction + embeddings + DB. Point a copy of the
-cerc_mcp.py-style MCP server at irdai_hybrid_search / irdai_grep once loaded.
+Env:
+  SUPABASE_DB_URL  postgresql://postgres.<ref>:<pw>@<region>.pooler.supabase.com:6543/postgres
 
 Usage:
-  python load_irdai.py                        # load everything new/changed
-  python load_irdai.py --limit 25              # cap this run to 25 docs
-  python load_irdai.py --slugs cir-foo-2024    # only named slugs
-  python load_irdai.py --refresh                # force re-extract + re-embed
-  python load_irdai.py --skip-extract           # metadata-only upsert, no PDFs
-  python load_irdai.py --dry-run                # log actions, write nothing
-
-Env vars (same names as the CERC/APTEL loaders):
-  SUPABASE_DB_URL   postgres connection string, pooler on :6543
-                     e.g. postgresql://postgres.xxxx:PASSWORD@aws-0-ap-south-1
-                          .pooler.supabase.com:6543/postgres
-  HF_HUB_OFFLINE=1  set automatically once the MiniLM model is cached locally,
-                     to avoid a network check on every run.
+  python load_irdai.py                 # metadata sync + extract/embed new docs
+  python load_irdai.py --skip-pdf      # metadata sync only
+  python load_irdai.py --refresh       # force re-extract + re-embed everything
+  python load_irdai.py --only <slug>   # single document
+  python load_irdai.py --limit 25      # cap extraction work per run
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 import json
 import logging
 import os
+import re
+import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
-
-# ================= CONFIG =================
+import psycopg2
+from psycopg2.extras import execute_values, Json
 
 BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR / "data"
-CORPUS_JSON = DATA_DIR / "corpus.json"
-PDF_CACHE_DIR = DATA_DIR / "pdf_cache"
-PDF_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+CORPUS_JSON = BASE_DIR / "data" / "corpus.json"
 
-EMBED_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 EMBED_DIM = 384
-
-CHUNK_SIZE = 1800
+CHUNK_CHARS = 1800
 CHUNK_OVERLAP = 200
-
-MAX_PDF_MB = 40          # skip (with a warning) any single attachment over this
+MAX_PDF_MB = 40
 DOWNLOAD_TIMEOUT = 60
-STATEMENT_TIMEOUT_MS = 120_000  # 2 min safety cap per DB statement
+# Above this page count, skip pymupdf4llm's layout analysis (0.5-2 s/page on
+# runner CPUs) and use plain text extraction — statutes and consolidated Acts
+# need grep/embedding quality, not table fidelity. Override with --md-max-pages.
+MD_MAX_PAGES = 120
 
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
     )
 }
 
 log = logging.getLogger("load_irdai")
 
-# ================= LAZY MODEL / HEAVY IMPORTS =================
-# Keep top-level imports light (psycopg2 + requests only) so --skip-extract
-# and --dry-run runs, plus syntax checks, don't need torch/sentence-transformers
-# or pymupdf4llm installed.
-
-_embed_model = None
+# Heavy deps are lazy so --skip-pdf / --dry-run runs never import them.
+_model = None
+_fitz = None
+_pymupdf4llm = None
 
 
-def get_embed_model():
-    global _embed_model
-    if _embed_model is None:
-        os.environ.setdefault("HF_HUB_OFFLINE", "1")
+def get_model():
+    global _model
+    if _model is None:
+        log.info("Loading %s (lazy)…", MODEL_NAME)
+        from sentence_transformers import SentenceTransformer
+        _model = SentenceTransformer(MODEL_NAME)
+    return _model
+
+
+def get_pdf_libs():
+    global _fitz, _pymupdf4llm
+    if _fitz is None:
+        import fitz  # pymupdf
+        _fitz = fitz
         try:
-            from sentence_transformers import SentenceTransformer
+            import pymupdf4llm
+            _pymupdf4llm = pymupdf4llm
         except ImportError:
-            os.environ.pop("HF_HUB_OFFLINE", None)
-            from sentence_transformers import SentenceTransformer
-        log.info("Loading embedding model %s ...", EMBED_MODEL_NAME)
-        _embed_model = SentenceTransformer(EMBED_MODEL_NAME)
-    return _embed_model
+            _pymupdf4llm = None
+            log.warning("pymupdf4llm unavailable — falling back to plain pymupdf text")
+    return _fitz, _pymupdf4llm
 
 
-def embed_texts(texts: list[str]) -> list[list[float]]:
-    if not texts:
-        return []
-    model = get_embed_model()
-    vecs = model.encode(
-        texts,
-        batch_size=32,
-        show_progress_bar=False,
-        normalize_embeddings=True,  # unit vectors -> cosine == dot product
-    )
-    return [v.tolist() for v in vecs]
+# ================= EXTRACTION (in-memory only) =================
 
 
-def extract_pdf_text(pdf_path: Path) -> tuple[str, str, int]:
-    """Return (markdown_text, method, page_count). Tries pymupdf4llm first."""
-    try:
-        import pymupdf4llm
-
-        md = pymupdf4llm.to_markdown(str(pdf_path))
-        import fitz  # PyMuPDF, for page count
-
-        with fitz.open(str(pdf_path)) as doc:
-            pages = doc.page_count
-        if md and md.strip():
-            return md, "pymupdf4llm", pages
-    except Exception as e:  # noqa: BLE001 - fall back below regardless of cause
-        log.warning("pymupdf4llm failed on %s (%s) — falling back to fitz", pdf_path.name, e)
-
-    try:
-        import fitz
-
-        with fitz.open(str(pdf_path)) as doc:
-            text = "\n\n".join(page.get_text() for page in doc)
-            pages = doc.page_count
-        return text, "pymupdf", pages
-    except Exception as e:  # noqa: BLE001
-        log.error("fitz extraction also failed on %s (%s)", pdf_path.name, e)
-        return "", "none", 0
-
-
-# ================= HTTP =================
-
-
-def make_session() -> requests.Session:
-    s = requests.Session()
-    s.headers.update(HEADERS)
-    return s
-
-
-def download_pdf(session: requests.Session, url: str, dest: Path) -> bool:
-    if dest.exists() and dest.stat().st_size > 0:
-        return True
-    try:
-        with session.get(url, stream=True, timeout=DOWNLOAD_TIMEOUT) as r:
+def fetch_pdf_bytes(session: requests.Session, url: str) -> bytes | None:
+    for attempt in (1, 2, 3):
+        try:
+            r = session.get(url, timeout=DOWNLOAD_TIMEOUT, stream=True)
             r.raise_for_status()
-            size = int(r.headers.get("content-length", 0) or 0)
+            size = int(r.headers.get("content-length") or 0)
             if size and size > MAX_PDF_MB * 1024 * 1024:
-                log.warning("Skipping %s — %.1f MB exceeds cap (%d MB)",
-                            url, size / 1024 / 1024, MAX_PDF_MB)
-                return False
-            tmp = dest.with_suffix(".part")
-            with open(tmp, "wb") as f:
-                for chunk in r.iter_content(chunk_size=1 << 16):
-                    f.write(chunk)
-            tmp.rename(dest)
-        return True
-    except requests.RequestException as e:
-        log.warning("Download failed for %s: %s", url, e)
-        return False
+                log.warning("skip oversized PDF (%.1f MB): %s", size / 1e6, url)
+                return None
+            data = r.content
+            if len(data) > MAX_PDF_MB * 1024 * 1024:
+                log.warning("skip oversized PDF (%.1f MB): %s", len(data) / 1e6, url)
+                return None
+            return data
+        except requests.RequestException as e:
+            log.warning("fetch attempt %d failed for %s — %s", attempt, url, e)
+            time.sleep(2 * attempt)
+    return None
+
+
+def extract_text(pdf_bytes: bytes) -> tuple[str, str, int]:
+    """Return (text, method, page_count). Bytes never touch disk.
+
+    Two pymupdf4llm profiles:
+      full — default; identical call profile to CERC/APTEL (tables kept).
+      lean — for docs over MD_MAX_PAGES: markdown headings preserved for the
+             chunker, but table detection off and drawing analysis capped.
+             This targets gazette-style PDFs (bilingual consolidated Acts,
+             watermarked pages) whose per-page graphics make lines_strict
+             table detection pathological — the cost centre APTEL's clean
+             digitally-born orders never hit.
+    """
+    fitz, pymupdf4llm = get_pdf_libs()
+    doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+    try:
+        pages = doc.page_count
+        if pymupdf4llm is not None:
+            lean = pages > MD_MAX_PAGES
+            try:
+                t0 = time.time()
+                if lean:
+                    try:
+                        md = pymupdf4llm.to_markdown(
+                            doc, table_strategy=None, graphics_limit=5000)
+                        method = "pymupdf4llm-lean"
+                    except TypeError:
+                        # older pymupdf4llm without these kwargs
+                        md = pymupdf4llm.to_markdown(doc)
+                        method = "pymupdf4llm"
+                else:
+                    md = pymupdf4llm.to_markdown(doc)
+                    method = "pymupdf4llm"
+                log.debug("to_markdown: %d pages in %.1fs (%s)",
+                          pages, time.time() - t0, method)
+                if md and md.strip():
+                    return md, method, pages
+            except Exception as e:
+                log.warning("pymupdf4llm failed (%s) — plain-text fallback", e)
+        text = "\n\n".join(p.get_text("text") for p in doc)
+        return text, "pymupdf", pages
+    finally:
+        doc.close()
+
+
+def extract_issuance(session: requests.Session, rec: dict, delay: float) -> dict | None:
+    """Fetch + extract ALL attachments of one issuance, in memory."""
+    src = rec.get("_source", {})
+    links = src.get("pdf_links") or []
+    names = src.get("pdf_filenames") or []
+    if not links:
+        return None
+
+    parts, methods, total_pages = [], set(), 0
+    for i, url in enumerate(links):
+        t0 = time.time()
+        data = fetch_pdf_bytes(session, url)
+        time.sleep(delay)
+        if not data:
+            continue
+        fetch_s = time.time() - t0
+        size_mb = len(data) / 1e6
+        t0 = time.time()
+        text, method, pages = extract_text(data)
+        del data  # explicit: bytes discarded here
+        label = names[i] if i < len(names) and names[i] else f"attachment-{i + 1}"
+        log.info("  %s: %.1f MB fetched in %.1fs; %d pages extracted in %.1fs (%s)",
+                 label, size_mb, fetch_s, pages, time.time() - t0, method)
+        methods.add(method)
+        total_pages += pages
+        parts.append((label, text))
+
+    if not parts:
+        return None
+
+    if len(parts) == 1:
+        full_text = parts[0][1]
+    else:
+        full_text = "\n\n".join(f"# [Attachment: {label}]\n\n{text}" for label, text in parts)
+
+    return {
+        "full_text": full_text,
+        "content_sha1": hashlib.sha1(full_text.encode("utf-8")).hexdigest(),
+        "extraction_method": "+".join(sorted(methods)),
+        "page_count": total_pages,
+        "parts": parts,
+    }
 
 
 # ================= CHUNKING =================
 
+# Headings come in two flavours: markdown (#) from pymupdf4llm's layout pass,
+# and statute-style bold lines ('**3. Registration.** — (1) ...',
+# '**CHAPTER IV**') which is how Indian Acts/Regulations actually render.
+HEADING_RE = re.compile(
+    r"^(?:"
+    r"#{1,4}\s+(?P<md>[^\n]+)"
+    r"|\*\*(?P<sec>\d{1,3}[A-Z]{0,3}\.\s[^*\n]{2,140}?)\.?\*\*"
+    r"|\*\*(?P<chp>(?:CHAPTER|PART|SCHEDULE)\s+[IVXLCM\d][^*\n]{0,100}?)\*\*"
+    r")",
+    re.M,
+)
 
-def chunk_text(text: str, size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> list[str]:
-    text = (text or "").strip()
-    if not text:
-        return []
-    if len(text) <= size:
-        return [text]
+DEVANAGARI_RE = re.compile(r"[\u0900-\u097F]")
+
+
+def devanagari_ratio(s: str) -> float:
+    return len(DEVANAGARI_RE.findall(s)) / max(len(s), 1)
+
+
+def _heading_of(m: re.Match) -> str:
+    return (m.group("md") or m.group("sec") or m.group("chp")).strip()[:180]
+
+
+def _snap(body: str, start: int, end: int) -> tuple[int, int]:
+    """Nudge chunk boundaries to sentence breaks (., ।) where one is near."""
+    if start > 0:
+        m = re.search(r"[.।]\s+", body[start:start + 250])
+        if m:
+            start = start + m.end()
+    if end < len(body):
+        m = re.search(r"[.।]\s", body[end:end + 200])
+        if m:
+            end = end + m.end()
+    return start, end
+
+
+def chunk_text(text: str, attachment: str | None = None) -> list[dict]:
+    """Heading-aware packing: split on markdown AND statute-bold headings,
+    pack sections to ~CHUNK_CHARS with CHUNK_OVERLAP carry-over, snapping
+    boundaries to sentence breaks. Each chunk records its nearest heading."""
+    sections: list[tuple[str | None, str]] = []
+    last = 0
+    heading = None
+    for m in HEADING_RE.finditer(text):
+        body = text[last:m.start()].strip()
+        if body:
+            sections.append((heading, body))
+        heading = _heading_of(m)
+        last = m.end()
+    tail = text[last:].strip()
+    if tail:
+        sections.append((heading, tail))
+    if not sections:
+        sections = [(None, text.strip())]
 
     chunks = []
-    start = 0
-    n = len(text)
-    while start < n:
-        end = min(start + size, n)
-        # try to break on a paragraph/sentence boundary near the end
-        if end < n:
-            window = text[start:end]
-            for sep in ("\n\n", ". ", "\n"):
-                idx = window.rfind(sep)
-                if idx > size * 0.5:
-                    end = start + idx + len(sep)
-                    break
-        piece = text[start:end].strip()
-        if piece:
-            chunks.append(piece)
-        if end >= n:
-            break
-        start = max(end - overlap, start + 1)
+    for heading, body in sections:
+        raw_start = 0
+        while raw_start < len(body):
+            s, e = _snap(body, raw_start, min(raw_start + CHUNK_CHARS, len(body)))
+            piece = body[s:e]
+            if piece.strip():
+                chunks.append({
+                    "heading": heading,
+                    "attachment": attachment,
+                    "content": piece.strip(),
+                })
+            if raw_start + CHUNK_CHARS >= len(body):
+                break
+            raw_start += CHUNK_CHARS - CHUNK_OVERLAP
     return chunks
 
 
-def sha1(text: str) -> str:
-    return hashlib.sha1(text.encode("utf-8", errors="ignore")).hexdigest()
+def chunk_issuance(extraction: dict) -> list[dict]:
+    parts = extraction["parts"]
+    out = []
+    for label, text in parts:
+        out.extend(chunk_text(text, attachment=label if len(parts) > 1 else None))
+    for i, c in enumerate(out):
+        c["chunk_index"] = i
+    return out
 
 
 # ================= DB =================
 
 
-def get_conn():
-    import psycopg2
-
+def connect():
     dsn = os.environ.get("SUPABASE_DB_URL")
     if not dsn:
-        raise SystemExit("SUPABASE_DB_URL is not set")
+        log.error("SUPABASE_DB_URL not set")
+        sys.exit(1)
     conn = psycopg2.connect(dsn)
     conn.autocommit = False
     with conn.cursor() as cur:
-        cur.execute(f"set statement_timeout = {STATEMENT_TIMEOUT_MS}")
+        cur.execute("set statement_timeout = '120s'")
     return conn
 
 
-def fetch_existing_hashes(conn, doc_ids: list[str]) -> dict[str, str]:
-    """slug -> content_sha1 already stored, for change detection."""
-    if not doc_ids:
-        return {}
-    with conn.cursor() as cur:
-        cur.execute(
-            "select id, content_sha1 from irdai_documents where id = any(%s)",
-            (doc_ids,),
-        )
-        return {r[0]: r[1] for r in cur.fetchall()}
+DOC_COLS = [
+    "id", "liferay_id", "type", "source_category", "title", "ref_no", "dept",
+    "entity", "subtype", "status", "year", "date_issued", "archived",
+    "subjects", "maintenance", "aliases", "relations", "pending_relations",
+    "attachments", "detail_page", "pdf_links", "source_page",
+    "first_seen", "last_seen",
+]
+
+DOC_UPSERT = f"""
+insert into irdai_documents ({", ".join(DOC_COLS)})
+values %s
+on conflict (id) do update set
+  {", ".join(f"{c} = excluded.{c}" for c in DOC_COLS if c not in ("id", "status", "entity", "subtype"))},
+  -- human-edited classification fields are preserved unless still Unclassified:
+  status  = case when irdai_documents.status  = 'Unclassified' then excluded.status  else irdai_documents.status  end,
+  entity  = case when irdai_documents.status  = 'Unclassified' then excluded.entity  else irdai_documents.entity  end,
+  subtype = case when irdai_documents.status  = 'Unclassified' then excluded.subtype else irdai_documents.subtype end
+"""
 
 
-def upsert_document(conn, slug: str, rec: dict, full_text: str | None,
-                     content_hash: str | None, method: str | None,
-                     pages: int | None) -> None:
-    src = rec.get("_source", {})
-    with conn.cursor() as cur:
-        cur.execute(
-            """
-            insert into irdai_documents (
-                id, liferay_id, type, source_category, title, ref_no, dept,
-                entity, subtype, status, year, date_issued, archived,
-                subjects, maintenance, aliases, relations, pending_relations,
-                attachments, detail_page, pdf_links, source_page,
-                full_text, content_sha1, extraction_method, page_count,
-                first_seen, last_seen
-            ) values (
-                %(id)s, %(liferay_id)s, %(type)s, %(source_category)s, %(title)s,
-                %(ref_no)s, %(dept)s, %(entity)s, %(subtype)s, %(status)s,
-                %(year)s, %(date_issued)s, %(archived)s, %(subjects)s,
-                %(maintenance)s, %(aliases)s, %(relations)s, %(pending_relations)s,
-                %(attachments)s, %(detail_page)s, %(pdf_links)s, %(source_page)s,
-                %(full_text)s, %(content_sha1)s, %(extraction_method)s, %(page_count)s,
-                %(first_seen)s, %(last_seen)s
-            )
-            on conflict (id) do update set
-                liferay_id        = excluded.liferay_id,
-                type               = excluded.type,
-                source_category    = excluded.source_category,
-                title              = excluded.title,
-                ref_no             = excluded.ref_no,
-                dept               = excluded.dept,
-                entity             = excluded.entity,
-                subtype            = excluded.subtype,
-                status             = excluded.status,
-                year               = excluded.year,
-                date_issued        = excluded.date_issued,
-                archived           = excluded.archived,
-                subjects           = excluded.subjects,
-                maintenance        = excluded.maintenance,
-                aliases            = excluded.aliases,
-                relations          = excluded.relations,
-                pending_relations  = excluded.pending_relations,
-                attachments        = excluded.attachments,
-                detail_page        = excluded.detail_page,
-                pdf_links          = excluded.pdf_links,
-                source_page        = excluded.source_page,
-                full_text          = coalesce(excluded.full_text, irdai_documents.full_text),
-                content_sha1       = coalesce(excluded.content_sha1, irdai_documents.content_sha1),
-                extraction_method  = coalesce(excluded.extraction_method, irdai_documents.extraction_method),
-                page_count         = coalesce(excluded.page_count, irdai_documents.page_count),
-                last_seen          = excluded.last_seen,
-                loaded_at          = now()
-            """,
-            {
-                "id": slug,
-                "liferay_id": src.get("liferay_id"),
-                "type": rec.get("type"),
-                "source_category": rec.get("sourceCategory"),
-                "title": rec.get("title"),
-                "ref_no": rec.get("refNo"),
-                "dept": rec.get("dept"),
-                "entity": rec.get("entity"),
-                "subtype": rec.get("subtype"),
-                "status": rec.get("status", "Unclassified"),
-                "year": rec.get("year"),
-                "date_issued": rec.get("dateIssued"),
-                "archived": bool(rec.get("archived", False)),
-                "subjects": rec.get("subjects", []),
-                "maintenance": rec.get("maintenance", []),
-                "aliases": rec.get("aliases", []),
-                "relations": json.dumps(rec.get("relations", {})),
-                "pending_relations": src.get("pending_relations", []),
-                "attachments": rec.get("attachments", 1),
-                "detail_page": src.get("detail_page"),
-                "pdf_links": src.get("pdf_links", []),
-                "source_page": src.get("source_page"),
-                "full_text": full_text,
-                "content_sha1": content_hash,
-                "extraction_method": method,
-                "page_count": pages,
-                "first_seen": src.get("first_seen"),
-                "last_seen": src.get("last_seen"),
-            },
-        )
-
-
-def replace_chunks(conn, doc_id: str, chunks: list[dict]) -> None:
-    """chunks: [{index, heading, attachment, content, embedding}]"""
-    with conn.cursor() as cur:
-        cur.execute("delete from irdai_chunks where doc_id = %s", (doc_id,))
-        for c in chunks:
-            cid = sha1(f"{doc_id}|{c['index']}|{c['content'][:200]}")
-            cur.execute(
-                """
-                insert into irdai_chunks (id, doc_id, chunk_index, heading, attachment, content, embedding)
-                values (%s, %s, %s, %s, %s, %s, %s)
-                on conflict (id) do update set
-                    heading = excluded.heading, content = excluded.content,
-                    embedding = excluded.embedding
-                """,
-                (cid, doc_id, c["index"], c.get("heading"), c.get("attachment"),
-                 c["content"], c["embedding"]),
-            )
-
-
-# ================= CORE PIPELINE =================
-
-
-def load_corpus() -> dict:
-    if not CORPUS_JSON.exists():
-        raise SystemExit(f"{CORPUS_JSON} not found — run irdai_watcher.py first")
-    with open(CORPUS_JSON, encoding="utf-8") as f:
-        return json.load(f).get("docs", {})
-
-
-def process_doc(session: requests.Session, slug: str, rec: dict, args) -> dict | None:
-    """Download attachments, extract, return {full_text, hash, method, pages, chunks_raw}."""
-    src = rec.get("_source", {})
-    pdf_links = src.get("pdf_links") or []
-    filenames = src.get("pdf_filenames") or []
-
-    if not pdf_links:
-        return {"full_text": None, "hash": None, "method": "none", "pages": 0, "sections": []}
-
-    sections = []  # (attachment_label, text)
-    total_pages = 0
-    method_used = None
-
-    for i, url in enumerate(pdf_links):
-        fname = filenames[i] if i < len(filenames) else f"attachment-{i+1}.pdf"
-        cache_path = PDF_CACHE_DIR / f"{slug}__{i}.pdf"
-
-        if not download_pdf(session, url, cache_path):
-            continue
-        time.sleep(args.delay)
-
-        text, method, pages = extract_pdf_text(cache_path)
-        method_used = method_used or method
-        total_pages += pages
-        if text.strip():
-            sections.append((fname, text.strip()))
-
-    if not sections:
-        return {"full_text": None, "hash": None, "method": method_used or "none",
-                 "pages": total_pages, "sections": []}
-
-    full_text = "\n\n".join(f"## {name}\n\n{text}" for name, text in sections)
-    return {
-        "full_text": full_text,
-        "hash": sha1(full_text),
-        "method": method_used,
-        "pages": total_pages,
-        "sections": sections,
-    }
-
-
-def build_chunks(doc_id: str, sections: list[tuple[str, str]]) -> list[dict]:
-    """Chunk each attachment's text separately so `attachment` stays accurate,
-    but chunk_index is continuous across the whole document."""
-    raw = []
-    idx = 0
-    for fname, text in sections:
-        for piece in chunk_text(text):
-            heading = None
-            first_line = piece.strip().splitlines()[0] if piece.strip() else ""
-            if first_line.startswith("#"):
-                heading = first_line.lstrip("#").strip()
-            raw.append({"index": idx, "heading": heading, "attachment": fname, "content": piece})
-            idx += 1
-    return raw
-
-
-def run(args) -> None:
-    corpus = load_corpus()
-    slugs = list(corpus.keys())
-
-    if args.slugs:
-        wanted = set(args.slugs)
-        slugs = [s for s in slugs if s in wanted]
-        missing = wanted - set(slugs)
-        if missing:
-            log.warning("Requested slugs not found in corpus: %s", ", ".join(sorted(missing)))
-
-    if args.limit:
-        slugs = slugs[: args.limit]
-
-    log.info("Processing %d document(s) from %s", len(slugs), CORPUS_JSON)
-
-    conn = None
-    existing_hashes = {}
-    if not args.dry_run:
-        conn = get_conn()
-        existing_hashes = fetch_existing_hashes(conn, slugs)
-
-    session = make_session()
-    n_loaded = n_skipped_unchanged = n_metadata_only = n_failed = 0
-
-    for slug in slugs:
-        rec = corpus[slug]
-        try:
-            if args.skip_extract:
-                extraction = {"full_text": None, "hash": None, "method": None, "pages": None, "sections": []}
-                n_metadata_only += 1
-            else:
-                extraction = process_doc(session, slug, rec, args)
-
-            unchanged = (
-                not args.refresh
-                and extraction["hash"] is not None
-                and existing_hashes.get(slug) == extraction["hash"]
-            )
-
-            if args.dry_run:
-                log.info("[dry-run] %s: text=%s hash=%s unchanged=%s sections=%d",
-                          slug, bool(extraction["full_text"]), extraction["hash"],
-                          unchanged, len(extraction["sections"]))
-                continue
-
-            upsert_document(
-                conn, slug, rec,
-                full_text=extraction["full_text"],
-                content_hash=extraction["hash"],
-                method=extraction["method"],
-                pages=extraction["pages"],
-            )
-
-            if extraction["sections"] and not unchanged:
-                raw_chunks = build_chunks(slug, extraction["sections"])
-                if raw_chunks:
-                    embeddings = embed_texts([c["content"] for c in raw_chunks])
-                    for c, emb in zip(raw_chunks, embeddings):
-                        c["embedding"] = emb
-                    replace_chunks(conn, slug, raw_chunks)
-                    log.info("%s: embedded %d chunk(s)", slug, len(raw_chunks))
-                n_loaded += 1
-            elif unchanged:
-                n_skipped_unchanged += 1
-                log.info("%s: content unchanged, chunks left as-is", slug)
-
-            conn.commit()
-
-        except Exception as e:  # noqa: BLE001 - one bad doc shouldn't kill the run
-            n_failed += 1
-            log.error("%s: failed — %s", slug, e)
-            if conn:
-                conn.rollback()
-
-    if conn:
-        conn.close()
-
-    log.info(
-        "Done: loaded=%d unchanged=%d metadata_only=%d failed=%d total=%d",
-        n_loaded, n_skipped_unchanged, n_metadata_only, n_failed, len(slugs),
+def doc_row(slug: str, d: dict) -> tuple:
+    src = d.get("_source", {})
+    return (
+        slug, src.get("liferay_id"), d.get("type"), d.get("sourceCategory"),
+        d.get("title"), d.get("refNo"), d.get("dept"), d.get("entity"),
+        d.get("subtype"), d.get("status", "Unclassified"), d.get("year"),
+        d.get("dateIssued"), bool(d.get("archived")),
+        d.get("subjects") or [], d.get("maintenance") or [], d.get("aliases") or [],
+        Json(d.get("relations") or {}), src.get("pending_relations") or [],
+        d.get("attachments") or 1, src.get("detail_page"),
+        src.get("pdf_links") or [], src.get("source_page"),
+        src.get("first_seen"), src.get("last_seen"),
     )
 
 
+def upsert_documents(conn, corpus: dict) -> None:
+    rows = [doc_row(slug, d) for slug, d in corpus.items()]
+    with conn.cursor() as cur:
+        execute_values(cur, DOC_UPSERT, rows, page_size=200)
+    conn.commit()
+    log.info("metadata upserted for %d documents", len(rows))
+
+
+def existing_hashes(conn) -> dict:
+    with conn.cursor() as cur:
+        cur.execute("select id, content_sha1 from irdai_documents")
+        return dict(cur.fetchall())
+
+
+def store_extraction(conn, slug: str, extraction: dict, chunks: list[dict], embeddings) -> None:
+    with conn.cursor() as cur:
+        cur.execute(
+            """update irdai_documents
+               set full_text = %s, content_sha1 = %s, extraction_method = %s,
+                   page_count = %s, loaded_at = %s
+               where id = %s""",
+            (extraction["full_text"], extraction["content_sha1"],
+             extraction["extraction_method"], extraction["page_count"],
+             datetime.now(timezone.utc), slug),
+        )
+        cur.execute("delete from irdai_chunks where doc_id = %s", (slug,))
+        rows = []
+        for c, emb in zip(chunks, embeddings):
+            cid = hashlib.sha1(f"{slug}|{c['chunk_index']}|{c['content']}".encode()).hexdigest()
+            vec = "[" + ",".join(f"{x:.6f}" for x in emb) + "]" if emb is not None else None
+            rows.append((cid, slug, c["chunk_index"], c["heading"], c["attachment"],
+                         c["content"], vec))
+        execute_values(
+            cur,
+            """insert into irdai_chunks
+               (id, doc_id, chunk_index, heading, attachment, content, embedding)
+               values %s on conflict (id) do nothing""",
+            rows, page_size=100,
+        )
+    conn.commit()
+
+
+# ================= MAIN =================
+
+
+def run(args) -> None:
+    if not CORPUS_JSON.exists():
+        log.error("no corpus at %s — run irdai_watcher.py first", CORPUS_JSON)
+        sys.exit(1)
+    with open(CORPUS_JSON, encoding="utf-8") as f:
+        corpus = json.load(f).get("docs", {})
+    if args.only:
+        corpus = {k: v for k, v in corpus.items() if k in args.only}
+        if not corpus:
+            log.error("--only matched nothing")
+            sys.exit(1)
+    log.info("corpus: %d documents", len(corpus))
+
+    if args.dry_run:
+        todo = [s for s, d in corpus.items() if d.get("_source", {}).get("pdf_links")]
+        log.info("dry-run: %d docs have PDFs; would sync metadata for all %d",
+                 len(todo), len(corpus))
+        return
+
+    conn = connect()
+    try:
+        upsert_documents(conn, corpus)
+
+        if args.skip_pdf:
+            log.info("--skip-pdf: metadata sync only, done")
+            return
+
+        hashes = existing_hashes(conn)
+        session = requests.Session()
+        session.headers.update(HEADERS)
+
+        pending = [
+            (slug, d) for slug, d in corpus.items()
+            if d.get("_source", {}).get("pdf_links")
+            and (args.refresh or not hashes.get(slug))
+        ]
+        if args.limit:
+            pending = pending[: args.limit]
+        log.info("extraction queue: %d documents", len(pending))
+
+        done = failed = skipped = 0
+        for slug, d in pending:
+            extraction = extract_issuance(session, d, args.delay)
+            if extraction is None:
+                failed += 1
+                log.warning("%s: no extractable attachment", slug)
+                continue
+            if not args.refresh and hashes.get(slug) == extraction["content_sha1"]:
+                skipped += 1
+                continue
+            chunks = chunk_issuance(extraction)
+            if not chunks:
+                failed += 1
+                log.warning("%s: extraction produced no chunks", slug)
+                continue
+            model = get_model()
+            t0 = time.time()
+            # Language gate: MiniLM-L6-v2 is English-only. Hindi-dominant
+            # chunks (bilingual gazette files) are stored for grep/full-text
+            # but kept OUT of the semantic index (embedding = NULL) so they
+            # don't inject noise vectors into hybrid search.
+            mask = [devanagari_ratio(c["content"]) < 0.3 for c in chunks]
+            to_embed = [c["content"] for c, m in zip(chunks, mask) if m]
+            vecs = iter(model.encode(
+                to_embed,
+                batch_size=64, normalize_embeddings=True, show_progress_bar=False,
+            )) if to_embed else iter(())
+            embeddings = [next(vecs) if m else None for m in mask]
+            embed_s = time.time() - t0
+            skipped_hi = len(mask) - sum(mask)
+            store_extraction(conn, slug, extraction, chunks, embeddings)
+            done += 1
+            log.info("%s: %d pages -> %d chunks (%s), embedded %d in %.1fs%s",
+                     slug, extraction["page_count"], len(chunks),
+                     extraction["extraction_method"], sum(mask), embed_s,
+                     f", {skipped_hi} Hindi-dominant kept FTS-only" if skipped_hi else "")
+
+        log.info("loader done: embedded=%d unchanged=%d failed=%d", done, skipped, failed)
+    finally:
+        conn.close()
+
+
 def main() -> None:
-    p = argparse.ArgumentParser(description="IRDAI corpus -> Supabase loader (PDF extraction + MiniLM embeddings)")
-    p.add_argument("--limit", type=int, default=None, help="cap number of docs processed this run")
-    p.add_argument("--slugs", nargs="*", default=None, help="only process these corpus slugs")
-    p.add_argument("--refresh", action="store_true", help="force re-extract + re-embed even if unchanged")
-    p.add_argument("--skip-extract", action="store_true", help="upsert metadata only, no PDF download/extraction")
-    p.add_argument("--dry-run", action="store_true", help="log actions, write nothing to Supabase")
-    p.add_argument("--delay", type=float, default=1.0, help="seconds between PDF downloads (default 1.0)")
+    p = argparse.ArgumentParser(description="Load IRDAI corpus into Supabase")
+    p.add_argument("--refresh", action="store_true", help="force re-extract + re-embed")
+    p.add_argument("--skip-pdf", action="store_true", help="metadata sync only")
+    p.add_argument("--limit", type=int, default=None, help="cap extraction work this run")
+    p.add_argument("--only", nargs="*", default=None, help="restrict to given slugs")
+    p.add_argument("--delay", type=float, default=1.0, help="seconds between PDF fetches")
+    p.add_argument("--dry-run", action="store_true")
     p.add_argument("-v", "--verbose", action="store_true")
     args = p.parse_args()
 
     logging.basicConfig(
         level=logging.DEBUG if args.verbose else logging.INFO,
         format="%(asctime)s %(levelname)s %(message)s", datefmt="%H:%M:%S")
+    logging.getLogger("urllib3").setLevel(logging.INFO)
     run(args)
 
 
