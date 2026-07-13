@@ -1,0 +1,15 @@
+# --- scraping / watcher ---
+requests
+beautifulsoup4
+urllib3
+
+# --- PDF extraction ---
+pymupdf
+pymupdf4llm
+
+# --- Supabase / Postgres ---
+psycopg2-binary
+
+# --- embeddings ---
+--extra-index-url https://download.pytorch.org/whl/cpu
+sentence-transformers
