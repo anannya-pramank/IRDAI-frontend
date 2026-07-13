@@ -220,30 +220,54 @@ def parse_rows(html: str, category: str, source_url: str) -> tuple[list[dict], i
 
     for tr in rows:
         tds = tr.find_all("td")
-        if len(tds) < 7:
+
+        if len(tds) >= 7:
+            # Standard layout: Circulars, Orders, Notices, Guidelines, etc.
+            # checkbox, archived, title, date, detail_link, ref_no, downloads
+            archived_txt = tds[1].get_text(strip=True)
+            archived = None
+            if archived_txt in ("Archived", "Non-Archived"):
+                archived = archived_txt == "Archived"
+
+            title = tds[2].get_text(strip=True)
+            date_issued = parse_date(tds[3].get_text(strip=True))
+
+            detail_link = None
+            a = tds[4].select_one("a[href]")
+            if a:
+                detail_link = urljoin(source_url, a["href"])
+
+            ref = tds[5].get_text(strip=True)
+            downloads_cell = tds[6]
+
+        elif len(tds) == 6:
+            # Regulations-version layout: Updated Regulations,
+            # Consolidated & Gazette Notified Regulations.
+            # checkbox, archived, short_description, sub_title, last_updated, downloads
+            # No separate detail-page link and no reference-number column here.
+            archived_txt = tds[1].get_text(strip=True)
+            archived = None
+            if archived_txt in ("Archived", "Non-Archived"):
+                archived = archived_txt == "Archived"
+
+            # Sub Title preferred (closer to the source document's actual name);
+            # fall back to Short Description if Sub Title is ever empty.
+            title = tds[3].get_text(strip=True) or tds[2].get_text(strip=True)
+            date_issued = parse_date(tds[4].get_text(strip=True))
+
+            detail_link = None
+            ref = ""
+            downloads_cell = tds[5]
+
+        else:
             continue
-
-        archived_txt = tds[1].get_text(strip=True)
-        archived = None
-        if archived_txt in ("Archived", "Non-Archived"):
-            archived = archived_txt == "Archived"
-
-        title = tds[2].get_text(strip=True)
-        date_issued = parse_date(tds[3].get_text(strip=True))
-
-        detail_link = None
-        a = tds[4].select_one("a[href]")
-        if a:
-            detail_link = urljoin(source_url, a["href"])
-
-        ref = tds[5].get_text(strip=True)
 
         # ALL attachments in the download cell (the "+3 more" nuance):
         pdf_links, filenames, sizes = [], [], []
-        for pa in tds[6].select("a[href*='download=true']"):
+        for pa in downloads_cell.select("a[href*='download=true']"):
             pdf_links.append(urljoin(source_url, pa["href"]))
             filenames.append(pa.get_text(strip=True))
-        for sp in tds[6].select("p.text-muted"):
+        for sp in downloads_cell.select("p.text-muted"):
             sizes.append(sp.get_text(strip=True))
 
         if not title or not (detail_link or pdf_links):
