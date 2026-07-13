@@ -19,6 +19,9 @@ on:
         type: string
         default: ""
 
+permissions:
+  contents: write
+
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -44,6 +47,10 @@ jobs:
         with:
           path: ~/.cache/huggingface
           key: minilm-l6-v2
+
+      - name: Pre-fetch embedding model
+        run: |
+          python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
 
       - name: Run watcher
         run: |
