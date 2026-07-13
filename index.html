@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IRDAI Repository — Wiki Prototype</title>
+<title>IRDAI Repository — Wiki Prototype v3</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -26,36 +26,30 @@
   a:hover{text-decoration:underline;}
   ::selection{background:#d9e4f5;}
 
-  /* ---------- Frame ---------- */
-  .frame{display:grid;grid-template-columns:200px 1fr;min-height:100vh;}
+  .frame{display:grid;grid-template-columns:210px 1fr;min-height:100vh;}
 
   /* ---------- Sidebar ---------- */
   .sidebar{background:var(--sidebar);border-right:1px solid var(--sidebar-line);padding:16px 0;}
   .sb-brand{padding:0 16px 16px 16px;border-bottom:1px solid var(--sidebar-line);margin-bottom:14px;cursor:pointer;}
-  .sb-brand .glyph{
-    width:34px;height:34px;border-radius:4px;background:var(--ink);color:var(--page);
-    display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;font-size:16px;margin-bottom:8px;
-  }
+  .sb-brand .glyph{width:34px;height:34px;border-radius:4px;background:var(--ink);color:var(--page);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;font-size:16px;margin-bottom:8px;}
   .sb-brand .name{font-family:'Fraunces',serif;font-weight:600;font-size:13.5px;line-height:1.25;}
   .sb-brand .sub{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-faint);margin-top:3px;}
-  .sb-group{padding:0 16px;margin-bottom:18px;}
-  .sb-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-faint);margin-bottom:7px;}
-  .sb-group a, .sb-group button.sb-link{
-    all:unset;display:block;font-size:12.5px;color:var(--ink-soft);padding:4px 0;cursor:pointer;
-  }
+  .sb-group{padding:0 16px;margin-bottom:16px;}
+  .sb-label{font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-faint);margin-bottom:6px;}
+  .sb-group a, .sb-group button.sb-link{all:unset;display:block;font-size:12.5px;color:var(--ink-soft);padding:3.5px 0;cursor:pointer;}
   .sb-group a:hover, .sb-group button.sb-link:hover{color:var(--wikiblue);text-decoration:underline;}
 
   /* ---------- Main column ---------- */
-  .col{max-width:900px;padding:0 30px 60px 30px;}
-  .searchbar{
-    display:flex;justify-content:flex-end;padding:14px 30px 0 30px;gap:10px;align-items:center;
-  }
-  .searchbar input{
-    font-size:12.5px;padding:6px 10px 6px 26px;border:1px solid var(--line);border-radius:2px;
-    background:var(--page);width:220px;
-  }
+  .col{max-width:920px;padding:0 30px 60px 30px;}
+  .searchbar{display:flex;justify-content:flex-end;padding:14px 30px 0 30px;gap:10px;align-items:center;}
+  .searchbar input{font-size:12.5px;padding:6px 10px 6px 26px;border:1px solid var(--line);border-radius:2px;background:var(--page);width:260px;}
   .searchbar-wrap{position:relative;}
-  .searchbar-wrap svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);opacity:0.45;}
+  .searchbar-wrap svg{position:absolute;left:8px;top:9px;opacity:0.45;}
+  .suggest{position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--line);z-index:60;max-height:240px;overflow:auto;box-shadow:0 4px 12px rgba(0,0,0,0.07);display:none;}
+  .suggest div{padding:6px 10px;font-size:12px;cursor:pointer;line-height:1.4;}
+  .suggest div:hover{background:#f4f2ee;}
+  .suggest .alias{color:var(--ink-faint);font-style:italic;font-size:11px;}
+  .searchhint{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);}
 
   .trail{font-size:11px;color:var(--ink-faint);padding:10px 30px 0 30px;display:flex;gap:6px;flex-wrap:wrap;}
   .trail a{color:var(--ink-faint);text-decoration:none;border-bottom:1px dotted var(--line);}
@@ -63,67 +57,85 @@
 
   /* ---------- Tabs ---------- */
   .tabs{display:flex;gap:2px;padding:18px 30px 0 30px;border-bottom:1px solid var(--line);}
-  .tab-btn{
-    all:unset;cursor:pointer;font-size:12.5px;font-weight:500;padding:8px 16px;color:var(--ink-soft);
-    border:1px solid transparent;border-bottom:none;border-radius:3px 3px 0 0;
-  }
+  .tab-btn{all:unset;cursor:pointer;font-size:12.5px;font-weight:500;padding:8px 14px;color:var(--ink-soft);border:1px solid transparent;border-bottom:none;border-radius:3px 3px 0 0;}
   .tab-btn:hover{color:var(--ink);}
   .tab-btn.active{background:var(--page);border-color:var(--line);color:var(--ink);position:relative;top:1px;}
 
-  .content{background:var(--page);border:1px solid var(--line);border-top:none;padding:0;}
+  .content{background:var(--page);border:1px solid var(--line);border-top:none;}
   .pad{padding:24px 30px 40px 30px;}
 
   /* ---------- Article head ---------- */
   .kicker{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-faint);}
   h1.page-title{font-family:'Fraunces',serif;font-size:28px;font-weight:600;margin:4px 0 2px 0;border-bottom:1px solid var(--line-soft);padding-bottom:10px;}
-  .disambig{font-style:italic;color:var(--ink-faint);font-size:12.5px;margin:4px 0 14px 0;}
+  .disambig{font-style:italic;color:var(--ink-faint);font-size:12.5px;margin:4px 0 10px 0;}
+  .redirectnote{font-size:11.5px;color:var(--ink-faint);font-style:italic;margin:2px 0 6px 0;}
   .status-badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;letter-spacing:0.03em;padding:3px 9px;border-radius:20px;}
   .status-badge.existing{background:var(--green-bg);color:var(--green);}
   .status-badge.repealed{background:var(--rust-bg);color:var(--rust);}
   .status-badge.open{background:var(--amber-bg);color:var(--amber);}
   .status-badge.neutral{background:#eee;color:var(--ink-soft);}
   .status-badge .dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+  .deptpill{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:0.04em;border:1px solid var(--line);color:var(--ink-soft);background:#fafaf5;border-radius:3px;padding:3px 7px;margin-left:8px;vertical-align:middle;}
+
+  /* ---------- Hatnotes ---------- */
+  .hatnote{border:1px solid var(--line);padding:8px 12px;font-size:12px;line-height:1.55;margin:8px 0;background:#fafaf5;}
+  .hatnote.plain{font-style:italic;color:var(--ink-soft);}
+  .hatnote.rust{background:var(--rust-bg);border-color:#d9b6ab;color:#5f2a20;}
+  .hatnote.amber{background:var(--amber-bg);border-color:#dcc79a;color:#6e4e1a;}
+  .hatnote b{font-weight:600;}
+  .hatnote .hn-tag{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.07em;margin-right:8px;opacity:0.75;}
 
   .body-cols{display:flex;gap:28px;align-items:flex-start;}
   .body-main{flex:1;min-width:0;}
 
   /* ---------- Infobox ---------- */
-  .infobox{
-    width:246px;flex:none;border:1px solid var(--line);background:var(--infobox-bg);font-size:12px;
-    margin:4px 0 14px 20px;float:right;
-  }
+  .infobox{width:262px;flex:none;border:1px solid var(--line);background:var(--infobox-bg);font-size:12px;margin:4px 0 14px 20px;float:right;}
   .infobox-head{background:var(--infobox-head);font-family:'Fraunces',serif;font-weight:600;font-size:13px;padding:8px 10px;border-bottom:1px solid var(--line);text-align:center;}
-  .infobox-img{
-    height:90px;background:repeating-linear-gradient(45deg,#e7e3d5,#e7e3d5 8px,#efece0 8px,#efece0 16px);
-    display:flex;align-items:center;justify-content:center;color:var(--ink-faint);font-size:10px;font-family:'IBM Plex Mono',monospace;
-    border-bottom:1px solid var(--line);
-  }
   .infobox table{width:100%;border-collapse:collapse;}
-  .infobox td{padding:6px 10px;border-top:1px solid var(--line-soft);vertical-align:top;}
-  .infobox td.k{font-weight:600;width:36%;color:var(--ink-soft);font-size:11px;}
+  .infobox td{padding:5px 10px;border-top:1px solid var(--line-soft);vertical-align:top;}
+  .infobox td.k{font-weight:600;width:38%;color:var(--ink-soft);font-size:10.5px;}
   .infobox td.v{font-size:11.5px;}
-  .infobox .filename{font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.5;word-break:break-word;}
+  .infobox .filename{font-family:'IBM Plex Mono',monospace;font-size:9.5px;line-height:1.5;word-break:break-word;}
+  .infobox .refno{font-family:'IBM Plex Mono',monospace;font-size:9.5px;word-break:break-all;}
+  .copybtn{all:unset;cursor:pointer;font-family:'IBM Plex Mono',monospace;font-size:9px;border:1px solid var(--line);padding:1px 6px;border-radius:2px;color:var(--ink-soft);background:#fff;margin-top:3px;display:inline-block;}
+  .copybtn:hover{border-color:var(--brass);color:var(--brass);}
 
   /* ---------- TOC ---------- */
-  .toc{
-    display:inline-block;border:1px solid var(--line);background:#fafaf5;padding:12px 20px 12px 16px;
-    margin:8px 0 20px 0;font-size:12.5px;max-width:340px;
-  }
+  .toc{display:inline-block;border:1px solid var(--line);background:#fafaf5;padding:12px 20px 12px 16px;margin:8px 0 20px 0;font-size:12.5px;max-width:340px;}
   .toc-title{font-weight:600;margin-bottom:6px;font-size:12.5px;}
   .toc ol{margin:0;padding-left:18px;}
   .toc li{padding:2px 0;}
-  .toc a{color:var(--wikiblue);}
 
   /* ---------- Sections ---------- */
   h2.sec{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin:26px 0 10px 0;padding-bottom:5px;border-bottom:1px solid var(--line-soft);clear:both;}
   h2.sec .num{color:var(--ink-faint);font-weight:400;margin-right:6px;font-size:15px;}
   p.body-text{line-height:1.75;font-size:13.5px;color:var(--ink);margin:0 0 12px 0;}
   sup.cite{font-size:10px;}
-  sup.cite a{color:var(--wikiblue);}
 
   table.provisions{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:8px;}
   table.provisions th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-faint);padding:6px 10px 8px 0;border-bottom:1px solid var(--line);}
   table.provisions td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  tr.prov-target td{background:#fbf7e8;}
+  .provlink{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);margin-left:5px;cursor:pointer;}
+  .provlink:hover{color:var(--brass);}
+  .asat{font-size:11.5px;color:var(--ink-soft);margin:0 0 10px 0;}
+  .asat select{font-size:11.5px;border:1px solid var(--line);background:#fff;padding:3px 6px;font-family:'IBM Plex Sans',sans-serif;}
+
+  /* ---------- Timeline / versions ---------- */
+  ul.timeline{list-style:none;margin:6px 0 14px 4px;padding:0;border-left:2px solid var(--line);}
+  ul.timeline li{padding:5px 0 9px 16px;position:relative;font-size:12.5px;line-height:1.55;}
+  ul.timeline li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--brass);position:absolute;left:-4.5px;top:11px;}
+  .tl-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);display:block;}
+  .verchip{display:inline-block;border:1px solid var(--line);background:#fafaf5;font-size:11px;padding:4px 10px;border-radius:3px;margin:0 6px 6px 0;line-height:1.5;}
+  .verchip .vb{font-family:'IBM Plex Mono',monospace;font-size:8.5px;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-faint);display:block;}
+
+  /* ---------- Lifecycle ---------- */
+  .lifecycle{display:flex;margin:12px 0 16px 0;}
+  .lc-step{flex:1;text-align:center;font-size:11px;padding:8px 4px;border:1px solid var(--line);border-right:none;background:#fafaf5;color:var(--ink-faint);}
+  .lc-step:last-child{border-right:1px solid var(--line);}
+  .lc-step.done{background:var(--green-bg);color:var(--green);}
+  .lc-step.current{background:var(--amber-bg);color:var(--amber);font-weight:600;}
+  .lc-step .lc-date{display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;margin-top:2px;}
 
   ul.link-list{list-style:none;margin:0;padding:0;}
   ul.link-list li{padding:8px 0;border-bottom:1px solid var(--line-soft);font-size:13px;line-height:1.5;}
@@ -131,64 +143,79 @@
   .rel-tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:0.05em;color:var(--ink-faint);display:block;margin-bottom:2px;}
 
   ol.refs{padding-left:20px;font-size:12px;color:var(--ink-soft);line-height:1.8;}
-  ol.refs li a.back{margin-right:4px;}
-
   .empty-note{font-size:12.5px;color:var(--ink-faint);font-style:italic;padding:6px 0;}
 
-  /* ---------- Categories footer ---------- */
-  .categories{
-    margin-top:30px;border-top:2px solid var(--line);padding-top:10px;font-size:11.5px;
-    background:#fafaf5;
-  }
+  .citebox{border:1px dashed var(--line);background:#fafaf5;padding:10px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;line-height:1.7;word-break:break-word;margin-top:8px;}
+
+  .categories{margin-top:30px;border-top:2px solid var(--line);padding-top:0;font-size:11.5px;background:#fafaf5;}
   .categories .cat-label{font-weight:600;color:var(--ink-soft);margin-right:6px;}
   .categories a{margin-right:4px;}
+  .page-footer{font-size:11px;color:var(--ink-faint);border-top:1px solid var(--line-soft);margin-top:16px;padding-top:10px;}
 
-  .page-footer{
-    font-size:11px;color:var(--ink-faint);border-top:1px solid var(--line-soft);margin-top:16px;padding-top:10px;
-  }
-
-  /* ---------- Talk tab ---------- */
+  /* ---------- Talk / History tabs ---------- */
   .talk-entry{border-bottom:1px solid var(--line-soft);padding:14px 0;}
   .talk-entry:last-child{border-bottom:none;}
   .talk-meta{font-size:11px;color:var(--ink-faint);margin-bottom:4px;}
   .talk-meta b{color:var(--ink-soft);}
   .talk-body{font-size:13px;line-height:1.6;}
   .talk-signoff{font-size:11px;color:var(--ink-faint);margin-top:4px;}
+  .talkpill{display:inline-block;font-size:9px;font-weight:600;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .talkpill.open{background:var(--amber-bg);color:var(--amber);}
+  .talkpill.resolved{background:var(--green-bg);color:var(--green);}
 
-  /* ---------- History tab ---------- */
   table.revtable{width:100%;border-collapse:collapse;font-size:12.5px;}
   table.revtable th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-faint);padding:6px 10px 8px 0;border-bottom:1px solid var(--line);}
   table.revtable td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line-soft);}
-  .revdiff{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--wikiblue);}
+  .revdiff{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--wikiblue);cursor:pointer;}
+  tr.diffrow td{background:#fbfaf4;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);padding:8px 12px;}
+  tr.diffrow .dfrom{color:var(--rust);text-decoration:line-through;}
+  tr.diffrow .dto{color:var(--green);}
 
   /* ---------- Category / listing / home ---------- */
   .cat-header h1{font-family:'Fraunces',serif;font-size:24px;margin:14px 0 6px 0;}
-  .cat-header p{font-size:13px;color:var(--ink-soft);margin:0 0 18px 0;}
-  .chiplist{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
-  .chip{all:unset;cursor:pointer;font-size:11.5px;font-weight:500;padding:6px 12px;border-radius:20px;border:1px solid var(--line);color:var(--ink-soft);background:#fafaf5;}
+  .cat-header p{font-size:13px;color:var(--ink-soft);margin:0 0 14px 0;}
+  .facet-label{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.07em;color:var(--ink-faint);margin:10px 0 5px 0;}
+  .chiplist{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
+  .chip{all:unset;cursor:pointer;font-size:11.5px;font-weight:500;padding:5px 11px;border-radius:20px;border:1px solid var(--line);color:var(--ink-soft);background:#fafaf5;}
   .chip.on{background:var(--ink);border-color:var(--ink);color:#fff;}
-  .doc-grid{display:flex;flex-direction:column;}
-  .doc-row{display:grid;grid-template-columns:1.6fr 1fr 0.6fr 0.9fr;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line-soft);text-decoration:none;color:inherit;}
+  .doc-grid{display:flex;flex-direction:column;margin-top:14px;}
+  .doc-row{display:grid;grid-template-columns:1.6fr 1fr 0.5fr 0.9fr;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line-soft);text-decoration:none;color:inherit;cursor:pointer;}
   .doc-row:hover .rt{text-decoration:underline;}
   .doc-row .rt{font-size:13px;font-weight:500;color:var(--wikiblue);}
   .doc-row .re{font-size:11.5px;color:var(--ink-soft);}
-  .doc-row .ry{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft);}
+  .doc-row .ry{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--wikiblue);cursor:pointer;}
+  .doc-row .ry:hover{text-decoration:underline;}
 
   .home-hero{padding:20px 0 6px 0;}
   .home-hero h1{font-family:'Fraunces',serif;font-size:30px;margin:0 0 8px 0;}
-  .home-hero p{font-size:13.5px;color:var(--ink-soft);max-width:64ch;line-height:1.65;margin:0 0 22px 0;}
-  .cat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:30px;}
-  .cat-card{all:unset;cursor:pointer;background:#fafaf5;border:1px solid var(--line);padding:14px 14px;}
+  .home-hero p{font-size:13.5px;color:var(--ink-soft);max-width:66ch;line-height:1.65;margin:0 0 22px 0;}
+  .cat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:26px;}
+  .cat-card{all:unset;cursor:pointer;background:#fafaf5;border:1px solid var(--line);padding:13px 14px;}
   .cat-card:hover{border-color:var(--wikiblue);}
   .cat-card .n{font-family:'IBM Plex Mono',monospace;font-size:19px;color:var(--brass);}
   .cat-card .t{font-size:12.5px;font-weight:600;margin-top:3px;}
+  .cat-card .d{font-size:11px;color:var(--ink-faint);margin-top:3px;line-height:1.5;}
 
-  @media(max-width:820px){
+  .queuebox{border:1px solid #dcc79a;background:var(--amber-bg);padding:12px 16px;margin:0 0 18px 0;font-size:12.5px;line-height:1.6;}
+  .queuebox .q-title{font-weight:600;color:#6e4e1a;margin-bottom:4px;font-size:12px;}
+
+  .idx-letters{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;}
+  .idx-group h3{font-family:'Fraunces',serif;font-size:16px;margin:18px 0 4px 0;border-bottom:1px solid var(--line-soft);}
+  .bar{font-family:'IBM Plex Mono',monospace;color:var(--brass);letter-spacing:-1px;}
+  table.stats{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:20px;}
+  table.stats th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-faint);padding:6px 10px 8px 0;border-bottom:1px solid var(--line);}
+  table.stats td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line-soft);}
+  table.stats td.num{font-family:'IBM Plex Mono',monospace;}
+
+  @media(max-width:840px){
     .frame{grid-template-columns:1fr;}
     .sidebar{display:none;}
     .infobox{float:none;width:auto;margin-left:0;}
     .doc-row{grid-template-columns:1fr;gap:3px;}
+    .cat-cards{grid-template-columns:1fr 1fr;}
+    .searchbar input{width:100%;}
   }
+  @media(prefers-reduced-motion:reduce){ *{scroll-behavior:auto !important;} }
   :focus-visible{outline:2px solid var(--brass);outline-offset:2px;}
 </style>
 </head>
@@ -199,18 +226,27 @@
     <div class="sb-brand" onclick="location.hash='#/'">
       <div class="glyph">IR</div>
       <div class="name">IRDAI Repository</div>
-      <div class="sub">Wiki prototype</div>
+      <div class="sub">Wiki prototype · v3</div>
     </div>
     <div class="sb-group">
       <div class="sb-label">Navigation</div>
       <a onclick="location.hash='#/'">Main page</a>
       <button class="sb-link" onclick="goRandom()">Random document</button>
-      <button class="sb-link" onclick="location.hash='#/recent'">Recent classifications</button>
+      <button class="sb-link" onclick="location.hash='#/special/recent'">Recent changes</button>
     </div>
     <div class="sb-group">
       <div class="sb-label">Browse by type</div>
-      ${''}
       <span id="sbTypes"></span>
+    </div>
+    <div class="sb-group">
+      <div class="sb-label">Subject portals</div>
+      <span id="sbPortals"></span>
+    </div>
+    <div class="sb-group">
+      <div class="sb-label">Special pages</div>
+      <a onclick="location.hash='#/special/index'">A–Z index</a>
+      <a onclick="location.hash='#/special/stats'">Statistics</a>
+      <a onclick="location.hash='#/special/maintenance'">Maintenance queue</a>
     </div>
     <div class="sb-group">
       <div class="sb-label">About</div>
@@ -220,9 +256,11 @@
 
   <div>
     <div class="searchbar">
+      <span class="searchhint">try&nbsp; type:Circulars entity:Brokers</span>
       <div class="searchbar-wrap">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#767676" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
-        <input id="topSearchInput" type="text" placeholder="Search documents…">
+        <input id="topSearchInput" type="text" placeholder="Search titles, aliases, ref. nos…" autocomplete="off">
+        <div class="suggest" id="suggestBox"></div>
       </div>
     </div>
     <div class="trail" id="trail"></div>
@@ -231,6 +269,7 @@
         <button class="tab-btn" data-tab="article">Article</button>
         <button class="tab-btn" data-tab="talk">Talk</button>
         <button class="tab-btn" data-tab="history">View history</button>
+        <button class="tab-btn" data-tab="links">What links here</button>
       </div>
       <div class="content" id="contentWrap">
         <div class="pad" id="view"></div>
@@ -240,384 +279,946 @@
 </div>
 
 <script>
-/* ===================== MOCK DATA ===================== */
+/* =====================================================================
+   MOCK DATA — placeholder entries only.
+   Field notes:
+   - status: repository status (Existing / Repealed / Superseded / Withdrawn /
+     Lapsed / draft-lifecycle stages / Unclassified). Distinct from `archived`,
+     which mirrors IRDAI's own Archived / Non-Archived flag on the site.
+   - sourceCategory: where the doc actually sits in the IRDAI Legal menu
+     (e.g. Master Circulars live under "Circulars" on irdai.gov.in).
+   - dept: department vertical encoded in IRDAI reference numbers
+     (NL, HLT, F&I, ACTL, LGL, REIN, PP&GR, INT, LIFE).
+   - relations: repeals/repealedBy, amends/amendedBy, crossRef/crossRefBy,
+     finalises/finalisedAs, withdraws/withdrawnBy, modifies/modifiedBy,
+     supersedes/supersededBy, invokes/invokedBy, issuedUnder (inverse: enables),
+     readWith (symmetric). Targets may carry a provision anchor: "docid#prov-x".
+   ===================================================================== */
 const DOCS = {
+
   "act-insurance-1938": { type:"Acts", title:"Insurance Act, 1938", entity:"Common", subtype:"—", status:"Existing", year:1938,
+    dept:"LGL", refNo:"Act No. 4 of 1938", dateIssued:"1938-02-26", archived:false, sourceCategory:"Acts",
+    aliases:["Insurance Act","Insurance Act 1938","the Act"], subjects:["governance"], attachments:1,
     lede:"The founding statute governing the business of insurance in India, providing the legal basis for licensing, solvency, and conduct requirements later elaborated through IRDAI regulations.",
     history:"Enacted prior to the establishment of IRDAI, this Act remains the parent legislation under which the Authority's regulation-making powers are ultimately traceable, though day-to-day rule-making now sits with IRDAI under the 1999 Act.",
-    relations:{ amendedBy:["cir-broker-networth-2024"] } },
+    amendments:[
+      {date:"2015-03-23", wef:"2014-12-26", title:"Insurance Laws (Amendment) Act, 2015", note:"Raised the FDI cap and revised the penalty framework (placeholder summary)."},
+      {date:"2021-03-25", wef:"2021-04-01", title:"Insurance (Amendment) Act, 2021", note:"Raised FDI limit in insurers to 74% (placeholder summary)."}
+    ],
+    relations:{} },
+
   "act-irda-1999": { type:"Acts", title:"IRDA Act, 1999", entity:"Common", subtype:"—", status:"Existing", year:1999,
+    dept:"LGL", refNo:"Act No. 41 of 1999", dateIssued:"1999-12-29", archived:false, sourceCategory:"Acts",
+    aliases:["IRDA Act","IRDAI Act","Insurance Regulatory and Development Authority Act, 1999"], subjects:["governance"], attachments:1,
     lede:"Establishes the Insurance Regulatory and Development Authority of India and its rule-making powers, forming the constitutional basis for the regulatory framework layer.",
     history:"Passed to open the Indian insurance sector to private participation and to create an independent regulator; all subsequent Regulations, Master Circulars, and Guidelines derive their rule-making authority from this Act.",
     relations:{} },
-  "reg-brokers-2018": { type:"Regulations", title:"IRDAI (Insurance Brokers) Regulations", entity:"Intermediaries", subtype:"Insurance Brokers", status:"Existing", year:2018,
+
+  "rules-insurance-1939": { type:"Rules", title:"Insurance Rules, 1939", entity:"Common", subtype:"—", status:"Existing", year:1939,
+    dept:"LGL", refNo:"G.S.R. (placeholder)", dateIssued:"1939-07-01", archived:false, sourceCategory:"Rules",
+    aliases:["Insurance Rules"], subjects:["governance"], attachments:1,
+    lede:"Central Government rules framed under the Insurance Act, 1938, addressing procedural and administrative matters not delegated to the Authority.",
+    history:"Framed by the Central Government under the parent Act; retained as the procedural companion to the statute.",
+    relations:{ issuedUnder:["act-insurance-1938"] } },
+
+  "reg-brokers-2018": { type:"Regulations", title:"IRDAI (Insurance Brokers) Regulations, 2018", entity:"Intermediaries", subtype:"Insurance Brokers", status:"Existing", year:2018,
+    dept:"INT", refNo:"F. No. IRDAI/Reg/2/145/2018", dateIssued:"2018-01-12", wef:"2018-01-12", archived:false, sourceCategory:"Regulations",
+    aliases:["Brokers Regulations","Broker Regs","Insurance Brokers Regulations 2018","Brokers Regulations 2018"],
+    subjects:["distribution"], attachments:2,
+    enablingText:"s. 42D & 114A, Insurance Act, 1938; s. 14 & 26, IRDA Act, 1999",
     lede:"Sets out registration, capital adequacy, and code-of-conduct requirements for entities carrying on insurance broking business.",
     history:"Consolidated and replaced earlier standalone broker regulations to align capital and conduct norms with revised solvency benchmarks introduced in the same period.",
     provisions:[
-      {ref:"Reg. 5", desc:"Capital and net worth requirements at registration", status:"Existing", repealedBy:null},
-      {ref:"Reg. 12", desc:"Ongoing net worth maintenance for direct and reinsurance brokers", status:"Repealed", repealedBy:"cir-broker-networth-2024"},
-      {ref:"Reg. 18", desc:"Code of conduct for principal officers", status:"Existing", repealedBy:null}
+      {id:"prov-reg5", ref:"Reg. 5", desc:"Capital and net worth requirements at registration", repealedOn:null, repealedBy:null},
+      {id:"prov-reg12", ref:"Reg. 12", desc:"Ongoing net worth maintenance for direct and reinsurance brokers", repealedOn:"2024-02-20", repealedBy:"cir-broker-networth-2024"},
+      {id:"prov-reg18", ref:"Reg. 18", desc:"Code of conduct for principal officers", repealedOn:null, repealedBy:null}
     ],
-    relations:{ crossRef:["mc-corp-gov-2024"] } },
+    amendments:[
+      {date:"2022-08-04", wef:"2022-08-04", title:"IRDAI (Insurance Brokers) (First Amendment) Regulations, 2022", doc:"not-brokers-amend-2022", note:"Amended remuneration and disclosure norms (placeholder summary)."},
+      {date:"2024-02-20", wef:"2024-02-20", title:"Reg. 12 superseded by Circular on Revised Net Worth Norms", doc:"cir-broker-networth-2024", note:"Net worth maintenance thresholds now prescribed by circular."}
+    ],
+    versions:[
+      {label:"As gazette-notified (2018)", bucket:"Consolidated & Gazette Notified Regulations", date:"2018-01-12"},
+      {label:"Updated upto First Amendment", bucket:"Updated Regulations", date:"2022-08-04"}
+    ],
+    relations:{ issuedUnder:["act-insurance-1938","act-irda-1999"], crossRef:["mc-corp-gov-2024"] } },
+
+  "not-brokers-amend-2022": { type:"Notifications", title:"IRDAI (Insurance Brokers) (First Amendment) Regulations, 2022 — Gazette Notification", entity:"Intermediaries", subtype:"Insurance Brokers", status:"Existing", year:2022,
+    dept:"INT", refNo:"F. No. IRDAI/Reg/9/183/2022", dateIssued:"2022-08-04", wef:"2022-08-04", archived:false, sourceCategory:"Notifications",
+    aliases:["Brokers First Amendment 2022"], subjects:["distribution"], attachments:1,
+    lede:"Gazette notification effecting the first amendment to the Insurance Brokers Regulations, 2018; the amended text is consolidated in the updated version of the parent regulations.",
+    history:"Notified in the Gazette of India; IRDAI publishes the resulting consolidated text separately under its Updated Regulations section.",
+    relations:{ amends:["reg-brokers-2018"], issuedUnder:["act-irda-1999"] } },
+
   "cir-broker-networth-2024": { type:"Circulars", title:"Circular on Revised Net Worth Norms for Insurance Brokers", entity:"Intermediaries", subtype:"Insurance Brokers", status:"Existing", year:2024,
+    dept:"INT", refNo:"IRDAI/INT/CIR/BRK/44/02/2024", dateIssued:"2024-02-20", wef:"2024-02-20", archived:false, sourceCategory:"Circulars",
+    aliases:["Broker Net Worth Circular","Revised Net Worth Norms Circular"], subjects:["distribution"], attachments:2,
+    enablingText:"s. 14(2)(i), IRDA Act, 1999",
     lede:"Revises the net worth maintenance thresholds previously prescribed under Regulation 12 of the Insurance Brokers Regulations, in light of updated solvency benchmarks.",
     history:"Issued following a sector-wide review of broker solvency following several licence suspensions attributed to inadequate net worth buffers.",
-    relations:{ repeals:["reg-brokers-2018"], crossRef:["act-insurance-1938"] } },
-  "reg-corp-agents-2015": { type:"Regulations", title:"IRDAI (Registration of Corporate Agents) Regulations", entity:"Intermediaries", subtype:"Corporate Agents", status:"Existing", year:2015,
+    relations:{ repeals:["reg-brokers-2018#prov-reg12"], crossRef:["act-insurance-1938"], issuedUnder:["act-irda-1999"] } },
+
+  "reg-corp-agents-2015": { type:"Regulations", title:"IRDAI (Registration of Corporate Agents) Regulations, 2015", entity:"Intermediaries", subtype:"Corporate Agents", status:"Existing", year:2015,
+    dept:"INT", refNo:"F. No. IRDAI/Reg/14/107/2015", dateIssued:"2015-08-20", wef:"2015-08-20", archived:false, sourceCategory:"Regulations",
+    aliases:["Corporate Agents Regulations"], subjects:["distribution"], attachments:1,
+    enablingText:"s. 42D, Insurance Act, 1938; s. 14 & 26, IRDA Act, 1999",
     lede:"Governs the registration, tenure, and permissible tie-ups of corporate agents distributing insurance products on behalf of insurers.",
     history:"Introduced open architecture, allowing corporate agents to tie up with multiple insurers within prescribed limits, a departure from the earlier single-insurer tie-up model.",
-    relations:{} },
-  "reg-tpa-2016": { type:"Regulations", title:"IRDAI (Third Party Administrators – Health Services) Regulations", entity:"Intermediaries", subtype:"Third Party Administrators (TPAs)", status:"Existing", year:2016,
+    relations:{ issuedUnder:["act-insurance-1938","act-irda-1999"] } },
+
+  "reg-tpa-2016": { type:"Regulations", title:"IRDAI (Third Party Administrators – Health Services) Regulations, 2016", entity:"Intermediaries", subtype:"Third Party Administrators (TPAs)", status:"Existing", year:2016,
+    dept:"HLT", refNo:"F. No. IRDAI/Reg/10/119/2016", dateIssued:"2016-03-14", wef:"2016-03-14", archived:false, sourceCategory:"Regulations",
+    aliases:["TPA Regulations","Third Party Administrators Regulations"], subjects:["health"], attachments:1,
+    enablingText:"s. 114A, Insurance Act, 1938; s. 26, IRDA Act, 1999",
     lede:"Regulates entities providing claims processing and health services administration on behalf of insurers.",
     history:"Updated licensing and reporting obligations for TPAs following concerns over claim-settlement transparency raised in earlier supervisory reviews.",
-    relations:{ crossRef:["cir-tpa-tat-2019"] } },
-  "reg-reinsurance-2018": { type:"Regulations", title:"IRDAI (Life Insurance – Reinsurance) Regulations", entity:"Insurers", subtype:"Reinsurers", status:"Existing", year:2018,
+    relations:{ crossRef:["cir-tpa-tat-2019"], issuedUnder:["act-insurance-1938","act-irda-1999"] } },
+
+  "reg-reinsurance-2018": { type:"Regulations", title:"IRDAI (Life Insurance – Reinsurance) Regulations, 2018", entity:"Insurers", subtype:"Reinsurers", status:"Existing", year:2018,
+    dept:"REIN", refNo:"F. No. IRDAI/Reg/22/151/2018", dateIssued:"2018-12-03", wef:"2019-01-01", archived:false, sourceCategory:"Regulations",
+    aliases:["Life Reinsurance Regulations"], subjects:["reinsurance"], attachments:1,
+    enablingText:"s. 101A, Insurance Act, 1938; s. 26, IRDA Act, 1999",
     lede:"Prescribes reinsurance cession norms and reporting obligations for life insurers and reinsurers operating in India.",
     history:"Replaced the general insurance-era reinsurance framework with a dedicated life-insurance-specific instrument as the reinsurance market matured.",
-    relations:{ repeals:["reg-gi-reinsurance-2000"] } },
+    versions:[{label:"As gazette-notified (2018)", bucket:"Consolidated & Gazette Notified Regulations", date:"2018-12-03"}],
+    relations:{ repeals:["reg-gi-reinsurance-2000"], issuedUnder:["act-insurance-1938","act-irda-1999"] } },
+
   "reg-gi-reinsurance-2000": { type:"Regulations", title:"IRDAI (General Insurance – Reinsurance) Regulations, 2000", entity:"Insurers", subtype:"General Insurers", status:"Repealed", year:2000,
+    dept:"REIN", refNo:"F. No. IRDA/Reg/6/2000", dateIssued:"2000-07-14", wef:"2000-07-14", archived:true, sourceCategory:"Regulations",
+    aliases:["GI Reinsurance Regulations","General Insurance Reinsurance Regulations 2000"], subjects:["reinsurance"], attachments:1,
     lede:"The earlier reinsurance framework for general insurers, retained here for historical and litigation reference only.",
     history:"One of the earliest regulations issued after IRDAI's constitution, superseded in 2018 as reinsurance cession practices evolved.",
-    relations:{ repealedBy:["reg-reinsurance-2018"] } },
-  "reg-health-proposal-2020": { type:"Regulations", title:"IRDAI (Standard Proposal Form for Health Insurance) Regulations", entity:"Insurers", subtype:"Standalone Health Insurers", status:"Existing", year:2020,
+    relations:{ repealedBy:["reg-reinsurance-2018"], issuedUnder:["act-irda-1999"] } },
+
+  "reg-health-proposal-2020": { type:"Regulations", title:"IRDAI (Standard Proposal Form for Health Insurance) Regulations, 2020", entity:"Insurers", subtype:"Standalone Health Insurers", status:"Existing", year:2020,
+    dept:"HLT", refNo:"F. No. IRDAI/Reg/3/162/2020", dateIssued:"2020-02-06", wef:"2020-04-01", archived:false, sourceCategory:"Regulations",
+    aliases:["Standard Proposal Form Regulations"], subjects:["health"], attachments:1,
+    enablingText:"s. 114A, Insurance Act, 1938",
     lede:"Standardises the proposal form used across health insurers to improve comparability of disclosures at the point of sale.",
     history:"Followed a market study finding significant variance in pre-sale disclosure quality across health insurers.",
-    relations:{ crossRef:["gl-health-filing-2024"] } },
+    relations:{ crossRef:["gl-health-filing-2024"], issuedUnder:["act-insurance-1938"] } },
+
   "mc-web-agg-2023": { type:"Master Circulars", title:"Master Circular on Web Aggregators", entity:"Intermediaries", subtype:"Web Aggregators", status:"Existing", year:2023,
+    dept:"INT", refNo:"IRDAI/INT/MSTCIR/WBA/61/04/2023", dateIssued:"2023-04-18", wef:"2023-04-18", archived:false, sourceCategory:"Circulars",
+    aliases:["Web Aggregators Master Circular"], subjects:["distribution"], attachments:2,
+    reviewCycle:"Reviewed every year unless review or repeal is warranted earlier",
+    enablingText:"s. 14(2)(i), IRDA Act, 1999",
     lede:"Consolidates prior circulars on web aggregator registration, display of insurer quotes, and grievance redressal into a single reference instrument.",
     history:"Brought together several standalone circulars issued over the preceding six years into a single consolidated reference document.",
-    relations:{ finalises:["ed-web-agg-2023"] } },
+    relations:{ finalises:["ed-web-agg-2023"], issuedUnder:["act-irda-1999"] } },
+
   "mc-life-products-2024": { type:"Master Circulars", title:"Master Circular on Life Insurance Products", entity:"Insurers", subtype:"Life Insurers", status:"Existing", year:2024,
+    dept:"ACTL", refNo:"IRDAI/ACTL/MSTCIR/MISC/89/6/2024", dateIssued:"2024-06-12", wef:"2024-06-12", archived:false, sourceCategory:"Circulars",
+    aliases:["Life Products Master Circular"], subjects:["governance"], attachments:1,
+    reviewCycle:"Reviewed every year unless review or repeal is warranted earlier",
+    enablingText:"s. 34, Insurance Act, 1938; s. 14(2)(i), IRDA Act, 1999",
     lede:"Sets out product design, surrender value, and disclosure norms applicable to life insurance products.",
     history:"Reflects revised surrender value norms introduced after a public consultation on policyholder outcomes.",
-    relations:{ crossRef:["cir-bancassurance-2022"] } },
-  "mc-corp-gov-2024": { type:"Master Circulars", title:"Master Circular on Corporate Governance for Insurers", entity:"Insurers", subtype:"Life Insurers, General Insurers, Standalone Health Insurers", status:"Existing", year:2024,
+    relations:{ crossRef:["cir-bancassurance-2022"], issuedUnder:["act-insurance-1938","act-irda-1999"] } },
+
+  "mc-corp-gov-2024": { type:"Master Circulars", title:"Master Circular on Corporate Governance for Insurers, 2024", entity:"Insurers", subtype:"Life Insurers, General Insurers, Standalone Health Insurers", status:"Existing", year:2024,
+    dept:"F&I", refNo:"IRDAI/F&I/CIR/MISC/82/5/2024", dateIssued:"2024-05-22", wef:"2024-05-22", archived:false, sourceCategory:"Circulars",
+    aliases:["Corporate Governance Master Circular","CG Master Circular"], subjects:["governance"], attachments:1,
+    reviewCycle:"Reviewed every year unless review or repeal is warranted earlier",
+    enablingText:"s. 34, Insurance Act, 1938; s. 14(2)(i), IRDA Act, 1999",
     lede:"Consolidated governance requirements covering board composition, committee structures, and fit-and-proper norms for insurers.",
     history:"Consolidated a decade of incremental governance circulars into a single instrument for ease of reference.",
-    relations:{} },
-  "mc-surveyors-2017": { type:"Master Circulars", title:"Master Circular on Surveyors and Loss Assessors", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Repealed", year:2017,
-    lede:"Earlier consolidated guidance for licensed surveyors, superseded by a later consolidated circular covering the same subject matter.",
+    relations:{ issuedUnder:["act-insurance-1938","act-irda-1999"], readWith:["mc-life-products-2024"] } },
+
+  "mc-surveyors-2017": { type:"Master Circulars", title:"Master Circular on Surveyors and Loss Assessors (2017)", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Superseded", year:2017,
+    dept:"NL", refNo:"IRDAI/NL/MSTCIR/SUR/98/06/2017", dateIssued:"2017-06-08", archived:true, sourceCategory:"Circulars",
+    aliases:["Surveyors Master Circular 2017"], subjects:["distribution"], attachments:1,
+    lede:"Earlier consolidated guidance for licensed surveyors, superseded by the 2023 consolidation covering the same subject matter.",
     history:"Served as the primary reference for surveyor licensing for six years before being folded into a broader consolidation exercise.",
-    relations:{} },
+    relations:{ supersededBy:["mc-surveyors-2023"] } },
+
+  "mc-surveyors-2023": { type:"Master Circulars", title:"Master Circular on Surveyors and Loss Assessors, 2023", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Existing", year:2023,
+    dept:"NL", refNo:"IRDAI/NL/MSTCIR/SUR/141/09/2023", dateIssued:"2023-09-27", wef:"2023-09-27", archived:false, sourceCategory:"Circulars",
+    aliases:["Surveyors Master Circular"], subjects:["distribution"], attachments:2,
+    reviewCycle:"Reviewed every year unless review or repeal is warranted earlier",
+    lede:"Consolidates surveyor and loss assessor licensing, categorisation, and conduct requirements, superseding the 2017 master circular.",
+    history:"Issued as part of the consolidation drive that replaced legacy master circulars with updated instruments referencing the current regulations.",
+    relations:{ supersedes:["mc-surveyors-2017"] } },
+
   "cir-bancassurance-2022": { type:"Circulars", title:"Circular on Bancassurance Reporting Format", entity:"Insurers", subtype:"Life Insurers, General Insurers", status:"Existing", year:2022,
+    dept:"LIFE", refNo:"IRDAI/LIFE/CIR/MISC/152/09/2022", dateIssued:"2022-09-15", archived:false, sourceCategory:"Circulars",
+    aliases:["Bancassurance Circular"], subjects:["distribution"], attachments:1,
     lede:"Prescribes the periodic reporting format for bancassurance channel business, read together with the Master Circular on Life Insurance Products.",
     history:"Standardised a reporting format that had previously varied by insurer, following supervisory difficulty comparing bancassurance disclosures across entities.",
-    relations:{ crossRef:["mc-life-products-2024"] } },
+    relations:{ readWith:["mc-life-products-2024"] } },
+
   "cir-imf-onboarding-2023": { type:"Circulars", title:"Circular on IMF Onboarding Timelines", entity:"Intermediaries", subtype:"Insurance Marketing Firms (IMFs)", status:"Existing", year:2023,
+    dept:"INT", refNo:"IRDAI/INT/CIR/IMF/77/05/2023", dateIssued:"2023-05-11", archived:false, sourceCategory:"Circulars",
+    aliases:["IMF Onboarding Circular"], subjects:["distribution"], attachments:1,
     lede:"Fixes the timelines within which insurance marketing firms must complete onboarding formalities with tied insurers.",
     history:"Issued in response to onboarding delays flagged during the first wave of IMF registrations.",
     relations:{} },
-  "cir-tpa-tat-2019": { type:"Circulars", title:"Circular on TPA Claim Settlement TAT", entity:"Intermediaries", subtype:"Third Party Administrators (TPAs)", status:"Non-existing / Repealed", year:2019,
+
+  "cir-tpa-tat-2019": { type:"Circulars", title:"Circular on TPA Claim Settlement TAT", entity:"Intermediaries", subtype:"Third Party Administrators (TPAs)", status:"Superseded", year:2019,
+    dept:"HLT", refNo:"IRDAI/HLT/CIR/TPA/103/07/2019", dateIssued:"2019-07-22", archived:true, sourceCategory:"Circulars",
+    aliases:["TPA TAT Circular"], subjects:["health"], attachments:1,
     lede:"Set turnaround-time benchmarks for TPA-administered health claims; superseded by later service-level norms issued under the TPA Regulations.",
     history:"An early attempt at standardising claim TAT before service-level requirements were folded directly into the TPA Regulations framework.",
-    relations:{} },
+    relations:{ supersededBy:["reg-tpa-2016"] } },
+
+  "cir-grievance-2009": { type:"Circulars", title:"Circular on Grievance Disposal Reporting (2009)", entity:"Common", subtype:"Applicable across multiple regulated entities", status:"Withdrawn", year:2009,
+    dept:"LGL", refNo:"IRDA/LGL/CIR/MISC/080/12/2009", dateIssued:"2009-12-17", archived:true, sourceCategory:"Circulars",
+    aliases:["2009 Grievance Circular"], subjects:["governance"], attachments:1,
+    lede:"Legacy reporting requirement on grievance disposal, formally withdrawn in 2024 as part of the regulatory rationalisation exercise.",
+    history:"Operated for fifteen years before being expressly withdrawn by a dedicated withdrawal circular — withdrawal being effected as a distinct action, not a repeal-and-replace.",
+    relations:{ withdrawnBy:["cir-withdrawal-2024"] } },
+
+  "cir-withdrawal-2024": { type:"Circulars", title:"Withdrawal of Circular No. IRDA/LGL/CIR/MISC/080/12/2009", entity:"Common", subtype:"Applicable across multiple regulated entities", status:"Existing", year:2024,
+    dept:"LGL", refNo:"IRDAI/LGL/CIR/71/5/2024", dateIssued:"2024-05-01", wef:"2024-05-01", archived:false, sourceCategory:"Circulars",
+    aliases:["Withdrawal Circular May 2024"], subjects:["governance"], attachments:1,
+    lede:"Formally withdraws the 2009 grievance disposal reporting circular. A worked example of withdrawal as a first-class regulatory action effected through its own instrument.",
+    history:"Part of IRDAI's rationalisation of legacy circulars; the withdrawn instrument moves to Archived status on the IRDAI site but is retained here with its withdrawal linkage.",
+    relations:{ withdraws:["cir-grievance-2009"] } },
+
   "gl-repositories-2015": { type:"Guidelines", title:"Guidelines on Insurance Repositories", entity:"Intermediaries", subtype:"Insurance Repositories", status:"Existing", year:2015,
+    dept:"LIFE", refNo:"IRDAI/LIFE/GDL/GLD/090/05/2015", dateIssued:"2015-05-29", archived:false, sourceCategory:"Guidelines",
+    aliases:["Insurance Repositories Guidelines"], subjects:["distribution"], attachments:1,
     lede:"Sets out eligibility, functions, and data security obligations for entities operating as insurance repositories holding policies in electronic form.",
     history:"Issued alongside the initial push toward electronic policy holding, aimed at reducing paper-policy loss and fraud.",
     relations:{} },
+
   "gl-health-filing-2024": { type:"Guidelines", title:"Guidelines on Product Filing Procedure – Health", entity:"Insurers", subtype:"Standalone Health Insurers", status:"Existing", year:2024,
+    dept:"HLT", refNo:"IRDAI/HLT/GDL/PRO/58/03/2024", dateIssued:"2024-03-04", archived:false, sourceCategory:"Guidelines",
+    aliases:["Health Filing Guidelines"], subjects:["health"], attachments:3,
     lede:"Details the file-and-use procedure and supporting documentation required for health insurance product approval.",
     history:"Updated filing timelines and documentation requirements to align with the revised Standard Proposal Form Regulations.",
     relations:{ crossRef:["reg-health-proposal-2020"] } },
+
   "gl-advertisement-2021": { type:"Guidelines", title:"Guidelines on Advertisement, Promotion and Publicity", entity:"Common", subtype:"Applicable across multiple regulated entities", status:"Existing", year:2021,
+    dept:"PP&GR", refNo:"IRDAI/PP&GR/GDL/ADV/119/06/2021", dateIssued:"2021-06-24", archived:false, sourceCategory:"Guidelines",
+    aliases:["Advertisement Guidelines"], subjects:["governance","distribution"], attachments:1,
     lede:"Governs permissible content, disclosures, and approval requirements for insurance-related advertising across all regulated entities.",
     history:"Tightened disclosure requirements for return projections in advertising following complaints of misleading illustrations.",
     relations:{} },
+
   "gl-group-2005": { type:"Guidelines", title:"Guidelines on Group Insurance Policies", entity:"Insurers", subtype:"General Insurers", status:"Repealed", year:2005,
+    dept:"NL", refNo:"IRDA/NL/GDL/GRP/015/07/2005", dateIssued:"2005-07-14", archived:true, sourceCategory:"Guidelines",
+    aliases:["Group Insurance Guidelines"], subjects:["governance"], attachments:1,
     lede:"Earlier framework for group policy administration, retained for transitional and litigation reference.",
     history:"One of the earliest guidelines specific to group products, later absorbed into broader product regulations.",
     relations:{} },
+
   "ord-broker-suspension-2023": { type:"Orders", title:"Order in the matter of a Broker Entity — licence suspension", entity:"Intermediaries", subtype:"Insurance Brokers", status:"—", year:2023,
+    dept:"INT", refNo:"IRDAI/INT/ORD/MISC/188/11/2023", dateIssued:"2023-11-09", archived:false, sourceCategory:"Orders",
+    aliases:[], subjects:["distribution"], attachments:1,
     lede:"Suspends the certificate of registration of a named broker for non-compliance with net worth and reporting requirements.",
     history:"Followed an inspection that found the broker's net worth had fallen below the threshold prescribed under the Brokers Regulations.",
-    relations:{ crossRef:["reg-brokers-2018"] } },
+    relations:{ invokes:["reg-brokers-2018#prov-reg5","reg-brokers-2018#prov-reg12"] } },
+
   "ord-unregistered-2022": { type:"Orders", title:"Order against an unregistered entity soliciting insurance business", entity:"Others", subtype:"Others (as required)", status:"—", year:2022,
+    dept:"LGL", refNo:"IRDAI/LGL/ORD/MISC/141/08/2022", dateIssued:"2022-08-18", archived:false, sourceCategory:"Orders",
+    aliases:[], subjects:["governance"], attachments:1,
     lede:"Directs cessation of insurance solicitation activity by an entity found to be operating without the requisite registration.",
     history:"Arose from a complaint-driven investigation into unregistered solicitation activity in a regional market.",
     relations:{} },
+
   "ord-reinsurer-2024": { type:"Orders", title:"Order in the matter of a Reinsurer — compliance directions", entity:"Insurers", subtype:"Reinsurers", status:"—", year:2024,
+    dept:"REIN", refNo:"IRDAI/REIN/ORD/MISC/102/06/2024", dateIssued:"2024-06-20", archived:false, sourceCategory:"Orders",
+    aliases:[], subjects:["reinsurance"], attachments:1,
     lede:"Issues compliance directions to a reinsurer following an inspection under the Reinsurance Regulations.",
     history:"Followed a routine inspection cycle under the Life Insurance – Reinsurance Regulations.",
-    relations:{ crossRef:["reg-reinsurance-2018"] } },
+    relations:{ invokes:["reg-reinsurance-2018"] } },
+
   "not-health-comments-2025": { type:"Notices", title:"Notice inviting comments on Health Insurance product design", entity:"Common", subtype:"By Subject", status:"—", year:2025,
+    dept:"HLT", refNo:"IRDAI/HLT/NTC/MISC/33/02/2025", dateIssued:"2025-02-12", archived:false, sourceCategory:"Notices",
+    aliases:[], subjects:["health"], attachments:1,
     lede:"Invites stakeholder comments ahead of a proposed revision to health insurance product design norms.",
     history:"Part of a broader stakeholder consultation exercise preceding the next round of health product design reform.",
     relations:{} },
+
   "ed-imf-2026": { type:"Exposure Drafts", title:"Exposure Draft — IRDAI (Insurance Marketing Firms) Regulations, 2026", entity:"Intermediaries", subtype:"Insurance Marketing Firms (IMFs)", status:"Open for Comments", year:2026,
+    dept:"INT", refNo:"IRDAI/INT/ED/IMF/12/06/2026", dateIssued:"2026-06-15", archived:false, sourceCategory:"Exposure Drafts",
+    aliases:["IMF Exposure Draft"], subjects:["distribution"], attachments:2, deadline:"2026-08-31",
     lede:"Proposes a dedicated regulatory framework for insurance marketing firms, currently open for public comment.",
     history:"Follows several years of IMFs operating under interim circular-level guidance pending a dedicated regulation.",
-    relations:{} },
+    relations:{ readWith:["cir-imf-onboarding-2023"] } },
+
   "ed-surveyors-2025": { type:"Exposure Drafts", title:"Exposure Draft — Amendments to Surveyors Regulations", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Comments Closed", year:2025,
+    dept:"NL", refNo:"IRDAI/NL/ED/SUR/88/09/2025", dateIssued:"2025-09-02", archived:false, sourceCategory:"Exposure Drafts",
+    aliases:["Surveyors Amendment Draft"], subjects:["distribution"], attachments:1, deadline:"2025-10-15",
     lede:"Proposed amendments to licensing norms for surveyors and loss assessors; the comment window has closed and finalisation is pending.",
     history:"Comment window closed after a standard consultation period; finalisation is pending as of this entry.",
     relations:{} },
+
   "ed-web-agg-2023": { type:"Exposure Drafts", title:"Exposure Draft — Master Circular on Web Aggregators", entity:"Intermediaries", subtype:"Web Aggregators", status:"Finalised", year:2023,
+    dept:"INT", refNo:"IRDAI/INT/ED/WBA/09/01/2023", dateIssued:"2023-01-20", archived:true, sourceCategory:"Exposure Drafts",
+    aliases:[], subjects:["distribution"], attachments:1, deadline:"2023-02-28",
     lede:"The drafting-stage version of what was finalised as the Master Circular on Web Aggregators; retained here for drafting history.",
     history:"Circulated for comment before being finalised without material change to its core structure.",
-    relations:{ finalisedAs:["mc-web-agg-2023"] } }
+    relations:{ finalisedAs:["mc-web-agg-2023"] } },
+
+  "stub-cir-cyber-2026": { type:"Circulars", title:"Circular on Information & Cyber Security — reporting timelines", entity:"Common", subtype:"—", status:"Unclassified", year:2026,
+    dept:"F&I", refNo:"IRDAI/GA&HR/CIR/MISC/104/07/2026", dateIssued:"2026-07-08", archived:false, sourceCategory:"Circulars",
+    aliases:[], subjects:[], attachments:1, maintenance:["stub","verify"],
+    lede:"Detected by the watcher on 8 Jul 2026; entity classification and relationship mapping pending human review.",
+    history:"Auto-created stub. Classification pending.",
+    relations:{} }
 };
 
-const TYPE_ORDER = ["Acts","Rules","Regulations","Master Circulars","Circulars","Guidelines","Orders","Notices","Exposure Drafts"];
-const REL_LABELS = { repeals:"Repeals", repealedBy:"Repealed by", amends:"Amends", amendedBy:"Amended by", crossRef:"Cross-referenced by", finalises:"Finalises", finalisedAs:"Finalised as" };
-const REL_INVERSE = { repeals:"repealedBy", repealedBy:"repeals", amends:"amendedBy", amendedBy:"amends", crossRef:"crossRef", finalises:"finalisedAs", finalisedAs:"finalises" };
+/* ===================== Taxonomies ===================== */
+const TYPE_ORDER = ["Acts","Rules","Regulations","Notifications","Master Circulars","Circulars","Guidelines","Orders","Notices","Exposure Drafts"];
+const TYPE_DESCS = {
+  "Acts":"Parent statutes", "Rules":"Central Government rules", "Regulations":"IRDAI subordinate legislation",
+  "Notifications":"Gazette notifications (incl. amendments)", "Master Circulars":"Consolidated circulars (on IRDAI site: under Circulars)",
+  "Circulars":"Operational directions", "Guidelines":"Framework guidance", "Orders":"Entity-specific adjudication",
+  "Notices":"Administrative communications", "Exposure Drafts":"Draft instruments under consultation"
+};
+const DEPT_NAMES = { NL:"Non-Life", HLT:"Health", "F&I":"Finance & Investment", ACTL:"Actuarial", LGL:"Legal", REIN:"Reinsurance", "PP&GR":"Policyholder Protection & GR", INT:"Intermediaries", LIFE:"Life", "GA&HR":"General Admin & HR" };
 
-/* deterministic pseudo-random helpers so placeholder talk/history stay stable per doc */
+const REL_LABELS = {
+  repeals:"Repeals", repealedBy:"Repealed by", amends:"Amends", amendedBy:"Amended by",
+  crossRef:"Cross-references", crossRefBy:"Cross-referenced by",
+  finalises:"Finalises", finalisedAs:"Finalised as",
+  withdraws:"Withdraws", withdrawnBy:"Withdrawn by",
+  modifies:"Modifies", modifiedBy:"Modified by",
+  supersedes:"Supersedes", supersededBy:"Superseded by",
+  invokes:"Invokes (provisions relied on)", invokedBy:"Invoked by (orders)",
+  issuedUnder:"Issued under", enables:"Instruments issued under this",
+  readWith:"Read with"
+};
+const REL_INVERSE = {
+  repeals:"repealedBy", repealedBy:"repeals", amends:"amendedBy", amendedBy:"amends",
+  crossRef:"crossRefBy", crossRefBy:"crossRef", finalises:"finalisedAs", finalisedAs:"finalises",
+  withdraws:"withdrawnBy", withdrawnBy:"withdraws", modifies:"modifiedBy", modifiedBy:"modifies",
+  supersedes:"supersededBy", supersededBy:"supersedes", invokes:"invokedBy", invokedBy:"invokes",
+  issuedUnder:"enables", enables:"issuedUnder", readWith:"readWith"
+};
+const REL_ORDER = ["issuedUnder","enables","amends","amendedBy","repeals","repealedBy","supersedes","supersededBy","withdraws","withdrawnBy","modifies","modifiedBy","finalises","finalisedAs","invokes","invokedBy","readWith","crossRef","crossRefBy"];
+
+const PORTALS = {
+  distribution:{ title:"Distribution & Intermediation", blurb:"Brokers, corporate agents, IMFs, web aggregators, surveyors — how insurance is sold and serviced." },
+  health:{ title:"Health Insurance", blurb:"Health product design, proposal forms, filing procedure, and TPA administration." },
+  reinsurance:{ title:"Reinsurance", blurb:"Cession norms, reporting obligations, and reinsurer supervision." },
+  governance:{ title:"Governance & Conduct", blurb:"Corporate governance, advertising conduct, grievance handling, and the statutory frame." }
+};
+
+const DISAMBIG = {
+  "reinsurance-regulations": { title:"Reinsurance Regulations", entries:["reg-reinsurance-2018","reg-gi-reinsurance-2000"],
+    desc:"Two instruments in this repository are commonly cited as the “Reinsurance Regulations”." }
+};
+const DISAMBIG_ALIASES = { "reinsurance regulations":"reinsurance-regulations" };
+
+const MAINT_LABELS = { stub:"Stub — auto-created, classification pending", verify:"Needs verification against the source PDF", disputed:"Classification disputed on the Talk page" };
+
+/* Redirect index: normalized alias/title → doc id */
+const REDIRECT_INDEX = {};
+function normQ(s){ return (s||'').trim().toLowerCase().replace(/[.,()]/g,'').replace(/\s+/g,' '); }
+Object.entries(DOCS).forEach(([id,d])=>{
+  REDIRECT_INDEX[normQ(d.title)] = id;
+  (d.aliases||[]).forEach(a=>{ REDIRECT_INDEX[normQ(a)] = id; });
+});
+
+/* ===================== Deterministic placeholder talk/history ===================== */
 function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))|0;} return Math.abs(h); }
 const EDITORS = ["a.krishnan","r.iyer (Trilegal)","s.bose","classification-bot","m.rao","reviewer-2"];
-const REV_SUMMARIES = ["Initial entry created","Marked entity classification","Added cross-reference","Flagged for repeal review","Corrected sub-category","Linked provisions to repealing instrument","Verified against IRDAI Legal section"];
+const REV_SUMMARIES = ["Marked entity classification","Added cross-reference","Flagged for repeal review","Corrected sub-category","Linked provisions to repealing instrument","Verified against IRDAI Legal section","Recorded gazette reference"];
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const TALK_TEMPLATES = [
   "Should this be filed under {entity} only, or does it also touch Common given the cross-reference? Flagging for a second look.",
   "Confirmed the repeal linkage against the source PDF — looks correct, no changes needed.",
   "Sub-category feels borderline between {sub} and a neighbouring category. Leaving as-is for now but worth revisiting during the next classification pass.",
-  "Naming convention on this one should probably shorten the title — full title makes for an unwieldy filename.",
+  "Ref. number suggests a different department vertical than the current classification — please verify against the PDF header.",
 ];
 
 function synthHistory(id){
-  const h = hashStr(id);
-  const n = 2 + (h % 2); // 2-3 revisions
+  const d = DOCS[id]; const h = hashStr(id);
+  const n = 2 + (h % 3);
   const revs = [];
-  const baseYear = DOCS[id].year;
   for(let i=0;i<n;i++){
-    const editor = EDITORS[(h+i*7)%EDITORS.length];
-    const summary = REV_SUMMARIES[(h+i*13)%REV_SUMMARIES.length];
-    const day = 3 + ((h+i*5)%24);
-    revs.push({date:`${String(day).padStart(2,'0')} Jun ${Math.min(2026, baseYear+i+1)}`, editor, summary});
+    const y = Math.min(2026, d.year + 1 + i);
+    const m = ((h + i*5) % 12);
+    const day = 3 + ((h + i*7) % 24);
+    const editor = i===0 ? (d.maintenance && d.maintenance.includes('stub') ? "classification-bot" : EDITORS[h % EDITORS.length]) : EDITORS[(h + i*7) % EDITORS.length];
+    const summary = i===0 ? "Initial entry created" : REV_SUMMARIES[(h + i*13) % REV_SUMMARIES.length];
+    let diff = null;
+    if(i>0){
+      const pool = [
+        {field:"Sub-category", from:"(unset)", to:d.subtype},
+        {field:"Entity", from:"Common", to:d.entity},
+        {field:"Status", from:"(unset)", to:d.status},
+        {field:"Relations", from:"—", to:"+1 cross-reference"},
+        {field:"Ref. No.", from:"(unset)", to:d.refNo||"—"}
+      ];
+      diff = pool[(h + i*3) % pool.length];
+    }
+    revs.push({ id, y, m, day, dateStr:`${String(day).padStart(2,'0')} ${MONTHS[m]} ${y}`, sortKey:y*10000+(m+1)*100+day, editor, summary, diff });
   }
-  return revs.reverse();
+  return revs.reverse(); /* newest first */
 }
 function synthTalk(id){
-  const h = hashStr(id);
-  const n = h % 3; // 0-2 comments
-  const d = DOCS[id];
-  const items = [];
+  const h = hashStr(id); const n = h % 3; const d = DOCS[id]; const items = [];
   for(let i=0;i<n;i++){
-    const t = TALK_TEMPLATES[(h+i*3)%TALK_TEMPLATES.length]
-      .replace('{entity}', d.entity).replace('{sub}', (d.subtype||'').split(',')[0]||'this category');
-    items.push({ author: EDITORS[(h+i*11)%EDITORS.length], text: t, date: `${8+((h+i*4)%20)} Jun ${d.year+1}` });
+    const t = TALK_TEMPLATES[(h+i*3)%TALK_TEMPLATES.length].replace('{entity}', d.entity).replace('{sub}', (d.subtype||'').split(',')[0]||'this category');
+    items.push({ author: EDITORS[(h+i*11)%EDITORS.length], text: t, date: `${8+((h+i*4)%20)} Jun ${Math.min(2026,d.year+1)}`, resolved: ((h+i)%2)===0 });
   }
   return items;
 }
 
+/* ===================== Helpers ===================== */
+function statusClass(status){
+  if(status==="Existing") return "existing";
+  if(["Repealed","Superseded","Withdrawn","Lapsed"].includes(status) || (status||'').toLowerCase().includes("repeal")) return "repealed";
+  if(["Open for Comments","Comments Closed","Finalised","Unclassified"].includes(status)) return "open";
+  return "neutral";
+}
+function statusGroup(d){
+  if(d.status==="Existing") return "In force";
+  if(statusClass(d.status)==="repealed") return "Not in force";
+  if(["Open for Comments","Comments Closed","Finalised"].includes(d.status)) return "Draft stage";
+  return "Other";
+}
+function badge(status){ return `<span class="status-badge ${statusClass(status)}"><span class="dot"></span>${status}</span>`; }
+function fmtDate(iso){ if(!iso) return "—"; const p = iso.split('-'); if(p.length<3) return iso; return `${p[2]} ${MONTHS[+p[1]-1]} ${p[0]}`; }
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function provLabel(docId, anchor){
+  const d = DOCS[docId]; if(!d || !d.provisions) return anchor;
+  const p = d.provisions.find(x=>x.id===anchor);
+  return p ? p.ref : anchor;
+}
+function gotoDoc(id, anchor){
+  pendingAnchor = anchor || null;
+  const target = '#/doc/'+id;
+  if(location.hash.split('?')[0] === target && anchor){ flashAnchor(anchor); return; }
+  location.hash = target;
+}
+function flashAnchor(anchor){
+  const el = document.getElementById(anchor);
+  if(!el) return;
+  el.scrollIntoView({behavior:'smooth', block:'center'});
+  el.classList.add('prov-target');
+  setTimeout(()=>el.classList.remove('prov-target'), 2500);
+}
+function docLink(target, label){
+  const [docId, anchor] = target.split('#');
+  const d = DOCS[docId]; if(!d) return label||target;
+  const text = label || (d.title + (anchor ? ' — ' + provLabel(docId, anchor) : ''));
+  return `<a onclick="gotoDoc('${docId}'${anchor?`,'${anchor}'`:''})">${text}</a>`;
+}
+function backlinksFor(id){
+  const found = {};
+  Object.entries(DOCS).forEach(([oid,d])=>{
+    if(oid===id) return;
+    Object.entries(d.relations||{}).forEach(([relType,targets])=>{
+      targets.forEach(t=>{
+        if(t.split('#')[0]===id){
+          const inv = REL_INVERSE[relType] || relType;
+          found[inv] = found[inv] || [];
+          if(!found[inv].includes(oid)) found[inv].push(oid);
+        }
+      });
+    });
+  });
+  return found;
+}
+function copyText(text, btn){
+  const done = ()=>{ if(btn){ const o = btn.textContent; btn.textContent = 'copied ✓'; setTimeout(()=>btn.textContent=o, 1400); } };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done, done); }
+  else { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); done(); }
+}
+function filenameFor(d){
+  const shortTitle = d.title.split('—')[0].trim();
+  const ent = d.subtype && d.subtype!=='—' ? d.subtype.split(',')[0].trim() : d.entity;
+  return `${d.type} – ${ent} – ${shortTitle} – ${d.year}`;
+}
+function latestRevDate(id){ const revs = synthHistory(id); return revs.length ? revs[0].dateStr : "—"; }
+function disambigKeyFor(id){
+  return Object.keys(DISAMBIG).find(k=>DISAMBIG[k].entries.includes(id)) || null;
+}
+
+/* ===================== Sidebar ===================== */
+document.getElementById('sbTypes').innerHTML = TYPE_ORDER.map(t=>
+  `<button class="sb-link" onclick="location.hash='#/type/${encodeURIComponent(t)}'">${t}</button>`).join('');
+document.getElementById('sbPortals').innerHTML = Object.entries(PORTALS).map(([k,p])=>
+  `<button class="sb-link" onclick="location.hash='#/portal/${k}'">${p.title}</button>`).join('');
+
+function goRandom(){
+  const ids = Object.keys(DOCS);
+  location.hash = '#/doc/'+ids[Math.floor(Math.random()*ids.length)];
+}
+
+/* ===================== Search: suggestions, redirects, fielded ===================== */
+const SUGGEST_POOL = [];
+Object.entries(DOCS).forEach(([id,d])=>{
+  SUGGEST_POOL.push({label:d.title, sub:null, id});
+  (d.aliases||[]).forEach(a=>SUGGEST_POOL.push({label:a, sub:d.title, id}));
+});
+const input = document.getElementById('topSearchInput');
+const suggestBox = document.getElementById('suggestBox');
+input.addEventListener('input', ()=>{
+  const q = normQ(input.value);
+  if(!q || q.length<2 || q.includes(':')){ suggestBox.style.display='none'; return; }
+  const hits = SUGGEST_POOL.filter(s=>normQ(s.label).includes(q)).slice(0,6);
+  if(!hits.length){ suggestBox.style.display='none'; return; }
+  suggestBox.innerHTML = hits.map(h=>
+    `<div onmousedown="suggestGo('${h.id}')">${esc(h.label)}${h.sub?`<span class="alias"> → ${esc(h.sub)}</span>`:''}</div>`).join('');
+  suggestBox.style.display='block';
+});
+input.addEventListener('blur', ()=>setTimeout(()=>suggestBox.style.display='none',150));
+function suggestGo(id){ suggestBox.style.display='none'; input.value=''; location.hash='#/doc/'+id; }
+input.addEventListener('keydown', e=>{
+  if(e.key==='Enter' && input.value.trim()){
+    suggestBox.style.display='none';
+    runSearch(input.value.trim());
+  }
+});
+function runSearch(qRaw){
+  const q = normQ(qRaw);
+  if(DISAMBIG_ALIASES[q]){ location.hash = '#/disambig/'+DISAMBIG_ALIASES[q]; return; }
+  if(REDIRECT_INDEX[q]){ location.hash = '#/doc/'+REDIRECT_INDEX[q]+'?from='+encodeURIComponent(qRaw); return; }
+  location.hash = '#/search?q='+encodeURIComponent(qRaw);
+}
+function parseFielded(q){
+  const fields = {}; const free = [];
+  q.split(/\s+/).forEach(tok=>{
+    const m = tok.match(/^(type|entity|status|dept|year|subject):(.+)$/i);
+    if(m) fields[m[1].toLowerCase()] = m[2].toLowerCase();
+    else if(tok) free.push(tok.toLowerCase());
+  });
+  return {fields, free};
+}
+function searchDocs(q){
+  const {fields, free} = parseFielded(q);
+  return Object.entries(DOCS).filter(([id,d])=>{
+    if(fields.type && !d.type.toLowerCase().includes(fields.type)) return false;
+    if(fields.entity && !(d.entity+' '+d.subtype).toLowerCase().includes(fields.entity)) return false;
+    if(fields.status && !d.status.toLowerCase().includes(fields.status) && !statusGroup(d).toLowerCase().includes(fields.status)) return false;
+    if(fields.dept && (d.dept||'').toLowerCase()!==fields.dept) return false;
+    if(fields.year && String(d.year)!==fields.year) return false;
+    if(fields.subject && !(d.subjects||[]).includes(fields.subject)) return false;
+    const blob = (d.title+' '+(d.aliases||[]).join(' ')+' '+d.lede+' '+d.history+' '+(d.refNo||'')+' '+d.subtype+' '+d.type).toLowerCase();
+    return free.every(t=>blob.includes(t));
+  });
+}
+
 /* ===================== Nav trail ===================== */
 let trailStack = [];
+let pendingAnchor = null;
 function pushTrail(id){ if(trailStack[trailStack.length-1]===id) return; trailStack.push(id); if(trailStack.length>6) trailStack.shift(); }
 function renderTrail(currentId){
   const el = document.getElementById('trail');
   if(!currentId || trailStack.length<2){ el.innerHTML=''; return; }
   const crumbs = trailStack.slice(0,-1).map(id=>{
     const d = DOCS[id];
-    return d ? `<a onclick="location.hash='#/doc/${id}'">${d.title.length>34?d.title.slice(0,34)+'…':d.title}</a>` : '';
+    return d ? `<a onclick="gotoDoc('${id}')">${d.title.length>34?d.title.slice(0,34)+'…':d.title}</a>` : '';
   }).filter(Boolean);
   el.innerHTML = crumbs.join('<span class="sep">→</span>') + (crumbs.length? '<span class="sep">→</span> <strong>current</strong>' : '');
 }
 
-/* ===================== Helpers ===================== */
-function statusClass(status){
-  if(status==="Existing") return "existing";
-  if(status && status.toLowerCase().includes("repeal")) return "repealed";
-  if(["Open for Comments","Comments Closed","Finalised"].includes(status)) return "open";
-  return "neutral";
-}
-function badge(status){ return `<span class="status-badge ${statusClass(status)}"><span class="dot"></span>${status}</span>`; }
-function docLink(id, label){ const d = DOCS[id]; if(!d) return label||id; return `<a onclick="location.hash='#/doc/${id}'">${label||d.title}</a>`; }
-function backlinksFor(id){
-  const found = {};
-  Object.entries(DOCS).forEach(([oid,d])=>{
-    if(oid===id) return;
-    Object.entries(d.relations||{}).forEach(([relType,targets])=>{
-      if(targets.includes(id)){
-        const inv = REL_INVERSE[relType] || relType;
-        found[inv] = found[inv] || [];
-        found[inv].push(oid);
-      }
-    });
-  });
-  return found;
-}
-function catLink(label, kind){
-  return `<a onclick="location.hash='#/type/${encodeURIComponent(kind==='type'?label:'')}'${kind!=='type'?`; return false;`:''}">${label}</a>`;
-}
-
-/* ===================== Sidebar type list ===================== */
-document.getElementById('sbTypes').innerHTML = TYPE_ORDER.map(t=>
-  `<button class="sb-link" onclick="location.hash='#/type/${encodeURIComponent(t)}'">${t}</button>`
-).join('');
-
-function goRandom(){
-  const ids = Object.keys(DOCS);
-  const id = ids[Math.floor(Math.random()*ids.length)];
-  location.hash = '#/doc/'+id;
-}
-
 /* ===================== Views ===================== */
 function showTabs(show){ document.getElementById('tabs').style.display = show ? 'flex' : 'none'; }
-function setActiveTab(name){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+function setActiveTab(name){ document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name)); }
+function clearTrail(){ document.getElementById('trail').innerHTML=''; }
+
+function docRow(id,d){
+  return `<div class="doc-row" onclick="gotoDoc('${id}')">
+    <span class="rt">${d.title}</span>
+    <span class="re">${d.entity}${d.subtype && d.subtype!=='—' ? ' · '+d.subtype.split(',')[0] : ''}${d.dept?' · '+d.dept:''}</span>
+    <span class="ry" onclick="event.stopPropagation();location.hash='#/year/${d.year}'">${d.year}</span>
+    <span>${badge(d.status)}</span>
+  </div>`;
 }
 
 function viewHome(){
-  showTabs(false);
-  document.getElementById('trail').innerHTML='';
+  showTabs(false); clearTrail();
   const counts = {}; TYPE_ORDER.forEach(t=>counts[t]=0);
   Object.values(DOCS).forEach(d=>counts[d.type]=(counts[d.type]||0)+1);
-  const recent = Object.entries(DOCS).sort((a,b)=>b[1].year-a[1].year).slice(0,6);
+  const recent = Object.entries(DOCS).filter(([id,d])=>d.status!=='Unclassified').sort((a,b)=>(b[1].dateIssued||'').localeCompare(a[1].dateIssued||'')).slice(0,6);
+  const queue = Object.entries(DOCS).filter(([id,d])=>d.maintenance && d.maintenance.length);
   document.getElementById('view').innerHTML = `
     <div class="home-hero">
       <h1>The IRDAI Regulatory Repository</h1>
-      <p>A hyperlinked reference for IRDAI regulatory material. Every entry links to what repeals it, what it cross-references, and what it finalises — trace a provision's lineage without leaving the page. All content below is placeholder data for prototyping only.</p>
+      <p>A hyperlinked reference for IRDAI regulatory material. Every entry links to what repeals, amends, withdraws, supersedes or finalises it — trace a provision's lineage without leaving the page. All content is placeholder data for prototyping only.</p>
     </div>
-    <h2 class="sec" style="border:none;margin-top:0;"><span class="num"></span>Browse by document type</h2>
+    ${queue.length?`<div class="queuebox"><div class="q-title">Review queue — ${queue.length} entr${queue.length===1?'y':'ies'} awaiting classification</div>
+      ${queue.map(([id,d])=>`${docLink(id)} <span style="color:var(--ink-faint);">· detected ${fmtDate(d.dateIssued)}</span>`).join('<br>')}
+      <div style="margin-top:6px;"><a onclick="location.hash='#/special/maintenance'">Open maintenance queue →</a></div></div>`:''}
+    <h2 class="sec" style="border:none;margin-top:0;">Subject portals</h2>
     <div class="cat-cards">
-      ${TYPE_ORDER.map(t=>`<button class="cat-card" onclick="location.hash='#/type/${encodeURIComponent(t)}'"><div class="n">${counts[t]}</div><div class="t">${t}</div></button>`).join('')}
+      ${Object.entries(PORTALS).map(([k,p])=>`<button class="cat-card" onclick="location.hash='#/portal/${k}'"><div class="t">${p.title}</div><div class="d">${p.blurb}</div></button>`).join('')}
     </div>
-    <h2 class="sec"><span class="num"></span>Recently issued</h2>
+    <h2 class="sec">Browse by document type</h2>
+    <div class="cat-cards">
+      ${TYPE_ORDER.map(t=>`<button class="cat-card" onclick="location.hash='#/type/${encodeURIComponent(t)}'"><div class="n">${counts[t]}</div><div class="t">${t}</div><div class="d">${TYPE_DESCS[t]||''}</div></button>`).join('')}
+    </div>
+    <h2 class="sec">Recently issued</h2>
     <div class="doc-grid">${recent.map(([id,d])=>docRow(id,d)).join('')}</div>
   `;
 }
-function docRow(id,d){
-  return `<a class="doc-row" onclick="location.hash='#/doc/${id}'">
-    <span class="rt">${d.title}</span>
-    <span class="re">${d.entity}${d.subtype && d.subtype!=='—' ? ' · '+d.subtype.split(',')[0] : ''}</span>
-    <span class="ry">${d.year}</span>
-    <span>${badge(d.status)}</span>
-  </a>`;
-}
-function viewCategory(type){
-  showTabs(false);
-  document.getElementById('trail').innerHTML='';
-  const all = Object.entries(DOCS).filter(([id,d])=>d.type===type).sort((a,b)=>b[1].year-a[1].year);
+
+function viewCategory(type, params){
+  showTabs(false); clearTrail();
+  const fEntity = params.get('entity') || 'All';
+  const fStatus = params.get('status') || 'All';
+  const ENTITIES = ["All","Insurers","Intermediaries","Common","Others"];
+  const STATUSES = ["All","In force","Not in force","Draft stage","Other"];
+  const buildHash = (e,s)=>{
+    const qs = [];
+    if(e!=='All') qs.push('entity='+encodeURIComponent(e));
+    if(s!=='All') qs.push('status='+encodeURIComponent(s));
+    return '#/type/'+encodeURIComponent(type)+(qs.length?'?'+qs.join('&'):'');
+  };
+  const all = Object.entries(DOCS)
+    .filter(([id,d])=>d.type===type)
+    .filter(([id,d])=>fEntity==='All'||d.entity===fEntity)
+    .filter(([id,d])=>fStatus==='All'||statusGroup(d)===fStatus)
+    .sort((a,b)=>b[1].year-a[1].year);
   document.getElementById('view').innerHTML = `
-    <div class="cat-header"><h1>${type}</h1><p>${all.length} document${all.length===1?'':'s'} classified under this document type.</p></div>
+    <div class="cat-header"><h1>${type}</h1><p>${TYPE_DESCS[type]||''}${type==='Master Circulars'?' — note: on the IRDAI site these are published within the Circulars section; this repository elevates them to a top-level type for retrieval.':''}</p></div>
+    <div class="facet-label">Document type</div>
     <div class="chiplist">${TYPE_ORDER.map(t=>`<button class="chip ${t===type?'on':''}" onclick="location.hash='#/type/${encodeURIComponent(t)}'">${t}</button>`).join('')}</div>
-    <div class="doc-grid">${all.length ? all.map(([id,d])=>docRow(id,d)).join('') : '<div class="empty-note">No documents in this category yet.</div>'}</div>
-  `;
-}
-function viewRecent(){
-  showTabs(false);
-  document.getElementById('trail').innerHTML='';
-  const all = Object.entries(DOCS).sort((a,b)=>b[1].year-a[1].year);
-  document.getElementById('view').innerHTML = `
-    <div class="cat-header"><h1>Recent classifications</h1><p>All entries, most recently issued first.</p></div>
-    <div class="doc-grid">${all.map(([id,d])=>docRow(id,d)).join('')}</div>
-  `;
-}
-function viewSearch(q){
-  showTabs(false);
-  document.getElementById('trail').innerHTML='';
-  const query=(q||'').toLowerCase();
-  const results = Object.entries(DOCS).filter(([id,d])=>(d.title+" "+d.entity+" "+d.subtype+" "+d.type+" "+d.year).toLowerCase().includes(query));
-  document.getElementById('view').innerHTML = `
-    <div class="cat-header"><h1>Search results</h1><p>${results.length} match${results.length===1?'':'es'} for "${q}"</p></div>
-    <div class="doc-grid">${results.length ? results.map(([id,d])=>docRow(id,d)).join('') : '<div class="empty-note">No documents matched.</div>'}</div>
+    <div class="facet-label">Regulated entity</div>
+    <div class="chiplist">${ENTITIES.map(e=>`<button class="chip ${e===fEntity?'on':''}" onclick="location.hash='${buildHash(e,fStatus)}'">${e}</button>`).join('')}</div>
+    <div class="facet-label">Status</div>
+    <div class="chiplist">${STATUSES.map(s=>`<button class="chip ${s===fStatus?'on':''}" onclick="location.hash='${buildHash(fEntity,s)}'">${s}</button>`).join('')}</div>
+    <div class="doc-grid">${all.length ? all.map(([id,d])=>docRow(id,d)).join('') : '<div class="empty-note">No documents match these facets.</div>'}</div>
   `;
 }
 
+function viewYear(y){
+  showTabs(false); clearTrail();
+  const yr = +y;
+  const all = Object.entries(DOCS).filter(([id,d])=>d.year===yr).sort((a,b)=>(a[1].dateIssued||'').localeCompare(b[1].dateIssued||''));
+  const years = [...new Set(Object.values(DOCS).map(d=>d.year))].sort((a,b)=>a-b);
+  const idx = years.indexOf(yr);
+  document.getElementById('view').innerHTML = `
+    <div class="cat-header"><h1>Issued in ${yr}</h1>
+    <p>${idx>0?`<a onclick="location.hash='#/year/${years[idx-1]}'">← ${years[idx-1]}</a> · `:''}${all.length} document${all.length===1?'':'s'}${idx>=0 && idx<years.length-1?` · <a onclick="location.hash='#/year/${years[idx+1]}'">${years[idx+1]} →</a>`:''}</p></div>
+    <div class="doc-grid">${all.length ? all.map(([id,d])=>docRow(id,d)).join('') : '<div class="empty-note">Nothing recorded for this year.</div>'}</div>
+  `;
+}
+
+function viewPortal(k){
+  showTabs(false); clearTrail();
+  const p = PORTALS[k];
+  if(!p){ viewHome(); return; }
+  const members = Object.entries(DOCS).filter(([id,d])=>(d.subjects||[]).includes(k));
+  const byType = {};
+  members.forEach(([id,d])=>{ (byType[d.type]=byType[d.type]||[]).push([id,d]); });
+  document.getElementById('view').innerHTML = `
+    <div class="cat-header"><h1>Portal: ${p.title}</h1><p>${p.blurb}</p></div>
+    ${TYPE_ORDER.filter(t=>byType[t]).map(t=>`
+      <h2 class="sec">${t}</h2>
+      <div class="doc-grid">${byType[t].sort((a,b)=>b[1].year-a[1].year).map(([id,d])=>docRow(id,d)).join('')}</div>
+    `).join('') || '<div class="empty-note">No documents tagged to this portal yet.</div>'}
+  `;
+}
+
+function viewDisambig(k){
+  showTabs(false); clearTrail();
+  const dz = DISAMBIG[k];
+  if(!dz){ viewHome(); return; }
+  document.getElementById('view').innerHTML = `
+    <div class="kicker">Disambiguation</div>
+    <h1 class="page-title">${dz.title}</h1>
+    <div class="disambig">${dz.desc}</div>
+    <ul class="link-list">
+      ${dz.entries.map(id=>{
+        const d = DOCS[id];
+        return `<li><span class="rel-tag">${d.type} · ${d.year} · ${d.status}</span>${docLink(id)}<br><span style="font-size:12px;color:var(--ink-soft);">${d.lede}</span></li>`;
+      }).join('')}
+    </ul>
+  `;
+}
+
+function viewSearch(q){
+  showTabs(false); clearTrail();
+  const results = searchDocs(q);
+  const {fields, free} = parseFielded(q);
+  const applied = Object.entries(fields).map(([k,v])=>`<span class="chip on" style="cursor:default;">${k}: ${v}</span>`).join(' ');
+  document.getElementById('view').innerHTML = `
+    <div class="cat-header"><h1>Search results</h1>
+      <p>${results.length} match${results.length===1?'':'es'} for “${esc(q)}”</p></div>
+    ${applied?`<div class="chiplist" style="margin-bottom:10px;">${applied}</div>`:''}
+    <div class="doc-grid">${results.length ? results.map(([id,d])=>docRow(id,d)).join('') : '<div class="empty-note">No documents matched. Fielded syntax: type:, entity:, status:, dept:, year:, subject:.</div>'}</div>
+  `;
+}
+
+/* ---------- Special pages ---------- */
+function viewSpecial(page){
+  showTabs(false); clearTrail();
+  if(page==='index') return specialIndex();
+  if(page==='stats') return specialStats();
+  if(page==='recent') return specialRecent();
+  if(page==='maintenance') return specialMaintenance();
+  viewHome();
+}
+function specialIndex(){
+  const items = Object.entries(DOCS).sort((a,b)=>a[1].title.localeCompare(b[1].title));
+  const groups = {};
+  items.forEach(([id,d])=>{ const L = d.title[0].toUpperCase(); (groups[L]=groups[L]||[]).push([id,d]); });
+  const letters = Object.keys(groups).sort();
+  document.getElementById('view').innerHTML = `
+    <div class="cat-header"><h1>A–Z index</h1><p>All ${items.length} entries, alphabetically.</p></div>
+    <div class="idx-letters">${letters.map(L=>`<a onclick="document.getElementById('idx-${L}').scrollIntoView({behavior:'smooth'})">${L}</a>`).join('')}</div>
+    ${letters.map(L=>`
+      <div class="idx-group" id="idx-${L}"><h3>${L}</h3>
+      <ul class="link-list">${groups[L].map(([id,d])=>`<li>${docLink(id)} <span style="color:var(--ink-faint);font-size:11.5px;">· ${d.type} · ${d.year}</span></li>`).join('')}</ul></div>
+    `).join('')}
+  `;
+}
+function specialStats(){
+  const groups = ["In force","Not in force","Draft stage","Other"];
+  const rows = TYPE_ORDER.map(t=>{
+    const docs = Object.values(DOCS).filter(d=>d.type===t);
+    const cells = groups.map(g=>docs.filter(d=>statusGroup(d)===g).length);
+    return {t, cells, total:docs.length};
+  });
+  const totals = groups.map((g,i)=>rows.reduce((s,r)=>s+r.cells[i],0));
+  const years = {};
+  Object.values(DOCS).forEach(d=>years[d.year]=(years[d.year]||0)+1);
+  const yearRows = Object.entries(years).sort((a,b)=>a[0]-b[0]);
+  const maxY = Math.max(...Object.values(years));
+  const entities = {};
+  Object.values(DOCS).forEach(d=>entities[d.entity]=(entities[d.entity]||0)+1);
+  document.getElementById('view').innerHTML = `
+    <div class="cat-header"><h1>Statistics</h1><p>Repository composition at a glance.</p></div>
+    <h2 class="sec">By type and status</h2>
+    <table class="stats">
+      <thead><tr><th>Type</th>${groups.map(g=>`<th>${g}</th>`).join('')}<th>Total</th></tr></thead>
+      <tbody>
+        ${rows.map(r=>`<tr><td><a onclick="location.hash='#/type/${encodeURIComponent(r.t)}'">${r.t}</a></td>${r.cells.map(c=>`<td class="num">${c||'·'}</td>`).join('')}<td class="num"><b>${r.total}</b></td></tr>`).join('')}
+        <tr><td><b>All</b></td>${totals.map(c=>`<td class="num"><b>${c}</b></td>`).join('')}<td class="num"><b>${Object.keys(DOCS).length}</b></td></tr>
+      </tbody>
+    </table>
+    <h2 class="sec">By year of issuance</h2>
+    <table class="stats"><tbody>
+      ${yearRows.map(([y,c])=>`<tr><td style="width:70px;"><a onclick="location.hash='#/year/${y}'">${y}</a></td><td class="num" style="width:40px;">${c}</td><td><span class="bar">${'█'.repeat(Math.round(c/maxY*24))}</span></td></tr>`).join('')}
+    </tbody></table>
+    <h2 class="sec">By regulated entity</h2>
+    <table class="stats"><tbody>
+      ${Object.entries(entities).map(([e,c])=>`<tr><td>${e}</td><td class="num">${c}</td></tr>`).join('')}
+    </tbody></table>
+  `;
+}
+function specialRecent(){
+  const events = Object.keys(DOCS).flatMap(id=>synthHistory(id)).sort((a,b)=>b.sortKey-a.sortKey).slice(0,30);
+  const queue = Object.entries(DOCS).filter(([id,d])=>d.maintenance && d.maintenance.length);
+  document.getElementById('view').innerHTML = `
+    <div class="cat-header"><h1>Recent changes</h1><p>Classification activity across all entries (placeholder revision data).</p></div>
+    ${queue.length?`<div class="queuebox"><div class="q-title">Review queue</div>${queue.map(([id,d])=>`${docLink(id)} — ${(d.maintenance||[]).map(m=>MAINT_LABELS[m]).join('; ')}`).join('<br>')}</div>`:''}
+    <table class="revtable">
+      <thead><tr><th>Date</th><th>Editor</th><th>Entry</th><th>Summary</th></tr></thead>
+      <tbody>
+        ${events.map(e=>`<tr><td style="white-space:nowrap;">${e.dateStr}</td><td>${e.editor}</td><td>${docLink(e.id, DOCS[e.id].title.length>44?DOCS[e.id].title.slice(0,44)+'…':DOCS[e.id].title)}</td><td>${e.summary}</td></tr>`).join('')}
+      </tbody>
+    </table>
+  `;
+}
+function specialMaintenance(){
+  const flags = Object.keys(MAINT_LABELS);
+  document.getElementById('view').innerHTML = `
+    <div class="cat-header"><h1>Maintenance queue</h1><p>Entries carrying maintenance flags, grouped by flag.</p></div>
+    ${flags.map(f=>{
+      const docs = Object.entries(DOCS).filter(([id,d])=>(d.maintenance||[]).includes(f));
+      return `<h2 class="sec">${MAINT_LABELS[f]}</h2>
+        ${docs.length?`<div class="doc-grid">${docs.map(([id,d])=>docRow(id,d)).join('')}</div>`:'<div class="empty-note">No entries under this flag.</div>'}`;
+    }).join('')}
+  `;
+}
+
+/* ---------- Doc views ---------- */
 let currentDocId = null;
 let currentTab = 'article';
 
-function viewDoc(id, tab){
+function viewDoc(id, tab, params){
   const d = DOCS[id];
   currentDocId = id;
   currentTab = tab || 'article';
   showTabs(true);
   setActiveTab(currentTab);
-
   if(!d){
-    document.getElementById('view').innerHTML = `<div class="cat-header"><h1>Not found</h1><p>No document with id "${id}".</p></div>`;
+    document.getElementById('view').innerHTML = `<div class="cat-header"><h1>Not found</h1><p>No document with id “${esc(id)}”.</p></div>`;
     return;
   }
   pushTrail(id);
   renderTrail(id);
-
   if(currentTab==='talk'){ renderTalkTab(id,d); return; }
   if(currentTab==='history'){ renderHistoryTab(id,d); return; }
-  renderArticleTab(id,d);
+  if(currentTab==='links'){ renderLinksTab(id,d); return; }
+  renderArticleTab(id,d, params);
+  if(pendingAnchor){ const a = pendingAnchor; pendingAnchor = null; setTimeout(()=>flashAnchor(a), 60); }
 }
 
-function renderArticleTab(id,d){
+/* provisions with point-in-time toggle */
+function provStatus(p, cutoff){
+  if(!p.repealedOn) return "Existing";
+  if(cutoff==='current') return "Repealed";
+  return p.repealedOn <= cutoff ? "Repealed" : "Existing";
+}
+function provRows(docId, cutoff){
+  const d = DOCS[docId];
+  return d.provisions.map(p=>{
+    const st = provStatus(p, cutoff);
+    return `<tr id="${p.id}"><td style="white-space:nowrap;"><strong>${p.ref}</strong><span class="provlink" title="Copy provision permalink" onclick="copyText('#/doc/${docId}#${p.id}', null)">¶</span></td>
+      <td>${p.desc}</td>
+      <td>${badge(st)}${st==='Repealed'&&p.repealedBy?`<br><span style="font-size:11px;">→ ${docLink(p.repealedBy,'by '+DOCS[p.repealedBy].title)} w.e.f. ${fmtDate(p.repealedOn)}</span>`:''}</td></tr>`;
+  }).join('');
+}
+function updateProv(docId, v){
+  const el = document.getElementById('provbody');
+  if(el) el.innerHTML = provRows(docId, v);
+}
+
+function renderArticleTab(id, d, params){
   const rel = d.relations || {};
   const back = backlinksFor(id);
   const combined = {};
   Object.entries(rel).forEach(([k,v])=>{ combined[k]=[...new Set([...(combined[k]||[]),...v])]; });
   Object.entries(back).forEach(([k,v])=>{ combined[k]=[...new Set([...(combined[k]||[]),...v])]; });
-  const relEntries = Object.entries(combined).filter(([k,v])=>v.length && REL_LABELS[k]);
+  const relEntries = REL_ORDER.filter(k=>combined[k] && combined[k].length).map(k=>[k, combined[k]]);
 
-  const provisionsHtml = d.provisions ? `
-    <h2 class="sec"><span class="num">2</span>Provisions</h2>
-    <table class="provisions">
-      <thead><tr><th>Provision</th><th>Description</th><th>Status</th></tr></thead>
-      <tbody>
-        ${d.provisions.map(p=>`<tr><td><strong>${p.ref}</strong></td><td>${p.desc}</td>
-          <td>${badge(p.status)}${p.repealedBy?`<br><span style="font-size:11px;">→ ${docLink(p.repealedBy,'repealed by '+DOCS[p.repealedBy].title)}</span>`:''}</td></tr>`).join('')}
-      </tbody>
-    </table>` : '';
+  /* ----- hatnotes ----- */
+  const hats = [];
+  const from = params && params.get('from');
+  if(from) hats.push(`<div class="redirectnote">(Redirected from “${esc(from)}”)</div>`);
+  const dk = disambigKeyFor(id);
+  if(dk){
+    const others = DISAMBIG[dk].entries.filter(e=>e!==id);
+    hats.push(`<div class="hatnote plain">This entry covers the ${d.year} instrument. For other instruments cited as “${DISAMBIG[dk].title}”, see ${others.map(o=>docLink(o)).join(', ')} or the <a onclick="location.hash='#/disambig/${dk}'">disambiguation page</a>.</div>`);
+  }
+  if(["Repealed","Superseded","Withdrawn"].includes(d.status)){
+    const byKey = d.status==="Repealed"?"repealedBy":d.status==="Superseded"?"supersededBy":"withdrawnBy";
+    const by = (rel[byKey]||[])[0];
+    hats.push(`<div class="hatnote rust"><span><span class="hn-tag">${d.status}</span>This instrument was ${d.status.toLowerCase()}${by?` by ${docLink(by)}`:''}${d.wefEnd?` w.e.f. ${fmtDate(d.wefEnd)}`:''}. Retained for historical, transitional and litigation reference.</span></div>`);
+  }
+  (d.maintenance||[]).forEach(m=>{
+    hats.push(`<div class="hatnote amber"><span><span class="hn-tag">Maintenance</span>${MAINT_LABELS[m]}. <a onclick="location.hash='#/special/maintenance'">View queue</a></span></div>`);
+  });
 
-  const secNums = { overview:1, provisions: d.provisions?2:null, history: d.provisions?3:2, related:(d.provisions?4:3), refs:(d.provisions?5:4) };
+  /* ----- lifecycle strip (exposure drafts) ----- */
+  let lifecycle = '';
+  if(d.type==="Exposure Drafts"){
+    const stages = ["Open for Comments","Comments Closed","Finalised"];
+    const cur = stages.indexOf(d.status);
+    lifecycle = `<div class="lifecycle">${stages.map((s,i)=>{
+      const cls = i<cur?'done':(i===cur?'current':'');
+      const extra = s==="Open for Comments"&&d.deadline?`<span class="lc-date">deadline ${fmtDate(d.deadline)}</span>`:(s==="Finalised"&&(rel.finalisedAs||[])[0]?`<span class="lc-date">→ linked instrument</span>`:'');
+      return `<div class="lc-step ${cls}">${s}${extra}</div>`;
+    }).join('')}</div>`;
+  }
+
+  /* ----- sections (dynamic numbering) ----- */
+  const sections = [];
+  sections.push({id:'sec-overview', title:'Overview', html:`
+    ${lifecycle}
+    <p class="body-text">${d.lede}<sup class="cite"><a onclick="scrollToSec('sec-refs');return false;">[1]</a></sup></p>
+    ${d.enablingText?`<p class="body-text" style="font-size:12.5px;color:var(--ink-soft);">Issued in exercise of powers under ${d.enablingText}${(rel.issuedUnder||[]).length?` — see ${(rel.issuedUnder||[]).map(t=>docLink(t)).join('; ')}.`:'.'}</p>`:''}
+  `});
+
+  if(d.provisions){
+    const repealDates = [...new Set(d.provisions.filter(p=>p.repealedOn).map(p=>p.repealedOn))].sort();
+    let asat = '';
+    if(repealDates.length){
+      const opts = [`<option value="current">Current (as amended)</option>`]
+        .concat(repealDates.slice().reverse().map(dt=>{
+          const t = new Date(dt); t.setDate(t.getDate()-1);
+          const dv = t.toISOString().slice(0,10);
+          return `<option value="${dv}">As it stood on ${fmtDate(dv)}</option>`;
+        }));
+      asat = `<div class="asat">Point-in-time view: <select onchange="updateProv('${id}', this.value)">${opts.join('')}</select></div>`;
+    }
+    sections.push({id:'sec-provisions', title:'Provisions', html:`
+      ${asat}
+      <table class="provisions">
+        <thead><tr><th>Provision</th><th>Description</th><th>Status</th></tr></thead>
+        <tbody id="provbody">${provRows(id,'current')}</tbody>
+      </table>
+      <p class="body-text" style="font-size:11.5px;color:var(--ink-faint);">Use ¶ to copy a provision-level permalink; orders and circulars can target individual provisions.</p>
+    `});
+  }
+
+  if(d.amendments || d.versions){
+    let html = '';
+    if(d.amendments){
+      html += `<ul class="timeline">
+        <li><span class="tl-date">${fmtDate(d.dateIssued)}</span>Gazette-notified / issued${d.wef&&d.wef!==d.dateIssued?` (w.e.f. ${fmtDate(d.wef)})`:''}.</li>
+        ${d.amendments.map(a=>`<li><span class="tl-date">${fmtDate(a.date)}${a.wef&&a.wef!==a.date?` · w.e.f. ${fmtDate(a.wef)}`:''}</span>${a.doc?docLink(a.doc, a.title):a.title}${a.note?` — <span style="color:var(--ink-soft);">${a.note}</span>`:''}</li>`).join('')}
+      </ul>`;
+    }
+    if(d.versions){
+      html += `<div style="margin-top:4px;"><span class="rel-tag" style="margin-bottom:6px;">Texts available (mirrors IRDAI's dual publication)</span>
+        ${d.versions.map(v=>`<span class="verchip"><span class="vb">${v.bucket}</span>${v.label} · ${fmtDate(v.date)}</span>`).join('')}</div>`;
+    }
+    sections.push({id:'sec-amend', title:'Amendment & version history', html});
+  }
+
+  sections.push({id:'sec-history', title:'Legislative history', html:`<p class="body-text">${d.history}<sup class="cite"><a onclick="scrollToSec('sec-refs');return false;">[2]</a></sup></p>`});
+
+  sections.push({id:'sec-related', title:'Related documents', html:`
+    <ul class="link-list">
+      ${relEntries.length ? relEntries.map(([k,ids])=>`<li><span class="rel-tag">${REL_LABELS[k]}</span>${ids.map(rid=>docLink(rid)).join('<br>')}</li>`).join('') : '<li class="empty-note">No recorded relationships for this document.</li>'}
+    </ul>
+  `});
+
+  const references = [
+    `${d.refNo?d.refNo+' — ':''}IRDAI, Legal section${d.sourceCategory?` (published under: ${d.sourceCategory})`:''} (placeholder source).`,
+    "Internal classification note, Document Classification Matrix, Jul 2026."
+  ];
+  const citeStr = `${d.title}, ${d.type}${d.refNo?', '+d.refNo:''} (IRDAI, ${fmtDate(d.dateIssued)}). Repository entry rev. ${latestRevDate(id)}. Permalink: #/doc/${id}`;
+  sections.push({id:'sec-refs', title:'References', html:`
+    <ol class="refs">${references.map((r,i)=>`<li id="ref-${i+1}">${r}</li>`).join('')}</ol>
+    <span class="rel-tag" style="margin-top:10px;">Cite this entry</span>
+    <div class="citebox">${esc(citeStr)}<br><button class="copybtn" onclick="copyText('${citeStr.replace(/'/g,"\\'")}', this)">copy citation</button></div>
+  `});
 
   const toc = `
     <div class="toc">
       <div class="toc-title">Contents</div>
-      <ol>
-        <li><a onclick="scrollToSec('sec-overview');return false;">Overview</a></li>
-        ${d.provisions?`<li><a onclick="scrollToSec('sec-provisions');return false;">Provisions</a></li>`:''}
-        <li><a onclick="scrollToSec('sec-history');return false;">Legislative history</a></li>
-        <li><a onclick="scrollToSec('sec-related');return false;">Related documents</a></li>
-        <li><a onclick="scrollToSec('sec-refs');return false;">References</a></li>
-      </ol>
+      <ol>${sections.map(s=>`<li><a onclick="scrollToSec('${s.id}');return false;">${s.title}</a></li>`).join('')}</ol>
     </div>`;
 
-  const references = [
-    "IRDAI, Legal Section — document register (placeholder source).",
-    "Internal classification note, Document Classification Matrix, Jul 2026."
-  ];
+  const fname = filenameFor(d);
+  const aliasRow = (d.aliases&&d.aliases.length)?`<tr><td class="k">Also known as</td><td class="v">${d.aliases.join('; ')}</td></tr>`:'';
 
   document.getElementById('view').innerHTML = `
     <div class="kicker">${d.type} → ${d.entity}${d.subtype && d.subtype!=='—' ? ' → '+d.subtype : ''}</div>
     <h1 class="page-title">${d.title}</h1>
+    ${hats.join('')}
     <div class="disambig">${d.type} · ${d.year} · placeholder entry</div>
-    <div style="margin:0 0 12px 0;">${badge(d.status)}</div>
+    <div style="margin:0 0 12px 0;">${badge(d.status)}${d.archived!==undefined?` <span class="status-badge neutral" style="margin-left:6px;"><span class="dot"></span>${d.archived?'Archived (IRDAI)':'Non-Archived (IRDAI)'}</span>`:''}${d.dept?`<span class="deptpill" title="${DEPT_NAMES[d.dept]||''}">${d.dept}${DEPT_NAMES[d.dept]?' · '+DEPT_NAMES[d.dept]:''}</span>`:''}</div>
 
     <div class="body-cols">
       <div class="body-main">
         <aside class="infobox">
-          <div class="infobox-head">${d.title.length>40?d.title.slice(0,40)+'…':d.title}</div>
-          <div class="infobox-img">no image on file</div>
+          <div class="infobox-head">${d.title.length>44?d.title.slice(0,44)+'…':d.title}</div>
           <table>
-            <tr><td class="k">Type</td><td class="v">${d.type}</td></tr>
+            <tr><td class="k">Type</td><td class="v"><a onclick="location.hash='#/type/${encodeURIComponent(d.type)}'">${d.type}</a></td></tr>
             <tr><td class="k">Status</td><td class="v">${badge(d.status)}</td></tr>
-            <tr><td class="k">Entity</td><td class="v">${d.entity}</td></tr>
+            <tr><td class="k">Entity</td><td class="v"><a onclick="location.hash='#/type/${encodeURIComponent(d.type)}?entity=${encodeURIComponent(d.entity)}'">${d.entity}</a></td></tr>
             <tr><td class="k">Sub-category</td><td class="v">${d.subtype}</td></tr>
-            <tr><td class="k">Year</td><td class="v">${d.year}</td></tr>
-            <tr><td class="k">Filename</td><td class="v filename">${d.type} – ${d.entity} – ${d.title.split('—')[0].trim()} – ${d.year}</td></tr>
+            ${d.dept?`<tr><td class="k">Department</td><td class="v">${d.dept} — ${DEPT_NAMES[d.dept]||''}</td></tr>`:''}
+            ${d.refNo?`<tr><td class="k">Ref. No.</td><td class="v refno">${d.refNo}</td></tr>`:''}
+            <tr><td class="k">Date issued</td><td class="v">${fmtDate(d.dateIssued)}</td></tr>
+            ${d.wef?`<tr><td class="k">W.e.f.</td><td class="v">${fmtDate(d.wef)}</td></tr>`:''}
+            <tr><td class="k">Year</td><td class="v"><a onclick="location.hash='#/year/${d.year}'">${d.year}</a></td></tr>
+            ${d.sourceCategory?`<tr><td class="k">IRDAI site section</td><td class="v">${d.sourceCategory}</td></tr>`:''}
+            ${d.attachments?`<tr><td class="k">Attachments</td><td class="v">${d.attachments} file${d.attachments===1?'':'s'}</td></tr>`:''}
+            ${d.reviewCycle?`<tr><td class="k">Review cycle</td><td class="v">${d.reviewCycle}</td></tr>`:''}
+            ${aliasRow}
+            <tr><td class="k">Filename</td><td class="v filename">${fname}<br><button class="copybtn" onclick="copyText('${fname.replace(/'/g,"\\'")}', this)">copy</button></td></tr>
+            <tr><td class="k">Permalink</td><td class="v filename">#/doc/${id}<br><button class="copybtn" onclick="copyText('#/doc/${id}', this)">copy</button></td></tr>
           </table>
         </aside>
 
         ${toc}
 
-        <h2 class="sec" id="sec-overview"><span class="num">1</span>Overview</h2>
-        <p class="body-text">${d.lede}<sup class="cite"><a onclick="scrollToSec('sec-refs');return false;">[1]</a></sup></p>
-
-        ${provisionsHtml.replace('id="sec-provisions"','').replace('<h2 class="sec">','<h2 class="sec" id="sec-provisions">')}
-
-        <h2 class="sec" id="sec-history"><span class="num">${d.provisions?3:2}</span>Legislative history</h2>
-        <p class="body-text">${d.history}<sup class="cite"><a onclick="scrollToSec('sec-refs');return false;">[2]</a></sup></p>
-
-        <h2 class="sec" id="sec-related"><span class="num">${d.provisions?4:3}</span>Related documents</h2>
-        <ul class="link-list">
-          ${relEntries.length ? relEntries.map(([k,ids])=>`<li><span class="rel-tag">${REL_LABELS[k]}</span>${ids.map(rid=>docLink(rid)).join(', ')}</li>`).join('') : '<li class="empty-note">No recorded relationships for this document.</li>'}
-        </ul>
-
-        <h2 class="sec" id="sec-refs"><span class="num">${d.provisions?5:4}</span>References</h2>
-        <ol class="refs">
-          ${references.map((r,i)=>`<li id="ref-${i+1}">${r}</li>`).join('')}
-        </ol>
+        ${sections.map((s,i)=>`<h2 class="sec" id="${s.id}"><span class="num">${i+1}</span>${s.title}</h2>${s.html}`).join('')}
 
         <div class="categories">
           <div style="padding:8px 12px;"><span class="cat-label">Categories:</span>
             <a onclick="location.hash='#/type/${encodeURIComponent(d.type)}'">${d.type}</a> ·
-            <a onclick="location.hash='#/type/${encodeURIComponent(d.type)}'">${d.entity}</a>
+            <a onclick="location.hash='#/type/${encodeURIComponent(d.type)}?entity=${encodeURIComponent(d.entity)}'">${d.entity}</a> ·
+            <a onclick="location.hash='#/year/${d.year}'">${d.year}</a>
             ${d.subtype && d.subtype!=='—' ? ' · <a onclick="return false;">'+d.subtype.split(',')[0]+'</a>' : ''}
-            ${statusClass(d.status)==='repealed' ? ' · <a onclick="return false;">Repealed instruments</a>' : ''}
+            ${statusClass(d.status)==='repealed' ? ` · <a onclick="location.hash='#/type/${encodeURIComponent(d.type)}?status=${encodeURIComponent('Not in force')}'">Not-in-force instruments</a>` : ''}
+            ${(d.subjects||[]).map(s=>` · <a onclick="location.hash='#/portal/${s}'">Portal: ${PORTALS[s]?PORTALS[s].title:s}</a>`).join('')}
+            ${(d.maintenance||[]).length?` · <a onclick="location.hash='#/special/maintenance'">Maintenance</a>`:''}
           </div>
         </div>
         <div class="page-footer">This entry was last classified based on placeholder data. Not sourced from a live IRDAI issuance.</div>
@@ -635,7 +1236,7 @@ function renderTalkTab(id,d){
     <div style="margin-top:16px;">
       ${items.length ? items.map(c=>`
         <div class="talk-entry">
-          <div class="talk-meta"><b>${c.author}</b> · ${c.date}</div>
+          <div class="talk-meta"><b>${c.author}</b> · ${c.date}<span class="talkpill ${c.resolved?'resolved':'open'}">${c.resolved?'Resolved':'Open'}</span></div>
           <div class="talk-body">${c.text}</div>
           <div class="talk-signoff">— ${c.author}</div>
         </div>`).join('') : '<div class="empty-note">No discussion yet on this entry.</div>'}
@@ -648,12 +1249,30 @@ function renderHistoryTab(id,d){
   document.getElementById('view').innerHTML = `
     <div class="kicker">View history</div>
     <h1 class="page-title" style="font-size:22px;">Revision history: ${d.title}</h1>
+    <div class="disambig">Edit history of this repository entry — distinct from the instrument's own amendment history, recorded on the Article tab.</div>
     <table class="revtable">
       <thead><tr><th>Date</th><th>Editor</th><th>Summary</th><th></th></tr></thead>
       <tbody>
-        ${revs.map((r,i)=>`<tr><td>${r.date}</td><td>${r.editor}</td><td>${r.summary}</td><td class="revdiff">${i===0?'current':'diff'}</td></tr>`).join('')}
+        ${revs.map((r,i)=>`
+          <tr><td>${r.dateStr}</td><td>${r.editor}</td><td>${r.summary}</td>
+            <td class="revdiff" ${r.diff?`onclick="const x=document.getElementById('diff-${i}'); x.style.display = x.style.display==='none'?'table-row':'none';"`:''}>${i===0?'current':(r.diff?'diff':'—')}</td></tr>
+          ${r.diff?`<tr class="diffrow" id="diff-${i}" style="display:none;"><td colspan="4">${r.diff.field}: <span class="dfrom">${esc(r.diff.from)}</span> → <span class="dto">${esc(r.diff.to)}</span></td></tr>`:''}
+        `).join('')}
       </tbody>
     </table>
+  `;
+}
+
+function renderLinksTab(id,d){
+  const back = backlinksFor(id);
+  const entries = REL_ORDER.filter(k=>back[k] && back[k].length).map(k=>[k, back[k]]);
+  document.getElementById('view').innerHTML = `
+    <div class="kicker">What links here</div>
+    <h1 class="page-title" style="font-size:22px;">What links here: ${d.title}</h1>
+    <div class="disambig">Inbound relationships computed across the repository — the reverse of this entry's Related documents.</div>
+    <ul class="link-list" style="margin-top:14px;">
+      ${entries.length ? entries.map(([k,ids])=>`<li><span class="rel-tag">${REL_LABELS[k]}</span>${ids.map(rid=>docLink(rid)).join('<br>')}</li>`).join('') : '<li class="empty-note">No other entry links to this document yet.</li>'}
+    </ul>
   `;
 }
 
@@ -674,18 +1293,20 @@ function router(){
   const hash = location.hash || '#/';
   const [pathPart, queryPart] = hash.replace(/^#\//,'').split('?');
   const parts = pathPart.split('/').filter(Boolean);
+  const params = new URLSearchParams(queryPart||'');
 
   if(parts.length===0){ viewHome(); return; }
-  if(parts[0]==='type' && parts[1]){ viewCategory(decodeURIComponent(parts[1])); return; }
-  if(parts[0]==='recent'){ viewRecent(); return; }
-  if(parts[0]==='search'){ const q=new URLSearchParams(queryPart||'').get('q')||''; viewSearch(q); return; }
-  if(parts[0]==='doc' && parts[1]){ viewDoc(decodeURIComponent(parts[1]), parts[2]||'article'); return; }
+  if(parts[0]==='type' && parts[1]){ viewCategory(decodeURIComponent(parts[1]), params); return; }
+  if(parts[0]==='year' && parts[1]){ viewYear(parts[1]); return; }
+  if(parts[0]==='portal' && parts[1]){ viewPortal(parts[1]); return; }
+  if(parts[0]==='disambig' && parts[1]){ viewDisambig(parts[1]); return; }
+  if(parts[0]==='special' && parts[1]){ viewSpecial(parts[1]); return; }
+  if(parts[0]==='recent'){ viewSpecial('recent'); return; }
+  if(parts[0]==='search'){ viewSearch(params.get('q')||''); return; }
+  if(parts[0]==='doc' && parts[1]){ viewDoc(decodeURIComponent(parts[1]), parts[2]||'article', params); return; }
   viewHome();
 }
 window.addEventListener('hashchange', router);
-document.getElementById('topSearchInput').addEventListener('keydown', e=>{
-  if(e.key==='Enter' && e.target.value.trim()) location.hash = '#/search?q='+encodeURIComponent(e.target.value.trim());
-});
 router();
 </script>
 </body>
