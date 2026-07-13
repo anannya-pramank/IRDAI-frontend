@@ -54,6 +54,7 @@ from psycopg2.extras import execute_values, Json
 
 BASE_DIR = Path(__file__).resolve().parent
 CORPUS_JSON = BASE_DIR / "data" / "corpus.json"
+TEXT_DIR = BASE_DIR / "data" / "text"   # per-doc extracted text for the wiki's Text tab
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 EMBED_DIM = 384
@@ -172,8 +173,23 @@ def extract_text(pdf_bytes: bytes) -> tuple[str, str, int]:
         doc.close()
 
 
+def looks_like_pdf(data: bytes) -> bool:
+    return data[:1024].lstrip().startswith(b"%PDF")
+
+
+def sniff_kind(data: bytes) -> str:
+    head = data[:300].lstrip().lower()
+    if head.startswith((b"<!doctype", b"<html", b"<?xml")):
+        return "html/xml page (likely a stale download token or error page)"
+    if data[:2] == b"PK":
+        return "zip-based file (docx/xlsx/zip)"
+    return f"unknown ({len(data)} bytes, starts {data[:8]!r})"
+
+
 def extract_issuance(session: requests.Session, rec: dict, delay: float) -> dict | None:
-    """Fetch + extract ALL attachments of one issuance, in memory."""
+    """Fetch + extract ALL attachments of one issuance, in memory.
+    A bad attachment (non-PDF response, corrupt file) is logged and skipped —
+    never fatal to the document, let alone the run."""
     src = rec.get("_source", {})
     links = src.get("pdf_links") or []
     names = src.get("pdf_filenames") or []
@@ -182,17 +198,25 @@ def extract_issuance(session: requests.Session, rec: dict, delay: float) -> dict
 
     parts, methods, total_pages = [], set(), 0
     for i, url in enumerate(links):
+        label = names[i] if i < len(names) and names[i] else f"attachment-{i + 1}"
         t0 = time.time()
         data = fetch_pdf_bytes(session, url)
         time.sleep(delay)
         if not data:
             continue
+        if not looks_like_pdf(data):
+            log.warning("  %s: response is not a PDF — %s — skipped", label, sniff_kind(data))
+            continue
         fetch_s = time.time() - t0
         size_mb = len(data) / 1e6
         t0 = time.time()
-        text, method, pages = extract_text(data)
-        del data  # explicit: bytes discarded here
-        label = names[i] if i < len(names) and names[i] else f"attachment-{i + 1}"
+        try:
+            text, method, pages = extract_text(data)
+        except Exception as e:
+            log.warning("  %s: extraction failed — %s — skipped", label, e)
+            continue
+        finally:
+            del data  # explicit: bytes discarded here
         log.info("  %s: %.1f MB fetched in %.1fs; %d pages extracted in %.1fs (%s)",
                  label, size_mb, fetch_s, pages, time.time() - t0, method)
         methods.add(method)
@@ -393,10 +417,55 @@ def store_extraction(conn, slug: str, extraction: dict, chunks: list[dict], embe
     conn.commit()
 
 
+def write_text_json(slug: str, title: str, method: str, pages: int,
+                    full_text: str, chunk_rows: list[dict]) -> None:
+    """Per-doc payload consumed by the wiki's Text tab (lazy fetch)."""
+    TEXT_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "slug": slug, "title": title, "method": method, "pages": pages,
+        "full_text": full_text,
+        "chunks": chunk_rows,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+    }
+    with open(TEXT_DIR / f"{slug}.json", "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False)
+
+
+def export_text_from_db(conn) -> int:
+    """Backfill data/text/*.json for everything already loaded in Supabase
+    (the wiki reads static files, not the DB — this bridges existing rows)."""
+    with conn.cursor() as cur:
+        cur.execute("""select id, title, extraction_method, page_count, full_text
+                       from irdai_documents where full_text is not null""")
+        docs = cur.fetchall()
+        n = 0
+        for slug, title, method, pages, full_text in docs:
+            cur.execute("""select chunk_index, heading, attachment, content,
+                                  (embedding is not null) as embedded
+                           from irdai_chunks where doc_id = %s
+                           order by chunk_index""", (slug,))
+            chunk_rows = [
+                {"i": ci, "heading": h, "attachment": a, "content": c, "embedded": e}
+                for ci, h, a, c, e in cur.fetchall()
+            ]
+            write_text_json(slug, title, method, pages, full_text, chunk_rows)
+            n += 1
+    log.info("exported text payloads for %d documents -> %s", n, TEXT_DIR)
+    return n
+
+
 # ================= MAIN =================
 
 
 def run(args) -> None:
+    if args.export_text:
+        conn = connect()
+        try:
+            export_text_from_db(conn)
+        finally:
+            conn.close()
+        return
+
     if not CORPUS_JSON.exists():
         log.error("no corpus at %s — run irdai_watcher.py first", CORPUS_JSON)
         sys.exit(1)
@@ -438,40 +507,51 @@ def run(args) -> None:
 
         done = failed = skipped = 0
         for slug, d in pending:
-            extraction = extract_issuance(session, d, args.delay)
-            if extraction is None:
+            try:
+                extraction = extract_issuance(session, d, args.delay)
+                if extraction is None:
+                    failed += 1
+                    log.warning("%s: no extractable attachment", slug)
+                    continue
+                if not args.refresh and hashes.get(slug) == extraction["content_sha1"]:
+                    skipped += 1
+                    continue
+                chunks = chunk_issuance(extraction)
+                if not chunks:
+                    failed += 1
+                    log.warning("%s: extraction produced no chunks", slug)
+                    continue
+                model = get_model()
+                t0 = time.time()
+                # Language gate: MiniLM-L6-v2 is English-only. Hindi-dominant
+                # chunks (bilingual gazette files) are stored for grep/full-text
+                # but kept OUT of the semantic index (embedding = NULL) so they
+                # don't inject noise vectors into hybrid search.
+                mask = [devanagari_ratio(c["content"]) < 0.3 for c in chunks]
+                to_embed = [c["content"] for c, m in zip(chunks, mask) if m]
+                vecs = iter(model.encode(
+                    to_embed,
+                    batch_size=64, normalize_embeddings=True, show_progress_bar=False,
+                )) if to_embed else iter(())
+                embeddings = [next(vecs) if m else None for m in mask]
+                embed_s = time.time() - t0
+                skipped_hi = len(mask) - sum(mask)
+                store_extraction(conn, slug, extraction, chunks, embeddings)
+                write_text_json(
+                    slug, d.get("title", slug), extraction["extraction_method"],
+                    extraction["page_count"], extraction["full_text"],
+                    [{"i": c["chunk_index"], "heading": c["heading"],
+                      "attachment": c["attachment"], "content": c["content"],
+                      "embedded": bool(m)} for c, m in zip(chunks, mask)])
+                done += 1
+                log.info("%s: %d pages -> %d chunks (%s), embedded %d in %.1fs%s",
+                         slug, extraction["page_count"], len(chunks),
+                         extraction["extraction_method"], sum(mask), embed_s,
+                         f", {skipped_hi} Hindi-dominant kept FTS-only" if skipped_hi else "")
+            except Exception as e:
+                conn.rollback()
                 failed += 1
-                log.warning("%s: no extractable attachment", slug)
-                continue
-            if not args.refresh and hashes.get(slug) == extraction["content_sha1"]:
-                skipped += 1
-                continue
-            chunks = chunk_issuance(extraction)
-            if not chunks:
-                failed += 1
-                log.warning("%s: extraction produced no chunks", slug)
-                continue
-            model = get_model()
-            t0 = time.time()
-            # Language gate: MiniLM-L6-v2 is English-only. Hindi-dominant
-            # chunks (bilingual gazette files) are stored for grep/full-text
-            # but kept OUT of the semantic index (embedding = NULL) so they
-            # don't inject noise vectors into hybrid search.
-            mask = [devanagari_ratio(c["content"]) < 0.3 for c in chunks]
-            to_embed = [c["content"] for c, m in zip(chunks, mask) if m]
-            vecs = iter(model.encode(
-                to_embed,
-                batch_size=64, normalize_embeddings=True, show_progress_bar=False,
-            )) if to_embed else iter(())
-            embeddings = [next(vecs) if m else None for m in mask]
-            embed_s = time.time() - t0
-            skipped_hi = len(mask) - sum(mask)
-            store_extraction(conn, slug, extraction, chunks, embeddings)
-            done += 1
-            log.info("%s: %d pages -> %d chunks (%s), embedded %d in %.1fs%s",
-                     slug, extraction["page_count"], len(chunks),
-                     extraction["extraction_method"], sum(mask), embed_s,
-                     f", {skipped_hi} Hindi-dominant kept FTS-only" if skipped_hi else "")
+                log.warning("%s: failed — %s (run continues)", slug, e)
 
         log.info("loader done: embedded=%d unchanged=%d failed=%d", done, skipped, failed)
     finally:
@@ -482,6 +562,8 @@ def main() -> None:
     p = argparse.ArgumentParser(description="Load IRDAI corpus into Supabase")
     p.add_argument("--refresh", action="store_true", help="force re-extract + re-embed")
     p.add_argument("--skip-pdf", action="store_true", help="metadata sync only")
+    p.add_argument("--export-text", action="store_true",
+                   help="regenerate data/text/*.json from Supabase for all loaded docs")
     p.add_argument("--limit", type=int, default=None, help="cap extraction work this run")
     p.add_argument("--only", nargs="*", default=None, help="restrict to given slugs")
     p.add_argument("--delay", type=float, default=1.0, help="seconds between PDF fetches")
