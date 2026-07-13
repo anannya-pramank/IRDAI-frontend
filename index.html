@@ -345,6 +345,10 @@
 </aside>
 <button class="ap-open" onclick="toggleAppearance(true)" title="Appearance settings">Aa</button>
 
+<!-- Optional: scraper-generated corpus from irdai_watcher.py.
+     If the file is absent (pure prototype mode), the 404 is harmless. -->
+<script src="data/docs.generated.js"></script>
+
 <script>
 /* =====================================================================
    MOCK DATA — placeholder entries only.
@@ -626,6 +630,14 @@ const DOCS = {
     history:"Auto-created stub. Classification pending.",
     relations:{} }
 };
+
+/* Merge scraper-generated corpus (window.IRDAI_DOCS from data/docs.generated.js).
+   Runs before the redirect index and all views are built, so auto-ingested
+   docs get search, facets, portals, backlinks and the review queue for free.
+   Hand-curated entries win on slug collision. */
+if (typeof window !== 'undefined' && window.IRDAI_DOCS) {
+  Object.entries(window.IRDAI_DOCS).forEach(([id, d]) => { if (!DOCS[id]) DOCS[id] = d; });
+}
 
 /* ===================== Taxonomies ===================== */
 const TYPE_ORDER = ["Acts","Rules","Regulations","Notifications","Master Circulars","Circulars","Guidelines","Orders","Notices","Exposure Drafts"];
