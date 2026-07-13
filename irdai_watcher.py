@@ -499,6 +499,7 @@ def run(args) -> None:
         url = urljoin(BASE_URL, path)
         max_pages = BACKFILL_MAX_PAGES if args.backfill else args.pages
         cur, seen_here = 1, 0
+        run_ids: set = set()  # row-IDs seen in THIS category walk (clamp detector)
 
         while cur <= max_pages:
             try:
@@ -509,6 +510,17 @@ def run(args) -> None:
                 break
 
             rows, raw_count = parse_rows(html, category, url)
+
+            # Liferay clamps out-of-range `cur` to the last page (or ignores
+            # the param entirely and re-serves page 1), so raw_count never
+            # drops below DELTA at the true end of a listing. A page whose
+            # row-IDs were all already seen in this walk is a repeat — stop.
+            page_ids = {r["liferay_id"] for r in rows}
+            if cur > 1 and page_ids and page_ids <= run_ids:
+                log.info("%s p%d: pagination clamp detected (repeated page), stopping walk",
+                         category, cur)
+                break
+            run_ids |= page_ids
             seen_here += len(rows)
 
             for raw in rows:
@@ -537,6 +549,9 @@ def run(args) -> None:
             log.info("%s p%d: raw=%d valid=%d (cumulative %d)",
                      category, cur, raw_count, len(rows), seen_here)
 
+            if raw_count == 0:
+                log.info("%s p%d: empty page, stopping walk", category, cur)
+                break
             if raw_count < DELTA:
                 break
             cur += 1
