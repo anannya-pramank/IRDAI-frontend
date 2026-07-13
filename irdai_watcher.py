@@ -526,7 +526,15 @@ def run(args) -> None:
             for raw in rows:
                 lid = raw["liferay_id"]
                 if lid in by_source:
-                    corpus[by_source[lid]]["_source"]["last_seen"] = now_iso
+                    src = corpus[by_source[lid]]["_source"]
+                    src["last_seen"] = now_iso
+                    # Liferay download URLs embed a token (?version=&t=) that
+                    # can go stale; refresh volatile fields on every sighting
+                    # so the loader never fetches from a first-seen snapshot.
+                    src["pdf_links"] = raw["pdf_links"]
+                    src["pdf_filenames"] = raw["pdf_filenames"]
+                    src["file_sizes"] = raw["file_sizes"]
+                    src["detail_page"] = raw["detail_page"]
                     continue
 
                 rec = to_wiki_record(raw, now_iso)
