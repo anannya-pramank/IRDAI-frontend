@@ -40,7 +40,52 @@
   .sb-group a:hover, .sb-group button.sb-link:hover{color:var(--wikiblue);text-decoration:underline;}
 
   /* ---------- Main column ---------- */
-  .col{max-width:920px;padding:0 30px 60px 30px;}
+  .col{max-width:var(--colw,920px);padding:0 30px 60px 30px;zoom:var(--zoom,1);}
+
+  /* ---------- Appearance panel ---------- */
+  .appearance{position:fixed;top:64px;right:16px;width:176px;background:var(--page);border:1px solid var(--line);padding:14px 16px 8px 16px;font-size:13px;z-index:70;display:none;}
+  .ap-head{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14.5px;margin-bottom:10px;font-family:'Fraunces',serif;}
+  .ap-hide{all:unset;cursor:pointer;background:#eceae2;padding:3px 10px;font-size:11.5px;border-radius:2px;color:var(--ink-soft);}
+  .ap-hide:hover{background:#e2dfd4;}
+  .ap-group{border-top:1px solid var(--line-soft);padding:10px 0 6px 0;}
+  .ap-group-label{color:var(--ink-faint);font-size:12px;margin-bottom:6px;}
+  .ap-opt{display:flex;align-items:center;gap:9px;padding:4.5px 0;font-size:13px;cursor:pointer;}
+  .ap-opt input{accent-color:var(--wikiblue);width:15px;height:15px;margin:0;cursor:pointer;}
+  .ap-open{all:unset;position:fixed;top:14px;right:16px;z-index:70;cursor:pointer;border:1px solid var(--line);background:var(--page);color:var(--ink-soft);font-family:'Fraunces',serif;font-weight:600;font-size:13px;padding:4px 10px;border-radius:3px;display:none;}
+  .ap-open:hover{color:var(--wikiblue);border-color:var(--wikiblue);}
+  @media(min-width:1280px){
+    body.ap-on .appearance{display:block;}
+    body.ap-on .frame{margin-right:204px;}
+    body:not(.ap-on) .ap-open{display:block;}
+  }
+
+  /* ---------- Dark theme ---------- */
+  html.dark{
+    --ink:#e8e6e0; --ink-soft:#c2c0ba; --ink-faint:#8f8d88;
+    --page:#1d1e21; --canvas:#141518;
+    --line:#45443e; --line-soft:#323230;
+    --wikiblue:#8fb1f2; --wikiblue-visited:#b79ae0;
+    --sidebar:#191a1d; --sidebar-line:#333;
+    --infobox-bg:#232428; --infobox-head:#2c2d31;
+    --green:#9dc4a0; --green-bg:#233026;
+    --rust:#e0958a; --rust-bg:#39241f;
+    --amber:#dbb26a; --amber-bg:#352b1a;
+    --brass:#c4a748;
+  }
+  html.dark ::selection{background:#31456b;}
+  html.dark .toc, html.dark .hatnote, html.dark .verchip, html.dark .chip, html.dark .cat-card, html.dark .categories, html.dark .citebox{background:#232428;}
+  html.dark .suggest{background:#232428;box-shadow:0 4px 12px rgba(0,0,0,0.5);}
+  html.dark .searchbar input, html.dark .asat select, html.dark .copybtn{background:#232428;color:var(--ink);}
+  html.dark .status-badge.neutral{background:#333;color:var(--ink-soft);}
+  html.dark .chip.on{background:var(--ink);border-color:var(--ink);color:#141518;}
+  html.dark tr.prov-target td{background:#3a331d;}
+  html.dark tr.diffrow td{background:#232322;}
+  html.dark .queuebox{background:var(--amber-bg);border-color:#5a4a28;}
+  html.dark .hatnote.rust{background:var(--rust-bg);border-color:#5a352c;color:#e8b7ac;}
+  html.dark .hatnote.amber{background:var(--amber-bg);border-color:#5a4a28;color:#e3c78f;}
+  html.dark .sb-brand .glyph{background:var(--ink);color:#1d1e21;}
+  html.dark .ap-hide{background:#333;color:var(--ink-soft);}
+  html.dark .ap-hide:hover{background:#3c3c3c;}
   .searchbar{display:flex;justify-content:flex-end;padding:14px 30px 0 30px;gap:10px;align-items:center;}
   .searchbar input{font-size:12.5px;padding:6px 10px 6px 26px;border:1px solid var(--line);border-radius:2px;background:var(--page);width:260px;}
   .searchbar-wrap{position:relative;}
@@ -277,6 +322,28 @@
     </div>
   </div>
 </div>
+
+<aside class="appearance" id="appearancePanel" aria-label="Appearance settings">
+  <div class="ap-head"><span>Appearance</span><button class="ap-hide" onclick="toggleAppearance(false)">hide</button></div>
+  <div class="ap-group">
+    <div class="ap-group-label">Text</div>
+    <label class="ap-opt"><input type="radio" name="ap-text" onchange="setAp('text','small')"> Small</label>
+    <label class="ap-opt"><input type="radio" name="ap-text" checked onchange="setAp('text','standard')"> Standard</label>
+    <label class="ap-opt"><input type="radio" name="ap-text" onchange="setAp('text','large')"> Large</label>
+  </div>
+  <div class="ap-group">
+    <div class="ap-group-label">Width</div>
+    <label class="ap-opt"><input type="radio" name="ap-width" checked onchange="setAp('width','standard')"> Standard</label>
+    <label class="ap-opt"><input type="radio" name="ap-width" onchange="setAp('width','wide')"> Wide</label>
+  </div>
+  <div class="ap-group">
+    <div class="ap-group-label">Color</div>
+    <label class="ap-opt"><input type="radio" name="ap-color" onchange="setAp('color','automatic')"> Automatic</label>
+    <label class="ap-opt"><input type="radio" name="ap-color" checked onchange="setAp('color','light')"> Light</label>
+    <label class="ap-opt"><input type="radio" name="ap-color" onchange="setAp('color','dark')"> Dark</label>
+  </div>
+</aside>
+<button class="ap-open" onclick="toggleAppearance(true)" title="Appearance settings">Aa</button>
 
 <script>
 /* =====================================================================
@@ -1306,6 +1373,21 @@ function router(){
   if(parts[0]==='doc' && parts[1]){ viewDoc(decodeURIComponent(parts[1]), parts[2]||'article', params); return; }
   viewHome();
 }
+/* ===================== Appearance panel ===================== */
+const AP = { text:'standard', width:'standard', color:'light' };
+const AP_ZOOM = { small:'0.9', standard:'1', large:'1.12' };
+function applyAppearance(){
+  document.documentElement.style.setProperty('--zoom', AP_ZOOM[AP.text]);
+  document.documentElement.style.setProperty('--colw', AP.width==='wide' ? '1220px' : '920px');
+  const dark = AP.color==='dark' || (AP.color==='automatic' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.classList.toggle('dark', dark);
+}
+function setAp(k,v){ AP[k]=v; applyAppearance(); }
+function toggleAppearance(on){ document.body.classList.toggle('ap-on', on); }
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ()=>{ if(AP.color==='automatic') applyAppearance(); });
+document.body.classList.add('ap-on');
+applyAppearance();
+
 window.addEventListener('hashchange', router);
 router();
 </script>
