@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRDAI Regulatory Repository — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#151d24;
+    --ink-soft:#3c4750;
+    --paper:#efeee8;
+    --paper-raised:#f8f7f3;
+    --line:#d7d3c6;
+    --line-strong:#b9b4a4;
+    --brass:#96792e;
+    --brass-dim:#c9b071;
+    --green:#3f6142;
+    --green-bg:#e5ebe1;
+    --rust:#8c3b2e;
+    --rust-bg:#f1e2dd;
+    --amber:#a3752b;
+    --amber-bg:#f3e9d6;
+    --radius:3px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--brass-dim);color:var(--ink);}
+
+  .app{
+    display:grid;
+    grid-template-columns:min-content 1fr;
+    min-height:100vh;
+  }
+
+  /* ---------- Binder tab rail ---------- */
+  .rail{
+    background:var(--ink);
+    padding:28px 0 28px 0;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    position:relative;
+  }
+  .rail-brand{
+    color:var(--paper);
+    font-family:'Fraunces',serif;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    padding:0 22px 22px 22px;
+    border-bottom:1px solid rgba(239,238,232,0.14);
+    margin-bottom:10px;
+    writing-mode:horizontal-tb;
+  }
+  .rail-brand small{
+    display:block;
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:400;
+    font-size:10px;
+    letter-spacing:0.12em;
+    color:var(--brass-dim);
+    margin-top:5px;
+    text-transform:uppercase;
+  }
+  .tab{
+    all:unset;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 18px 12px 22px;
+    color:rgba(239,238,232,0.62);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.03em;
+    border-left:3px solid transparent;
+    transition:background .15s ease,color .15s ease,border-color .15s ease;
+    white-space:nowrap;
+  }
+  .tab:hover{background:rgba(239,238,232,0.05);color:var(--paper);}
+  .tab.active{
+    background:var(--paper-raised);
+    color:var(--ink);
+    border-left-color:var(--brass);
+  }
+  .tab .count{
+    margin-left:auto;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    opacity:0.6;
+  }
+  .tab.active .count{opacity:0.5;color:var(--ink-soft);}
+
+  /* ---------- Main ---------- */
+  .main{padding:32px 40px 60px 40px;max-width:1180px;}
+
+  .topline{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:26px;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .heading h1{
+    font-family:'Fraunces',serif;
+    font-size:29px;
+    font-weight:600;
+    margin:0 0 6px 0;
+    letter-spacing:-0.01em;
+  }
+  .heading p{
+    margin:0;
+    font-size:13px;
+    color:var(--ink-soft);
+    max-width:52ch;
+    line-height:1.5;
+  }
+  .stamp-count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    border:1px solid var(--line-strong);
+    border-radius:2px;
+    padding:5px 10px;
+    background:var(--paper-raised);
+    white-space:nowrap;
+  }
+  .stamp-count b{color:var(--ink);font-weight:600;}
+
+  .controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:18px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .search{
+    flex:1 1 240px;
+    position:relative;
+  }
+  .search input{
+    width:100%;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:13px;
+    padding:9px 12px 9px 30px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    background:var(--paper-raised);
+    color:var(--ink);
+  }
+  .search input:focus{outline:2px solid var(--brass);outline-offset:-1px;}
+  .search svg{position:absolute;left:9px;top:50%;transform:translateY(-50%);opacity:0.5;}
+
+  .pill{
+    all:unset;
+    cursor:pointer;
+    font-size:11.5px;
+    font-weight:500;
+    padding:7px 12px;
+    border-radius:20px;
+    border:1px solid var(--line-strong);
+    color:var(--ink-soft);
+    background:var(--paper-raised);
+    white-space:nowrap;
+    transition:all .12s ease;
+  }
+  .pill:hover{border-color:var(--brass);color:var(--ink);}
+  .pill.on{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:var(--paper);
+  }
+  select.pill{
+    appearance:none;
+    -webkit-appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink-soft) 50%),linear-gradient(135deg,var(--ink-soft) 50%,transparent 50%);
+    background-position:calc(100% - 14px) center, calc(100% - 9px) center;
+    background-size:5px 5px,5px 5px;
+    background-repeat:no-repeat;
+    padding-right:28px;
+  }
+
+  /* ---------- Table ---------- */
+  .table-head{
+    display:grid;
+    grid-template-columns:1.2fr 1.3fr 1fr 0.6fr 0.9fr;
+    gap:14px;
+    padding:0 14px 8px 14px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    border-bottom:1px solid var(--line-strong);
+  }
+  .rows{display:flex;flex-direction:column;}
+  .row{
+    all:unset;
+    cursor:pointer;
+    display:grid;
+    grid-template-columns:1.2fr 1.3fr 1fr 0.6fr 0.9fr;
+    gap:14px;
+    align-items:center;
+    padding:13px 14px;
+    border-bottom:1px solid var(--line);
+    transition:background .12s ease;
+  }
+  .row:hover{background:var(--paper-raised);}
+  .row .type{
+    font-size:11px;
+    font-weight:600;
+    color:var(--ink);
+    letter-spacing:0.02em;
+  }
+  .row .title{
+    font-size:13px;
+    color:var(--ink);
+    line-height:1.35;
+  }
+  .row .entity{
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .row .year{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .status-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    padding:4px 9px;
+    border-radius:20px;
+    width:fit-content;
+  }
+  .status-badge.existing{background:var(--green-bg);color:var(--green);}
+  .status-badge.repealed{background:var(--rust-bg);color:var(--rust);}
+  .status-badge.open{background:var(--amber-bg);color:var(--amber);}
+  .status-badge.neutral{background:var(--paper-raised);color:var(--ink-soft);border:1px solid var(--line-strong);}
+  .status-badge .dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+
+  .empty{
+    padding:60px 20px;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:13px;
+  }
+
+  /* ---------- Drawer ---------- */
+  .scrim{
+    position:fixed;inset:0;background:rgba(21,29,36,0.35);
+    opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:10;
+  }
+  .scrim.on{opacity:1;pointer-events:auto;}
+  .drawer{
+    position:fixed;top:0;right:0;bottom:0;
+    width:min(420px,92vw);
+    background:var(--paper-raised);
+    border-left:1px solid var(--line-strong);
+    transform:translateX(100%);
+    transition:transform .22s ease;
+    z-index:11;
+    padding:30px 28px;
+    overflow-y:auto;
+  }
+  .drawer.on{transform:translateX(0);}
+  .drawer-close{
+    all:unset;cursor:pointer;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;color:var(--ink-soft);
+    border:1px solid var(--line-strong);
+    padding:5px 10px;border-radius:2px;
+    margin-bottom:20px;display:inline-block;
+  }
+  .drawer-close:hover{color:var(--ink);border-color:var(--ink);}
+  .drawer h2{
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    font-weight:600;
+    margin:0 0 14px 0;
+    line-height:1.3;
+  }
+  .meta-grid{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:9px 14px;
+    font-size:12.5px;
+    margin:18px 0;
+    padding:16px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .meta-grid dt{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    padding-top:2px;
+  }
+  .meta-grid dd{margin:0;color:var(--ink);}
+  .xref{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .xref a{color:var(--brass);text-decoration:none;border-bottom:1px solid var(--brass-dim);}
+  .drawer-note{
+    margin-top:20px;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    font-style:italic;
+    line-height:1.5;
+  }
+
+  @media (max-width:760px){
+    .app{grid-template-columns:1fr;}
+    .rail{
+      flex-direction:row;
+      overflow-x:auto;
+      padding:14px 0;
+    }
+    .rail-brand{display:none;}
+    .tab{border-left:none;border-bottom:3px solid transparent;padding:10px 14px;}
+    .tab.active{border-left:none;border-bottom-color:var(--brass);}
+    .table-head{display:none;}
+    .row{
+      grid-template-columns:1fr;
+      gap:6px;
+    }
+    .main{padding:22px 18px 50px 18px;}
+  }
+
+  :focus-visible{outline:2px solid var(--brass);outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <nav class="rail" id="rail">
+    <div class="rail-brand">Repository<small>IRDAI · Legal Section</small></div>
+  </nav>
+
+  <main class="main">
+    <div class="topline">
+      <div class="heading">
+        <h1>Document Classification Matrix</h1>
+        <p>IRDAI regulatory material, organised by instrument type, status, and regulated entity — mirroring how the note structures it, not how the site does.</p>
+      </div>
+      <div class="stamp-count" id="resultCount"></div>
+    </div>
+
+    <div class="controls">
+      <div class="search">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink-soft)" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
+        <input id="searchInput" type="text" placeholder="Search by title, entity, or year…">
+      </div>
+      <select class="pill" id="entityFilter">
+        <option value="">All entities</option>
+      </select>
+      <button class="pill" data-status="Existing">Existing</button>
+      <button class="pill" data-status="Repealed">Repealed</button>
+      <button class="pill" data-status="Open for Comments">Open for Comments</button>
+    </div>
+
+    <div class="table-head">
+      <div>Document Type</div>
+      <div>Title</div>
+      <div>Entity</div>
+      <div>Year</div>
+      <div>Status</div>
+    </div>
+    <div class="rows" id="rows"></div>
+    <div class="empty" id="emptyState" style="display:none;">No documents match the current filters.</div>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <button class="drawer-close" id="drawerClose">← Close</button>
+  <div id="drawerBody"></div>
+</aside>
+
+<script>
+// ---------- Mock data, shaped to the note's Level 1–3 + entity taxonomy ----------
+const DOCS = [
+  {type:"Acts", title:"Insurance Act, 1938", entity:"Common", subtype:"—", status:"Existing", year:1938, xref:null},
+  {type:"Acts", title:"IRDA Act, 1999", entity:"Common", subtype:"—", status:"Existing", year:1999, xref:null},
+  {type:"Rules", title:"Insurance Rules, 1939 (as amended)", entity:"Common", subtype:"—", status:"Existing", year:1939, xref:null},
+  {type:"Regulations", title:"IRDAI (Insurance Brokers) Regulations", entity:"Intermediaries", subtype:"Insurance Brokers", status:"Existing", year:2018, xref:null},
+  {type:"Regulations", title:"IRDAI (Registration of Corporate Agents) Regulations", entity:"Intermediaries", subtype:"Corporate Agents", status:"Existing", year:2015, xref:null},
+  {type:"Regulations", title:"IRDAI (Third Party Administrators – Health Services) Regulations", entity:"Intermediaries", subtype:"Third Party Administrators (TPAs)", status:"Existing", year:2016, xref:null},
+  {type:"Regulations", title:"IRDAI (Life Insurance – Reinsurance) Regulations", entity:"Insurers", subtype:"Reinsurers", status:"Existing", year:2018, xref:null},
+  {type:"Regulations", title:"IRDAI (Standard Proposal Form for Health Insurance) Regulations", entity:"Insurers", subtype:"Standalone Health Insurers", status:"Existing", year:2020, xref:null},
+  {type:"Regulations", title:"IRDAI (General Insurance – Reinsurance) Regulations, 2000", entity:"Insurers", subtype:"General Insurers", status:"Repealed", year:2000, xref:"Superseded by 2018 Reinsurance Regulations"},
+  {type:"Master Circulars", title:"Master Circular on Web Aggregators", entity:"Intermediaries", subtype:"Web Aggregators", status:"Existing", year:2023, xref:null},
+  {type:"Master Circulars", title:"Master Circular on Life Insurance Products", entity:"Insurers", subtype:"Life Insurers", status:"Existing", year:2024, xref:null},
+  {type:"Master Circulars", title:"Master Circular on Corporate Governance for Insurers", entity:"Insurers", subtype:"Life Insurers, General Insurers, Standalone Health Insurers", status:"Existing", year:2024, xref:null},
+  {type:"Master Circulars", title:"Master Circular on Surveyors and Loss Assessors", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Repealed", year:2017, xref:"Superseded by 2023 consolidated circular"},
+  {type:"Circulars", title:"Circular on Bancassurance Reporting Format", entity:"Insurers", subtype:"Life Insurers, General Insurers", status:"Existing", year:2022, xref:"Master Circular on Life Insurance Products"},
+  {type:"Circulars", title:"Circular on IMF Onboarding Timelines", entity:"Intermediaries", subtype:"Insurance Marketing Firms (IMFs)", status:"Existing", year:2023, xref:null},
+  {type:"Circulars", title:"Circular on TPA Claim Settlement TAT", entity:"Intermediaries", subtype:"Third Party Administrators (TPAs)", status:"Non-existing / Repealed", year:2019, xref:null},
+  {type:"Guidelines", title:"Guidelines on Insurance Repositories", entity:"Intermediaries", subtype:"Insurance Repositories", status:"Existing", year:2015, xref:null},
+  {type:"Guidelines", title:"Guidelines on Product Filing Procedure – Health", entity:"Insurers", subtype:"Standalone Health Insurers", status:"Existing", year:2024, xref:null},
+  {type:"Guidelines", title:"Guidelines on Advertisement, Promotion and Publicity", entity:"Common", subtype:"Applicable across multiple regulated entities", status:"Existing", year:2021, xref:null},
+  {type:"Guidelines", title:"Guidelines on Group Insurance Policies", entity:"Insurers", subtype:"General Insurers", status:"Repealed", year:2005, xref:"Retained for transitional reference"},
+  {type:"Orders", title:"Order in the matter of [Broker Entity] — licence suspension", entity:"Intermediaries", subtype:"Insurance Brokers", status:"—", year:2023, xref:null},
+  {type:"Orders", title:"Order against unregistered entity soliciting insurance business", entity:"Others", subtype:"Others (as required)", status:"—", year:2022, xref:null},
+  {type:"Orders", title:"Order in the matter of [Reinsurer] — compliance directions", entity:"Insurers", subtype:"Reinsurers", status:"—", year:2024, xref:null},
+  {type:"Notices", title:"Notice inviting comments on Health Insurance product design", entity:"Common", subtype:"By Subject", status:"—", year:2025, xref:null},
+  {type:"Notices", title:"Public notice — revised office timings", entity:"Common", subtype:"By Subject", status:"—", year:2024, xref:null},
+  {type:"Exposure Drafts", title:"Exposure Draft — IRDAI (Insurance Marketing Firms) Regulations, 2026", entity:"Intermediaries", subtype:"Insurance Marketing Firms (IMFs)", status:"Open for Comments", year:2026, xref:null},
+  {type:"Exposure Drafts", title:"Exposure Draft — Amendments to Surveyors Regulations", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Comments Closed", year:2025, xref:null},
+  {type:"Exposure Drafts", title:"Exposure Draft — Master Circular on Web Aggregators (2023 vintage)", entity:"Intermediaries", subtype:"Web Aggregators", status:"Finalised", year:2023, xref:"Finalised as Master Circular on Web Aggregators"},
+];
+
+const TYPES = ["All","Acts","Rules","Regulations","Master Circulars","Circulars","Guidelines","Orders","Notices","Exposure Drafts"];
+
+let state = { type:"All", search:"", entity:"", statuses:new Set() };
+
+// ---------- Build rail ----------
+const rail = document.getElementById('rail');
+TYPES.forEach(t=>{
+  const btn = document.createElement('button');
+  btn.className = 'tab' + (t==='All' ? ' active' : '');
+  btn.dataset.type = t;
+  const count = t==='All' ? DOCS.length : DOCS.filter(d=>d.type===t).length;
+  btn.innerHTML = `<span>${t}</span><span class="count">${count}</span>`;
+  btn.addEventListener('click', ()=>{
+    state.type = t;
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+  rail.appendChild(btn);
+});
+
+// ---------- Entity filter options ----------
+const entitySet = [...new Set(DOCS.map(d=>d.entity))].sort();
+const entitySelect = document.getElementById('entityFilter');
+entitySet.forEach(e=>{
+  const opt = document.createElement('option');
+  opt.value = e; opt.textContent = e;
+  entitySelect.appendChild(opt);
+});
+entitySelect.addEventListener('change', e=>{ state.entity = e.target.value; render(); });
+
+// ---------- Search ----------
+document.getElementById('searchInput').addEventListener('input', e=>{
+  state.search = e.target.value.trim().toLowerCase();
+  render();
+});
+
+// ---------- Status pills ----------
+document.querySelectorAll('.pill[data-status]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const s = btn.dataset.status;
+    if(state.statuses.has(s)){ state.statuses.delete(s); btn.classList.remove('on'); }
+    else{ state.statuses.add(s); btn.classList.add('on'); }
+    render();
+  });
+});
+
+function statusClass(status){
+  if(status==="Existing") return "existing";
+  if(status && status.toLowerCase().includes("repeal")) return "repealed";
+  if(status==="Open for Comments" || status==="Comments Closed" || status==="Finalised") return "open";
+  return "neutral";
+}
+
+function render(){
+  const rowsEl = document.getElementById('rows');
+  const emptyEl = document.getElementById('emptyState');
+  rowsEl.innerHTML = '';
+
+  let filtered = DOCS.filter(d=>{
+    if(state.type!=="All" && d.type!==state.type) return false;
+    if(state.entity && d.entity!==state.entity) return false;
+    if(state.statuses.size>0){
+      const matches = [...state.statuses].some(s=> d.status===s || (s==="Repealed" && d.status.toLowerCase().includes("repeal")));
+      if(!matches) return false;
+    }
+    if(state.search){
+      const hay = (d.title+" "+d.entity+" "+d.subtype+" "+d.year).toLowerCase();
+      if(!hay.includes(state.search)) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('resultCount').innerHTML = `<b>${filtered.length}</b> of ${DOCS.length} documents`;
+
+  if(filtered.length===0){
+    emptyEl.style.display = 'block';
+    return;
+  }
+  emptyEl.style.display = 'none';
+
+  filtered.sort((a,b)=>b.year-a.year).forEach(d=>{
+    const row = document.createElement('button');
+    row.className = 'row';
+    row.innerHTML = `
+      <div class="type">${d.type}</div>
+      <div class="title">${d.title}</div>
+      <div class="entity">${d.entity}${d.subtype && d.subtype!=='—' ? ' · '+d.subtype.split(',')[0] : ''}</div>
+      <div class="year">${d.year}</div>
+      <div><span class="status-badge ${statusClass(d.status)}"><span class="dot"></span>${d.status}</span></div>
+    `;
+    row.addEventListener('click', ()=>openDrawer(d));
+    rowsEl.appendChild(row);
+  });
+}
+
+// ---------- Drawer ----------
+const scrim = document.getElementById('scrim');
+const drawer = document.getElementById('drawer');
+function openDrawer(d){
+  document.getElementById('drawerBody').innerHTML = `
+    <span class="status-badge ${statusClass(d.status)}"><span class="dot"></span>${d.status}</span>
+    <h2>${d.title}</h2>
+    <dl class="meta-grid">
+      <dt>Type</dt><dd>${d.type}</dd>
+      <dt>Entity</dt><dd>${d.entity}</dd>
+      <dt>Sub-category</dt><dd>${d.subtype}</dd>
+      <dt>Year</dt><dd>${d.year}</dd>
+      <dt>Naming convention</dt><dd style="font-family:'IBM Plex Mono',monospace;font-size:11px;">${d.type} – ${d.entity} – ${d.title.split('—')[0].trim()} – ${d.year}</dd>
+    </dl>
+    ${d.xref ? `<div class="xref"><strong>Cross-reference:</strong><br>${d.xref}</div>` : `<div class="xref">No cross-references recorded.</div>`}
+    <div class="drawer-note">Prototype data — this record does not reflect an actual IRDAI issuance.</div>
+  `;
+  scrim.classList.add('on');
+  drawer.classList.add('on');
+}
+scrim.addEventListener('click', closeDrawer);
+document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+function closeDrawer(){
+  scrim.classList.remove('on');
+  drawer.classList.remove('on');
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeDrawer(); });
+
+render();
+</script>
+</body>
+</html>
