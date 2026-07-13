@@ -211,6 +211,18 @@
   table.revtable{width:100%;border-collapse:collapse;font-size:12.5px;}
   table.revtable th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-faint);padding:6px 10px 8px 0;border-bottom:1px solid var(--line);}
   table.revtable td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line-soft);}
+
+  /* ---------- Text tab ---------- */
+  .ft-wrap{max-width:72ch;}
+  .ft-h{font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin:20px 0 6px 0;padding-bottom:3px;border-bottom:1px solid var(--line-soft);}
+  .ft-p{font-family:'Source Serif 4',serif;font-size:14px;line-height:1.85;margin:0 0 12px 0;white-space:pre-wrap;}
+  .ft-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-faint);margin:6px 0 14px 0;}
+  .chunkcard{border:1px solid var(--line);background:#fafaf5;margin:0 0 12px 0;}
+  html.dark .chunkcard{background:#232428;}
+  .chunkmeta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line-soft);padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--ink-faint);}
+  .chunkmeta .cm-pill{border:1px solid var(--line);border-radius:10px;padding:1px 8px;background:var(--page);}
+  .chunkmeta .cm-emb{color:var(--green);} .chunkmeta .cm-fts{color:var(--amber);}
+  .chunkbody{padding:10px 12px;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word;}
   .revdiff{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--wikiblue);cursor:pointer;}
   tr.diffrow td{background:#fbfaf4;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);padding:8px 12px;}
   tr.diffrow .dfrom{color:var(--rust);text-decoration:line-through;}
@@ -312,6 +324,7 @@
     <div class="col" id="col">
       <div class="tabs" id="tabs" style="display:none;">
         <button class="tab-btn" data-tab="article">Article</button>
+        <button class="tab-btn" data-tab="text">Text</button>
         <button class="tab-btn" data-tab="talk">Talk</button>
         <button class="tab-btn" data-tab="history">View history</button>
         <button class="tab-btn" data-tab="links">What links here</button>
@@ -1120,6 +1133,7 @@ function viewDoc(id, tab, params){
   if(currentTab==='talk'){ renderTalkTab(id,d); return; }
   if(currentTab==='history'){ renderHistoryTab(id,d); return; }
   if(currentTab==='links'){ renderLinksTab(id,d); return; }
+  if(currentTab==='text'){ renderTextTab(id,d); return; }
   renderArticleTab(id,d, params);
   if(pendingAnchor){ const a = pendingAnchor; pendingAnchor = null; setTimeout(()=>flashAnchor(a), 60); }
 }
@@ -1340,6 +1354,85 @@ function renderHistoryTab(id,d){
       </tbody>
     </table>
   `;
+}
+
+/* ---------- Text tab: extracted full text + chunk inspection ----------
+   Reads data/text/<slug>.json written by load_irdai.py. Static fetch, so it
+   works on GitHub Pages/Vercel; on file:// the fetch is blocked and the
+   empty state explains how to generate/serve the payload. */
+let _textCache = {};
+let _textMode = 'text';
+
+function mdLite(src){
+  /* escape first, then apply a deliberately tiny markdown subset */
+  let s = esc(src);
+  s = s.replace(/&lt;sup&gt;(\d{1,3})&lt;\/sup&gt;/g, '<sup>$1</sup>');
+  s = s.replace(/&lt;sup>(\d{1,3})&lt;\/sup>/g, '<sup>$1</sup>');
+  s = s.replace(/^#{1,4}\s+([^\n]+)$/gm, '\u0001$1\u0002');
+  s = s.replace(/\*\*(\d{1,3}[A-Z]{0,3}\.\s[^*\n]{2,140}?)\.?\*\*/g, '\u0001$1\u0002');
+  s = s.replace(/\*\*((?:CHAPTER|PART|SCHEDULE)\s+[IVXLCM\d][^*\n]{0,100}?)\*\*/g, '\u0001$1\u0002');
+  s = s.replace(/\*\*([^*\n]{1,200}?)\*\*/g, '<b>$1</b>');
+  return s.split(/\n{2,}/).map(p=>{
+    p = p.trim(); if(!p) return '';
+    if(p.startsWith('\u0001') && p.indexOf('\u0002')>-1 && p.indexOf('\u0002')===p.length-1)
+      return '<div class="ft-h">'+p.slice(1,-1)+'</div>';
+    return '<div class="ft-p">'+p.replace(/\u0001/g,'<span class="ft-h" style="display:block;">').replace(/\u0002/g,'</span>')+'</div>';
+  }).join('');
+}
+
+function textTabShell(id,d,inner){
+  return `
+    <div class="kicker">Text</div>
+    <h1 class="page-title" style="font-size:22px;">Text: ${d.title}</h1>
+    <div class="disambig">Extracted instrument text as loaded into the search index — not the authoritative gazette version.</div>
+    ${inner}`;
+}
+
+function renderTextTab(id,d){
+  const el = document.getElementById('view');
+  const cached = _textCache[id];
+  if(cached){ renderTextBody(id,d,cached); return; }
+  el.innerHTML = textTabShell(id,d,'<div class="empty-note">Loading extracted text…</div>');
+  fetch('data/text/'+encodeURIComponent(id)+'.json')
+    .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(t=>{ _textCache[id]=t; if(currentDocId===id && currentTab==='text') renderTextBody(id,d,t); })
+    .catch(()=>{
+      if(currentDocId!==id || currentTab!=='text') return;
+      el.innerHTML = textTabShell(id,d,`
+        <div class="empty-note" style="line-height:1.8;">No extracted text is available for this entry.<br>
+        Text payloads are written by <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;">load_irdai.py</span> to
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;">data/text/&lt;slug&gt;.json</span> —
+        run <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;">--export-text</span> to backfill everything already in Supabase.<br>
+        Note: the fetch requires the wiki to be served over http(s); opening the file directly (file://) blocks it.</div>`);
+    });
+}
+
+function renderTextBody(id,d,t){
+  const el = document.getElementById('view');
+  const embedded = t.chunks ? t.chunks.filter(c=>c.embedded).length : 0;
+  const toggle = `
+    <div class="chiplist" style="margin:4px 0 14px 0;">
+      <button class="chip ${_textMode==='text'?'on':''}" onclick="_textMode='text';renderTextBody('${id}',DOCS['${id}'],_textCache['${id}'])">Continuous text</button>
+      <button class="chip ${_textMode==='chunks'?'on':''}" onclick="_textMode='chunks';renderTextBody('${id}',DOCS['${id}'],_textCache['${id}'])">Chunks as indexed (${t.chunks?t.chunks.length:0})</button>
+    </div>
+    <div class="ft-meta">extraction: ${t.method||'—'} · ${t.pages||'?'} pages · ${t.chunks?t.chunks.length:0} chunks (${embedded} embedded${t.chunks&&embedded<t.chunks.length?', '+(t.chunks.length-embedded)+' FTS-only':''})</div>`;
+
+  let body;
+  if(_textMode==='chunks' && t.chunks && t.chunks.length){
+    body = t.chunks.map(c=>`
+      <div class="chunkcard">
+        <div class="chunkmeta">
+          <span class="cm-pill">#${c.i}</span>
+          ${c.heading?`<span class="cm-pill">${esc(c.heading)}</span>`:''}
+          ${c.attachment?`<span class="cm-pill">${esc(c.attachment.length>40?c.attachment.slice(0,40)+'…':c.attachment)}</span>`:''}
+          <span class="${c.embedded?'cm-emb':'cm-fts'}">${c.embedded?'embedded':'FTS-only'}</span>
+        </div>
+        <div class="chunkbody">${esc(c.content)}</div>
+      </div>`).join('');
+  } else {
+    body = '<div class="ft-wrap">'+mdLite(t.full_text||'')+'</div>';
+  }
+  el.innerHTML = textTabShell(id,d,toggle+body);
 }
 
 function renderLinksTab(id,d){
