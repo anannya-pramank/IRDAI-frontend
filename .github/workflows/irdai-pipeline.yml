@@ -14,13 +14,14 @@ on:
         description: "Run loader with --refresh (force re-extract + re-embed)"
         type: boolean
         default: false
+      export_text:
+        description: "Regenerate data/text/*.json from Supabase (one-time backfill for the Text tab)"
+        type: boolean
+        default: false
       limit:
         description: "Loader --limit (blank = no cap)"
         type: string
         default: ""
-
-permissions:
-  contents: write
 
 jobs:
   run:
@@ -48,10 +49,6 @@ jobs:
           path: ~/.cache/huggingface
           key: minilm-l6-v2
 
-      - name: Pre-fetch embedding model
-        run: |
-          python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
-
       - name: Run watcher
         run: |
           if [ "${{ github.event.inputs.backfill }}" = "true" ]; then
@@ -69,10 +66,17 @@ jobs:
           if [ -n "${{ github.event.inputs.limit }}" ]; then ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"; fi
           python load_irdai.py $ARGS -v
 
+      - name: Export text payloads from Supabase (backfill)
+        if: ${{ github.event.inputs.export_text == 'true' }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: python load_irdai.py --export-text -v
+
       - name: Commit updated corpus + logs
         run: |
           git config user.name "irdai-watcher-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/corpus.json data/irdai_master.csv data/docs.generated.js data/irdai_new_entries.json
+          git add -A data/text
           git diff --cached --quiet || git commit -m "chore: irdai watcher/loader run $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push
