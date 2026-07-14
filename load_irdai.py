@@ -394,11 +394,7 @@ DOC_UPSERT = f"""
 insert into irdai_documents ({", ".join(DOC_COLS)})
 values %s
 on conflict (id) do update set
-  {", ".join(f"{c} = excluded.{c}" for c in DOC_COLS if c not in ("id", "status", "entity", "subtype"))},
-  -- human-edited classification fields are preserved unless still Unclassified:
-  status  = case when irdai_documents.status  = 'Unclassified' then excluded.status  else irdai_documents.status  end,
-  entity  = case when irdai_documents.status  = 'Unclassified' then excluded.entity  else irdai_documents.entity  end,
-  subtype = case when irdai_documents.status  = 'Unclassified' then excluded.subtype else irdai_documents.subtype end
+  {", ".join(f"{c} = excluded.{c}" for c in DOC_COLS if c != "id")}
 """
 
 
