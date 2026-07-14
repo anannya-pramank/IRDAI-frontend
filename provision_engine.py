@@ -37,17 +37,21 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field, asdict
 
-Q = r"[\"\u201c\u201d'\u2018\u2019]"          # straight + curly quotes
-QTEXT = rf"{Q}(?P<%s>[^\"\u201c\u201d\u2018\u2019]+?){Q}"
+Q = r"[\"\u201c\u201d'\u2018\u2019\u201e\u201f]"   # straight, curly, low-9 quotes
+QTEXT = rf"{Q}(?P<%s>[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+?){Q}"
 
 UNIT = (r"(?:sub[\s-]?regulations?|sub[\s-]?rules?|sub[\s-]?clauses?|"
         r"sub[\s-]?sections?|regulations?|rules?|clauses?|sections?|"
-        r"notes?|provisos?|parts?|schedules?|chapters?|forms?|annexures?)")
+        r"notes?|provisos?|parts?|schedules?|chapters?|forms?|annexures?|"
+        r"paras?(?:graphs?)?(?:\s+No\.?)?|rows?|points?(?:\s+No\.?)?|"
+        r"explanations?|items?|entry|entries)")
 # 7 | 7(12)(i) | 27A | IV | 2(4) | IIA | 1(3) | (2) | IV(A) | XIII
 REF = r"(?:\(?(?:[0-9IVXLC]+[A-Za-z]?|[a-z])\)?(?:\s*\([0-9a-zA-Zivx]+\))*)"
+# ref lists: "(c), (e), (k) and (l)" / "29, 30 and 31"
+REFS = rf"{REF}(?:\s*(?:,|and)\s*{REF})*"
 
-WORDY = (r"(?:words?\s+and\s+figures?|word\s+and\s+figures?|"
-         r"figures?\s+and\s+letters?|words?|word|figures?|phrases?|letters?)")
+_W1 = r"(?:words?|word|figures?|letters?|brackets?|phrases?|symbols?)"
+WORDY = rf"(?:{_W1}(?:\s*,\s*{_W1})*(?:\s+and\s+{_W1})?)"
 
 def _q(name):  # named quoted capture
     return QTEXT % name
@@ -80,31 +84,31 @@ rule("renumber",
 
 # global / scoped word substitution: "Throughout <scope>, for the words "X" [, "X2" ...], the word(s) "Y" shall be substituted"
 rule("global_word_sub",
-     rf"Throughout\s+(?:the\s+)?(?P<scope>[^,]+?),?\s*for\s+the\s+{WORDY}\s+(?P<olds>{Q}[^\"\u201c\u201d\u2018\u2019]+{Q}(?:\s*,\s*{Q}[^\"\u201c\u201d\u2018\u2019]+{Q})*(?:\s*and\s+{Q}[^\"\u201c\u201d\u2018\u2019]+{Q})?)\s*,?\s*the\s+{WORDY}\s+{_q('new')}\s+shall\s+be\s+substituted",
+     rf"Throughout\s+(?:the\s+)?(?P<scope>[^,]+?),?\s*for\s+the\s+{WORDY}\s+(?P<olds>{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q}(?:\s*,\s*{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q})*(?:\s*and\s+{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q})?)\s*,?\s*the\s+{WORDY}\s+{_q('new')}\s+shall\s+be\s+substituted",
      lambda m, s: dict(action="substitute", level="words", scope=m.group("scope").strip(),
-                       old=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019]+?){Q}", m.group("olds")),
+                       old=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019\u201e\u201f]+?){Q}", m.group("olds")),
                        new=m.group("new"), confidence="high", is_global=True))
 
 # forward word substitution/insertion: "[In X,] for the words "A", the words "B" shall be substituted/inserted"
 rule("word_sub_fwd",
-     rf"for\s+the\s+{WORDY}\s+{_q('old')}\s*,?\s*(?P<wherever>wherever\s+(?:it|they)\s+occurs?\s*,?\s*)?the\s+{WORDY}\s+{_q('new')}\s+shall\s+be\s+(?:substituted|inserted)",
+     rf"for\s+the\s+{WORDY}\s+{_q('old')}\s*,?\s*(?P<wherever>wherever\s+(?:it|they)\s+occurs?\s*,?\s*)?(?:the\s+)?{WORDY}\s+{_q('new')}\s+shall\s+be\s+(?:substituted|inserted)",
      lambda m, s: dict(action="substitute", level="words", old=[m.group("old")],
                        new=m.group("new"), confidence=None,
                        is_global=bool(m.group("wherever"))))
 
 # paired substitution: 'the words "A", "B" and "C" shall be substituted with "D", "E" and "F" respectively'
 rule("word_sub_paired",
-     rf"the\s+{WORDY}\s+(?P<olds>{Q}[^\"\u201c\u201d\u2018\u2019]+{Q}(?:\s*(?:,|or|and)\s*{Q}[^\"\u201c\u201d\u2018\u2019]+{Q})*)\s+shall\s+be\s+substituted\s+(?:with|as|by)\s+(?:the\s+{WORDY}\s*,?\s*)?(?P<news>{Q}[^\"\u201c\u201d\u2018\u2019]+{Q}(?:\s*(?:,|or|and)\s*{Q}[^\"\u201c\u201d\u2018\u2019]+{Q})*)\s+respectively",
+     rf"the\s+{WORDY}\s+(?P<olds>{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q}(?:\s*(?:,|or|and)\s*{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q})*)\s+shall\s+be\s+substituted\s+(?:with|as|by)\s+(?:(?:the\s+)?{WORDY}\s*,?\s*)?(?P<news>{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q}(?:\s*(?:,|or|and)\s*{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q})*)\s+respectively",
      lambda m, s: dict(action="substitute", level="words", paired=True,
-                       old=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019]+?){Q}", m.group("olds")),
-                       new=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019]+?){Q}", m.group("news")),
+                       old=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019\u201e\u201f]+?){Q}", m.group("olds")),
+                       new=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019\u201e\u201f]+?){Q}", m.group("news")),
                        confidence=None))
 
 # inverted word substitution: "the words 'X' shall be substituted with/as 'Y'"
 rule("word_sub_inv",
-     rf"the\s+{WORDY}\s*,?\s*(?P<olds>{Q}[^\"\u201c\u201d\u2018\u2019]+{Q}(?:\s*(?:,|or|and)\s*{Q}[^\"\u201c\u201d\u2018\u2019]+{Q})*)\s+shall\s+be\s+substituted\s+(?:with|as|by)\s+(?:the\s+{WORDY}\s*,?\s*)?{_q('new')}",
+     rf"the\s+{WORDY}\s*,?\s*(?P<olds>{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q}(?:\s*(?:,|or|and)\s*{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q})*)\s+shall\s+be\s+substituted\s+(?:with|as|by)\s+(?:(?:the\s+)?{WORDY}\s*,?\s*)?{_q('new')}",
      lambda m, s: dict(action="substitute", level="words",
-                       old=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019]+?){Q}", m.group("olds")),
+                       old=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019\u201e\u201f]+?){Q}", m.group("olds")),
                        new=m.group("new"), confidence=None))
 
 # heading substitution: 'The heading "X" shall be substituted as "Y"' / 'the heading shall be substituted as "Y"'
@@ -124,24 +128,30 @@ rule("word_insert_after",
 
 # word/figure omission: 'the word and figures "X" shall be omitted' (possibly a list)
 rule("word_omit",
-     rf"the\s+{WORDY}\s+(?P<olds>{Q}[^\"\u201c\u201d\u2018\u2019]+{Q}(?:\s*,\s*{Q}[^\"\u201c\u201d\u2018\u2019]+{Q})*(?:\s*and\s+{Q}[^\"\u201c\u201d\u2018\u2019]+{Q})?)\s+shall\s+be\s+omitted",
+     rf"the\s+{WORDY}\s+(?P<olds>{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q}(?:\s*,\s*{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q})*(?:\s*and\s+{Q}[^\"\u201c\u201d\u2018\u2019\u201e\u201f]+{Q})?)\s+shall\s+be\s+omitted",
      lambda m, s: dict(action="omit", level="words",
-                       old=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019]+?){Q}", m.group("olds")),
+                       old=re.findall(rf"{Q}([^\"\u201c\u201d\u2018\u2019\u201e\u201f]+?){Q}", m.group("olds")),
                        confidence=None))
 
 # unit substitution: "For [the existing] <unit> X [of <path>], the following ... shall be substituted"
 rule("unit_sub",
-     rf"For\s+(?:the\s+existing\s+)?(?P<unit>{UNIT})\s+(?P<ref>{REF})\s*(?:of\s+(?P<path>[^,]+?))?\s*,?\s*the\s+(?:following|existing)\b.*?shall\s+be\s+substituted",
+     rf"For\s+(?:the\s+existing\s+)?(?P<unit>{UNIT})\s*(?P<ref>{REF})\s*(?:of\s+(?P<path>[^,]+?))?\s*,?\s*the\s+(?:following|existing)\b.*?shall\s+be\s+substituted",
      lambda m, s: dict(action="substitute", level="unit", unit=_norm_unit(m.group("unit")),
                        target_ref=m.group("ref").strip(), path=(m.group("path") or "").strip() or None,
                        confidence=None))
 
 # unit-first substitution: "<unit> X [and Y] [of <unit> Z][,] shall be substituted[, namely / as under]"
 rule("unit_sub_first",
-     rf"(?P<unit>{UNIT})\s+(?P<refs>{REF}(?:\s*(?:,|and)\s*{REF})*)\s*(?:of\s+(?P<path>(?:{UNIT})\s*\(?{REF}\)?))?\s*,?\s*shall\s+be\s+substituted",
+     rf"(?P<unit>{UNIT})\s*(?P<refs>{REFS})\s*(?:of\s+(?:the\s+)?(?P<path>.{{0,80}}?))?\s*,?\s*shall\s+be\s+substituted",
      lambda m, s: dict(action="substitute", level="unit", unit=_norm_unit(m.group("unit")),
                        target_ref=m.group("refs").strip(),
                        path=(m.group("path") or "").strip() or None, confidence=None))
+
+# refless-unit substitution: "for explanation, the following Explanation shall be substituted"
+rule("unit_sub_refless",
+     r"for\s+(?:the\s+)?(?P<unit>explanations?|provisos?|tables?|headings?)\s*,?\s*the\s+following\b.{0,60}?shall\s+be\s+substituted",
+     lambda m, s: dict(action="substitute", level="unit", unit=_norm_unit(m.group("unit")),
+                       target_ref="(whole)", confidence=None))
 
 # note substituted for note N: "the following note shall be substituted for note VII"
 rule("note_sub_for",
@@ -151,7 +161,7 @@ rule("note_sub_for",
 
 # insert after unit: "After <unit>? X [of <path>], the following ... shall be inserted"
 rule("insert_after",
-     rf"After\s+(?:the\s+)?(?:(?P<unit>{UNIT})\s+)?(?P<ref>{REF})\s*(?:of\s+(?P<path>[^,]+?))?\s*,?\s*the\s+following\b.*?shall\s+be\s+inserted",
+     rf"[Aa]fter\s+(?:the\s+)?(?:(?P<unit>{UNIT})\s+)?(?P<ref>{REF})(?:\s+as\s+so\s+numbered)?\s*(?:\s+(?:of|in)\s+(?P<path>.{{0,160}}?))?\s*,?\s*the\s+following\b.{{0,60}}?shall\s+be\s+inserted",
      lambda m, s: dict(action="insert", level="unit", unit=_norm_unit(m.group("unit") or "clause"),
                        anchor=m.group("ref").strip(), position="after",
                        path=(m.group("path") or "").strip() or None, confidence=None))
@@ -180,10 +190,17 @@ rule("insert_before",
 
 # unit omission: "[The] <unit> X [of <path>] shall be omitted"
 rule("unit_omit",
-     rf"(?:The\s+)?(?P<unit>{UNIT})\s+(?P<ref>{REF})\s*(?:of\s+(?P<path>[^,]+?))?\s+shall\s+be\s+omitted",
+     rf"(?:The\s+)?(?P<unit>{UNIT})\s*(?P<ref>{REFS})\s*(?:of\s+(?P<path>[^,]+?))?\s+shall\s+be\s+omitted",
      lambda m, s: dict(action="omit", level="unit", unit=_norm_unit(m.group("unit")),
                        target_ref=m.group("ref").strip(),
                        path=(m.group("path") or "").strip() or None, confidence=None))
+
+
+# bare substitution anchored only by an "In <loc>," prefix:
+# "In row 17, the following shall be substituted:" — target filled from loc in the parse loop
+rule("loc_bare_sub",
+     r"(?:^|[,:]\s*)the\s+following\s+shall\s+be\s+substituted",
+     lambda m, s: dict(action="substitute", level="unit", unit=None, confidence="low"))
 
 
 # defective-drafting fallback: '"X" ... "Y" shall be substituted' with the "for" missing
@@ -204,9 +221,11 @@ LOC_PREFIX = re.compile(
     rf"^(?:[0-9a-z]+[\.\)]\s*|\([0-9a-z]+\)\s*|[ivx]+\.\s*)*In\s+(?:the\s+)?(?P<loc>(?:{UNIT})\s*\(?{REF}\)?(?:\s+of\s+(?:the\s+)?(?:{UNIT})\s*[-\s]?\(?{REF}\)?)*)",
     FLAGS)
 
-PRINCIPAL_RE = re.compile(
-    r"(?:amend(?:ments?\s+to)?|to\s+amend)\s+(?:the\s+)?(?P<title>(?:Insurance\s+Regulatory|IRDAI?|IRDA).*?(?:Regulations?|Rules?)\s*,?\s*(?:19|20)\d\d)",
-    FLAGS)
+PRINCIPAL_PATTERNS = [
+    re.compile(r"(?:amend(?:ments?\s+to)?|to\s+amend)\s+(?:the\s+)?(?P<title>(?:Insurance\s+Regulatory|IRDAI?|IRDA).*?(?:Regulations?|Rules?)\s*,?\s*(?:19|20)\d\d)", FLAGS),
+    re.compile(r"In\s+the\s+(?P<title>[A-Z][\w\s,()&.'\u2019-]*?(?:Act|Rules?|Regulations?)\s*,?\s*(?:19|20)\d\d)\s*\(hereinafter\s+referred\s+to\s+as\s+the\s+principal", FLAGS),
+    re.compile(r"(?:amend(?:ments?\s+to)?|to\s+amend)\s+(?:the\s+)?(?P<title>[A-Z][\w\s,()&.'\u2019-]{4,120}?(?:Regulations?|Rules?|Act)\s*,?\s*(?:19|20)\d\d)", FLAGS),
+]
 
 
 @dataclass
@@ -232,9 +251,11 @@ class Edge:
 def parse_amendment(text: str) -> dict:
     """Parse an amendment instrument's operative text into typed edges."""
     principal = None
-    m = PRINCIPAL_RE.search(text)
-    if m:
-        principal = re.sub(r"\s+", " ", m.group("title")).strip()
+    for pp in PRINCIPAL_PATTERNS:
+        m = pp.search(text)
+        if m:
+            principal = re.sub(r"\s+", " ", m.group("title")).strip()
+            break
 
     edges, unparsed = [], []
     schedule_scope, item_scope = None, None
@@ -242,6 +263,9 @@ def parse_amendment(text: str) -> dict:
 
     for raw in text.splitlines():
         line = re.sub(r"\s+", " ", raw).strip()
+        # pymupdf4llm markdown artifacts: emphasis markers, list/quote prefixes
+        line = re.sub(r"(?:\*\*|__|(?<![\w])[*_](?![\w\s*_]*$))", "", line)
+        line = re.sub(r"^(?:[->\u2022]\s*)+", "", line).strip()
         if not line:
             continue
 
@@ -309,6 +333,13 @@ def parse_amendment(text: str) -> dict:
                     e.confidence = "medium"
                 else:
                     e.confidence = "low"
+            if (e.action == "substitute" and e.level == "unit"
+                    and not e.unit and not e.target_ref and not e.anchor):
+                if loc:
+                    e.target_ref = loc
+                    e.confidence = "medium"
+                else:
+                    e.confidence = "low"
             xm = re.search(r"(except\s+where\b[^.\n]*|unless\s+the\s+context\s+otherwise\s+requires[^.\n]*|save\s+as\s+otherwise\b[^.\n]*)",
                            line_body, re.I)
             if xm:
@@ -332,6 +363,10 @@ def parse_amendment(text: str) -> dict:
             else:
                 expanded.append(e)
             for e2 in expanded:
+                if isinstance(e2.old, list):
+                    e2.old = [o.strip() for o in e2.old]
+                if isinstance(e2.new, str):
+                    e2.new = e2.new.strip()
                 matched.append((a, e2))
                 a += 0  # keep source ordering stable
         matched = [e for _, e in sorted(matched, key=lambda t: t[0])]
@@ -424,6 +459,9 @@ def resolve_principal(principal_title: str, corpus: dict, threshold: float = 0.7
         score = len(pt & ct) / len(pt | ct)
         if pt <= ct or ct <= pt:
             score = max(score, 0.99)
+        pyears = {w for w in pt if re.fullmatch(r"(?:19|20)\d\d", w)}
+        if pyears and not (pyears & ct):
+            score *= 0.5   # amending a 2019 principal must not bind to a 2026 doc
         if score > best_score:
             best, best_score = sid, score
     return (best, best_score) if best_score >= threshold else (None, best_score)
