@@ -1,0 +1,65 @@
+name: Provision grammar audit
+
+# Read-only diagnostic: parses amendment instruments in Supabase through
+# provision_engine and reports coverage + unparsed operative lines.
+# Manual trigger for iteration; weekly cron catches newly ingested
+# amendment instruments after watcher/loader runs.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slugs:
+        description: "Optional space-separated doc slugs to restrict the audit"
+        required: false
+        default: ""
+  schedule:
+    - cron: "30 2 * * 1"   # Mondays 02:30 UTC — after the weekend loader runs
+
+concurrency:
+  group: provision-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: provision_proto   # adjust if the scripts live elsewhere
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install psycopg2-binary
+
+      - name: Run audit
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          python audit_amendments.py ${{ inputs.slugs != '' && format('--slugs {0}', inputs.slugs) || '' }} \
+            --out audit_report.jsonl | tee audit.log
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Provision grammar audit"
+            echo '```'
+            sed -n '/=== SUMMARY ===/,$p' audit.log
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provision-audit-report
+          path: |
+            provision_proto/audit_report.jsonl
+            provision_proto/audit.log
+          retention-days: 30
