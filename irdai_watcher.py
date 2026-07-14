@@ -22,10 +22,12 @@ Upgrades over v1 (Bhanu Tak's clean-row-filtering build):
              original append-only CSV log and a per-run new-entries JSON for
              the notification hook.
   WIKI       Emits data/docs.generated.js -> window.IRDAI_DOCS in the exact
-             DOCS schema of irdai-repository-wiki-v3.html. New docs land as
-             status "Unclassified" with maintenance flags ["stub","verify"],
-             i.e. they surface in the wiki's review queue for human
-             classification (two-tier gate: machine ingests, human classifies).
+             DOCS schema of irdai-repository-wiki-v3.html. Classification is
+             fully automated: entity/subtype/subjects from title heuristics,
+             dept/year from the ref number, status "Existing" by default and
+             flipped to "Withdrawn" when a withdrawal circular resolves to the
+             target by exact ref-number match. No maintenance flags, no review
+             queue. Legacy Unclassified/stub records are migrated on load.
   RESILIENCE Retry/backoff session, per-category error isolation, polite
              delay, UTC timestamps, logging instead of prints.
 
@@ -113,9 +115,9 @@ DEPT_CODES = {
 }
 DEPT_ALIAS = {"PPGR": "PP&GR", "GAHR": "GA&HR", "ACT": "ACTL", "LEGAL": "LGL", "F&A": "F&I"}
 
-# Entity / subtype / portal-subject hints from title keywords.
-# Order matters: first hit wins. These are HINTS ONLY - every auto-ingested
-# doc still carries maintenance flags and lands in the review queue.
+# Entity / subtype / portal-subject classification from title keywords.
+# Order matters: first hit wins. These are the AUTHORITATIVE automated
+# classification — no human review pass follows. No match => Common.
 ENTITY_HINTS = [
     (r"\bbroker", "Intermediaries", "Insurance Brokers", ["distribution"]),
     (r"\bcorporate agent", "Intermediaries", "Corporate Agents", ["distribution"]),
@@ -316,7 +318,7 @@ def to_wiki_record(raw: dict, now_iso: str) -> dict:
         "title": raw["title"],
         "entity": entity,
         "subtype": subtype,
-        "status": "Unclassified",
+        "status": "Existing",
         "year": year,
         "dept": dept,
         "refNo": raw["reference_no"] or None,
@@ -326,9 +328,9 @@ def to_wiki_record(raw: dict, now_iso: str) -> dict:
         "aliases": [],
         "subjects": subjects,
         "attachments": max(len(raw["pdf_links"]), 1),
-        "maintenance": ["stub", "verify"],
-        "lede": raw["title"] + " — auto-ingested; entity classification and relationship mapping pending human review.",
-        "history": f"Auto-created by irdai_watcher on {now_iso[:10]}. Classification pending.",
+        "maintenance": [],
+        "lede": raw["title"] + ".",
+        "history": f"Auto-classified by irdai_watcher on {now_iso[:10]}.",
         "relations": {},
         "_source": {
             "liferay_id": raw["liferay_id"],
@@ -367,8 +369,11 @@ def mine_relations(corpus: dict) -> int:
     """Resolve withdraws / amends / modifies edges across the corpus.
 
     Only sets relations where a target resolves; anything unresolved is
-    recorded in _source.pending_relations for the human pass. Never sets
-    status on the target — that stays a human call in the review queue.
+    recorded in _source.pending_relations (log only — nothing consumes it).
+    A resolved withdrawal (exact normalised ref-number match) also flips the
+    target's status to "Withdrawn" unless it already carries another
+    not-in-force status. Amendments/modifications never change status —
+    an amended instrument remains in force.
     """
     by_ref = {norm_ref(d.get("refNo")): sid for sid, d in corpus.items() if d.get("refNo")}
     titles = {sid: norm_title(d["title"]) for sid, d in corpus.items()}
@@ -389,6 +394,8 @@ def mine_relations(corpus: dict) -> int:
                     if sid not in corpus[target]["relations"]["withdrawnBy"]:
                         corpus[target]["relations"]["withdrawnBy"].append(sid)
                     edges += 1
+                if corpus[target].get("status") not in ("Repealed", "Superseded", "Lapsed"):
+                    corpus[target]["status"] = "Withdrawn"
             elif f"withdraws:{m.group(1).strip()}" not in pending:
                 pending.append(f"withdraws:{m.group(1).strip()}")
 
@@ -434,8 +441,43 @@ def mine_relations(corpus: dict) -> int:
 def load_corpus() -> dict:
     if CORPUS_JSON.exists():
         with open(CORPUS_JSON, encoding="utf-8") as f:
-            return json.load(f).get("docs", {})
+            corpus = json.load(f).get("docs", {})
+        migrate_legacy(corpus)
+        return corpus
     return {}
+
+
+def migrate_legacy(corpus: dict) -> None:
+    """Upgrade pre-automation records in place.
+
+    Old runs emitted status "Unclassified", maintenance ["stub","verify"] and
+    'pending human review' boilerplate. The review queue is gone, so promote
+    those records to the fully-automated schema. Only touches auto-ingested
+    records (identified by _source); mine_relations then reapplies Withdrawn
+    where withdrawal edges resolve.
+    """
+    n = 0
+    for d in corpus.values():
+        if "_source" not in d:
+            continue
+        changed = False
+        if d.get("status") == "Unclassified":
+            d["status"] = "Existing"
+            changed = True
+        maint = [m for m in d.get("maintenance") or [] if m not in ("stub", "verify")]
+        if maint != (d.get("maintenance") or []):
+            d["maintenance"] = maint
+            changed = True
+        if "pending human review" in (d.get("lede") or ""):
+            d["lede"] = d["title"] + "."
+            changed = True
+        if "Classification pending" in (d.get("history") or ""):
+            d["history"] = d["history"].replace(" Classification pending.", "").replace(
+                "Auto-created by", "Auto-classified by")
+            changed = True
+        n += changed
+    if n:
+        log.info("Migrated %d legacy review-queue records to automated schema", n)
 
 
 def save_corpus(corpus: dict) -> None:
