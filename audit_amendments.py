@@ -77,7 +77,11 @@ def fetch_titles(conn) -> dict:
         return {r[0]: {"title": r[1], "type": r[2]} for r in cur.fetchall()}
 
 
-def fetch_fulltext(conn, slug) -> str:
+def fetch_attachment_texts(conn, slug) -> list[str]:
+    """One reassembled text per attachment. Gazette docs often carry two
+    attachments (Hindi-titled + English-titled) containing the SAME English
+    text; parsing them separately lets the caller dedupe instead of
+    double-counting every edge."""
     with conn.cursor() as cur:
         cur.execute("""select attachment, chunk_index, content from irdai_chunks
                        where doc_id = %s order by attachment, chunk_index""", (slug,))
@@ -90,7 +94,14 @@ def fetch_fulltext(conn, slug) -> str:
         buf.append(content or "")
     if buf:
         parts.append(join_trim_overlap(buf))
-    return "\n\n".join(parts)
+    return parts
+
+
+def edge_key(e) -> tuple:
+    return (e.action, e.level, e.unit, e.target_ref, e.anchor, e.position,
+            tuple(e.old) if isinstance(e.old, list) else e.old,
+            e.new if isinstance(e.new, str) else tuple(e.new or []),
+            e.scope, e.path)
 
 
 def main():
@@ -114,15 +125,27 @@ def main():
 
     with open(args.out, "w", encoding="utf-8") as out:
         for slug, title in docs:
-            text = strip_hindi(fetch_fulltext(conn, slug))
-            if len(text) < 200:
+            texts = [strip_hindi(t) for t in fetch_attachment_texts(conn, slug)]
+            texts = [t for t in texts if len(t) >= 200]
+            if not texts:
                 empty += 1
                 print(f"  {slug[:58]:58} NO-FULLTEXT")
                 continue
-            res = parse_amendment(text)
-            ops = sum(1 for l in text.splitlines()
-                      if OPERATIVE.search(l) and "come into force" not in l)
-            edges = res["edges"]
+            edges, seen, unp, op_lines, principal = [], set(), [], set(), None
+            for t in texts:
+                r = parse_amendment(t)
+                principal = principal or r["principal"]
+                for e in r["edges"]:
+                    k = edge_key(e)
+                    if k not in seen:
+                        seen.add(k); edges.append(e)
+                for u in r["unparsed"]:
+                    if u not in unp:
+                        unp.append(u)
+                op_lines |= {l.strip() for l in t.splitlines()
+                             if OPERATIVE.search(l) and "come into force" not in l}
+            res = {"edges": edges, "unparsed": unp, "principal": principal}
+            ops = len(op_lines)
             agg_conf.update(e.confidence for e in edges)
             agg_action.update(e.action for e in edges)
             unparsed_all += [(slug, u) for u in res["unparsed"]]
