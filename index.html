@@ -223,6 +223,25 @@
   .chunkmeta .cm-pill{border:1px solid var(--line);border-radius:10px;padding:1px 8px;background:var(--page);}
   .chunkmeta .cm-emb{color:var(--green);} .chunkmeta .cm-fts{color:var(--amber);}
   .chunkbody{padding:10px 12px;font-size:12.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word;}
+
+  /* ---------- PDF attachments + modal viewer ---------- */
+  .attrow{display:flex;flex-direction:column;gap:8px;margin:4px 0 18px 0;}
+  .attcard{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:#fafaf5;padding:9px 12px;}
+  html.dark .attcard{background:#232428;}
+  .attcard .att-name{flex:1;font-size:12.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .attcard .att-src{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:0.05em;border:1px solid var(--line);border-radius:10px;padding:2px 8px;color:var(--ink-faint);flex:none;}
+  .attcard .att-src.mirrored{color:var(--green);border-color:var(--green);}
+  .attbtn{all:unset;cursor:pointer;font-size:11.5px;font-weight:500;border:1px solid var(--line);background:var(--page);padding:4px 12px;border-radius:2px;color:var(--wikiblue);flex:none;}
+  .attbtn:hover{border-color:var(--wikiblue);}
+  .pdfmodal{position:fixed;inset:0;z-index:300;background:rgba(15,14,12,0.6);display:flex;align-items:center;justify-content:center;padding:2vh 2vw;}
+  .pdfbox{width:min(980px,96vw);height:94vh;background:var(--page);border:1px solid var(--line);display:flex;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,0.35);}
+  .pdfbar{display:flex;align-items:center;gap:12px;padding:8px 14px;border-bottom:1px solid var(--line);}
+  .pdfbar .pdf-title{flex:1;font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .pdfbar a{font-size:11.5px;flex:none;}
+  .pdfclose{all:unset;cursor:pointer;font-size:16px;line-height:1;color:var(--ink-soft);padding:2px 6px;flex:none;}
+  .pdfclose:hover{color:var(--rust);}
+  .pdfbox iframe{flex:1;border:none;width:100%;background:#525659;}
+  .pdfhint{font-size:10.5px;color:var(--ink-faint);padding:6px 14px;border-top:1px solid var(--line-soft);}
   .revdiff{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--wikiblue);cursor:pointer;}
   tr.diffrow td{background:#fbfaf4;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);padding:8px 12px;}
   tr.diffrow .dfrom{color:var(--rust);text-decoration:line-through;}
@@ -324,7 +343,7 @@
     <div class="col" id="col">
       <div class="tabs" id="tabs" style="display:none;">
         <button class="tab-btn" data-tab="article">Article</button>
-        <button class="tab-btn" data-tab="text">Text</button>
+        <button class="tab-btn" data-tab="document">Document</button>
         <button class="tab-btn" data-tab="talk">Talk</button>
         <button class="tab-btn" data-tab="history">View history</button>
         <button class="tab-btn" data-tab="links">What links here</button>
@@ -1133,7 +1152,7 @@ function viewDoc(id, tab, params){
   if(currentTab==='talk'){ renderTalkTab(id,d); return; }
   if(currentTab==='history'){ renderHistoryTab(id,d); return; }
   if(currentTab==='links'){ renderLinksTab(id,d); return; }
-  if(currentTab==='text'){ renderTextTab(id,d); return; }
+  if(currentTab==='text'||currentTab==='document'){ currentTab='document'; setActiveTab('document'); renderDocumentTab(id,d); return; }
   renderArticleTab(id,d, params);
   if(pendingAnchor){ const a = pendingAnchor; pendingAnchor = null; setTimeout(()=>flashAnchor(a), 60); }
 }
@@ -1356,12 +1375,49 @@ function renderHistoryTab(id,d){
   `;
 }
 
-/* ---------- Text tab: extracted full text + chunk inspection ----------
-   Reads data/text/<slug>.json written by load_irdai.py. Static fetch, so it
-   works on GitHub Pages/Vercel; on file:// the fetch is blocked and the
-   empty state explains how to generate/serve the payload. */
+/* ---------- Document tab: inline PDF viewer + extracted text ----------
+   PDF list comes from data/text/<slug>.json (mirrored Supabase Storage URLs
+   preferred) with a fallback to the scraped source links in DOCS._source.
+   Source links get download=true stripped; if the source site still blocks
+   inline rendering, the modal hint points at open-in-new-tab. */
 let _textCache = {};
-let _textMode = 'text';
+let _textMode = 'pdf';
+
+function stripDownloadParam(u){
+  try{ const x = new URL(u); x.searchParams.delete('download'); return x.toString(); }
+  catch(e){ return (u||'').replace(/[?&]download=true/,''); }
+}
+function pdfListFor(id, t){
+  if(t && t.pdfs && t.pdfs.length) return t.pdfs;
+  const src = (DOCS[id] && DOCS[id]._source) || {};
+  const links = src.pdf_links || [];
+  const names = src.pdf_filenames || [];
+  return links.map((u,i)=>({name: names[i] || ('Attachment '+(i+1)), url: null, source: u}));
+}
+function openPdf(url, title){
+  closePdf();
+  const overlay = document.createElement('div');
+  overlay.className = 'pdfmodal'; overlay.id = 'pdfModal';
+  overlay.innerHTML = `
+    <div class="pdfbox" onclick="event.stopPropagation()">
+      <div class="pdfbar">
+        <span class="pdf-title">${esc(title||'Document')}</span>
+        <a href="${esc(url)}" target="_blank" rel="noopener">Open in new tab ↗</a>
+        <button class="pdfclose" onclick="closePdf()" title="Close (Esc)">✕</button>
+      </div>
+      <iframe src="${esc(url)}" title="${esc(title||'Document')}"></iframe>
+      <div class="pdfhint">If the viewer stays blank, the source site blocks embedding — use “Open in new tab”. Mirrored copies always render inline.</div>
+    </div>`;
+  overlay.addEventListener('click', closePdf);
+  document.body.appendChild(overlay);
+  document.addEventListener('keydown', _pdfEsc);
+}
+function _pdfEsc(e){ if(e.key==='Escape') closePdf(); }
+function closePdf(){
+  const m = document.getElementById('pdfModal');
+  if(m) m.remove();
+  document.removeEventListener('keydown', _pdfEsc);
+}
 
 function mdLite(src){
   /* escape first, then apply a deliberately tiny markdown subset */
@@ -1382,43 +1438,57 @@ function mdLite(src){
 
 function textTabShell(id,d,inner){
   return `
-    <div class="kicker">Text</div>
-    <h1 class="page-title" style="font-size:22px;">Text: ${d.title}</h1>
-    <div class="disambig">Extracted instrument text as loaded into the search index — not the authoritative gazette version.</div>
+    <div class="kicker">Document</div>
+    <h1 class="page-title" style="font-size:22px;">Document: ${d.title}</h1>
+    <div class="disambig">Source instrument and its extracted text as loaded into the search index — not the authoritative gazette version.</div>
     ${inner}`;
 }
 
-function renderTextTab(id,d){
+function renderDocumentTab(id,d){
   const el = document.getElementById('view');
   const cached = _textCache[id];
-  if(cached){ renderTextBody(id,d,cached); return; }
-  el.innerHTML = textTabShell(id,d,'<div class="empty-note">Loading extracted text…</div>');
+  if(cached !== undefined){ renderTextBody(id,d,cached); return; }
+  el.innerHTML = textTabShell(id,d,'<div class="empty-note">Loading…</div>');
   fetch('data/text/'+encodeURIComponent(id)+'.json')
     .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
-    .then(t=>{ _textCache[id]=t; if(currentDocId===id && currentTab==='text') renderTextBody(id,d,t); })
+    .then(t=>{ _textCache[id]=t; if(currentDocId===id && currentTab==='document') renderTextBody(id,d,t); })
     .catch(()=>{
-      if(currentDocId!==id || currentTab!=='text') return;
-      el.innerHTML = textTabShell(id,d,`
-        <div class="empty-note" style="line-height:1.8;">No extracted text is available for this entry.<br>
-        Text payloads are written by <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;">load_irdai.py</span> to
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;">data/text/&lt;slug&gt;.json</span> —
-        run <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;">--export-text</span> to backfill everything already in Supabase.<br>
-        Note: the fetch requires the wiki to be served over http(s); opening the file directly (file://) blocks it.</div>`);
+      _textCache[id]=null;  // no payload — PDF cards can still render from DOCS
+      if(currentDocId===id && currentTab==='document') renderTextBody(id,d,null);
     });
 }
 
 function renderTextBody(id,d,t){
   const el = document.getElementById('view');
-  const embedded = t.chunks ? t.chunks.filter(c=>c.embedded).length : 0;
+  const pdfs = pdfListFor(id, t);
+  const attRow = pdfs.length ? `
+    <div class="attrow">
+      ${pdfs.map(p=>{
+        const view = p.url || stripDownloadParam(p.source);
+        const label = (p.name||'Attachment');
+        return `<div class="attcard">
+          <span class="att-name" title="${esc(label)}">${esc(label)}</span>
+          <span class="att-src ${p.url?'mirrored':''}">${p.url?'mirrored':'source'}</span>
+          <button class="attbtn" onclick="openPdf('${esc(view)}','${esc(label).replace(/'/g,'&#39;')}')">View</button>
+          <a class="attbtn" href="${esc(p.url||p.source)}" target="_blank" rel="noopener" style="text-decoration:none;">↗</a>
+        </div>`;
+      }).join('')}
+    </div>` : '<div class="empty-note">No attachments recorded for this entry.</div>';
+
+  const hasText = t && t.full_text;
+  const embedded = hasText && t.chunks ? t.chunks.filter(c=>c.embedded).length : 0;
+  const modes = [['pdf','Original PDF'+(pdfs.length>1?'s':'')]];
+  if(hasText){ modes.push(['text','Extracted text']); modes.push(['chunks','Chunks as indexed ('+t.chunks.length+')']); }
+  if(!modes.some(m=>m[0]===_textMode)) _textMode = 'pdf';
+
   const toggle = `
     <div class="chiplist" style="margin:4px 0 14px 0;">
-      <button class="chip ${_textMode==='text'?'on':''}" onclick="_textMode='text';renderTextBody('${id}',DOCS['${id}'],_textCache['${id}'])">Continuous text</button>
-      <button class="chip ${_textMode==='chunks'?'on':''}" onclick="_textMode='chunks';renderTextBody('${id}',DOCS['${id}'],_textCache['${id}'])">Chunks as indexed (${t.chunks?t.chunks.length:0})</button>
+      ${modes.map(([k,label])=>`<button class="chip ${_textMode===k?'on':''}" onclick="_textMode='${k}';renderTextBody('${id}',DOCS['${id}'],_textCache['${id}']===undefined?null:_textCache['${id}'])">${label}</button>`).join('')}
     </div>
-    <div class="ft-meta">extraction: ${t.method||'—'} · ${t.pages||'?'} pages · ${t.chunks?t.chunks.length:0} chunks (${embedded} embedded${t.chunks&&embedded<t.chunks.length?', '+(t.chunks.length-embedded)+' FTS-only':''})</div>`;
+    ${hasText?`<div class="ft-meta">extraction: ${t.method||'—'} · ${t.pages||'?'} pages · ${t.chunks?t.chunks.length:0} chunks (${embedded} embedded${t.chunks&&embedded<t.chunks.length?', '+(t.chunks.length-embedded)+' FTS-only':''})</div>`:''}`;
 
   let body;
-  if(_textMode==='chunks' && t.chunks && t.chunks.length){
+  if(_textMode==='chunks' && hasText && t.chunks && t.chunks.length){
     body = t.chunks.map(c=>`
       <div class="chunkcard">
         <div class="chunkmeta">
@@ -1429,8 +1499,13 @@ function renderTextBody(id,d,t){
         </div>
         <div class="chunkbody">${esc(c.content)}</div>
       </div>`).join('');
-  } else {
+  } else if(_textMode==='text' && hasText){
     body = '<div class="ft-wrap">'+mdLite(t.full_text||'')+'</div>';
+  } else {
+    body = attRow + (!hasText ? `
+      <div class="empty-note" style="line-height:1.8;">No extracted text yet for this entry — the PDFs above open from ${pdfs.some(p=>p.url)?'the mirror':'the IRDAI source'}.<br>
+      Extracted text and chunks appear here once <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;">load_irdai.py</span> has processed the document
+      (<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;">--export-text</span> backfills already-loaded docs).</div>` : '');
   }
   el.innerHTML = textTabShell(id,d,toggle+body);
 }
