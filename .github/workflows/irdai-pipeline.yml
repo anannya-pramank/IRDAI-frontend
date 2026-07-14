@@ -60,6 +60,8 @@ jobs:
       - name: Run loader
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
           ARGS=""
           if [ "${{ github.event.inputs.refresh }}" = "true" ]; then ARGS="$ARGS --refresh"; fi
