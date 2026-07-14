@@ -106,6 +106,40 @@ def get_pdf_libs():
     return _fitz, _pymupdf4llm
 
 
+STORAGE_BUCKET = os.environ.get("SUPABASE_STORAGE_BUCKET", "irdai-pdfs")
+
+
+def storage_enabled() -> bool:
+    return bool(os.environ.get("SUPABASE_URL") and os.environ.get("SUPABASE_SERVICE_KEY"))
+
+
+def upload_pdf(slug: str, idx: int, filename: str, data: bytes) -> str | None:
+    """Mirror one attachment to Supabase Storage; returns the public URL.
+    Source URLs on irdai.gov.in force download (Content-Disposition) and may
+    block framing, so the wiki's inline viewer needs a mirrored copy."""
+    base = os.environ["SUPABASE_URL"].rstrip("/")
+    key = os.environ["SUPABASE_SERVICE_KEY"]
+    safe = re.sub(r"[^A-Za-z0-9._-]+", "-", filename or "").strip("-")[:80] or f"attachment-{idx}"
+    if not safe.lower().endswith(".pdf"):
+        safe += ".pdf"
+    path = f"{slug}/{idx:02d}-{safe}"
+    try:
+        r = requests.post(
+            f"{base}/storage/v1/object/{STORAGE_BUCKET}/{path}",
+            data=data,
+            headers={"Authorization": f"Bearer {key}",
+                     "Content-Type": "application/pdf",
+                     "x-upsert": "true"},
+            timeout=120,
+        )
+        if r.status_code in (200, 201):
+            return f"{base}/storage/v1/object/public/{STORAGE_BUCKET}/{path}"
+        log.warning("  storage upload failed for %s: HTTP %s %s", path, r.status_code, r.text[:200])
+    except requests.RequestException as e:
+        log.warning("  storage upload failed for %s: %s", path, e)
+    return None
+
+
 # ================= EXTRACTION (in-memory only) =================
 
 
@@ -186,17 +220,19 @@ def sniff_kind(data: bytes) -> str:
     return f"unknown ({len(data)} bytes, starts {data[:8]!r})"
 
 
-def extract_issuance(session: requests.Session, rec: dict, delay: float) -> dict | None:
+def extract_issuance(session: requests.Session, rec: dict, delay: float,
+                     slug: str | None = None) -> dict | None:
     """Fetch + extract ALL attachments of one issuance, in memory.
-    A bad attachment (non-PDF response, corrupt file) is logged and skipped —
-    never fatal to the document, let alone the run."""
+    If Supabase Storage env is configured, each valid PDF is also mirrored
+    (bytes are still never written to local disk). A bad attachment is
+    logged and skipped — never fatal to the document, let alone the run."""
     src = rec.get("_source", {})
     links = src.get("pdf_links") or []
     names = src.get("pdf_filenames") or []
     if not links:
         return None
 
-    parts, methods, total_pages = [], set(), 0
+    parts, methods, pdfs, total_pages = [], set(), [], 0
     for i, url in enumerate(links):
         label = names[i] if i < len(names) and names[i] else f"attachment-{i + 1}"
         t0 = time.time()
@@ -209,6 +245,10 @@ def extract_issuance(session: requests.Session, rec: dict, delay: float) -> dict
             continue
         fetch_s = time.time() - t0
         size_mb = len(data) / 1e6
+        storage_url = None
+        if slug and storage_enabled():
+            storage_url = upload_pdf(slug, i + 1, label, data)
+        pdfs.append({"name": label, "url": storage_url, "source": url})
         t0 = time.time()
         try:
             text, method, pages = extract_text(data)
@@ -217,8 +257,9 @@ def extract_issuance(session: requests.Session, rec: dict, delay: float) -> dict
             continue
         finally:
             del data  # explicit: bytes discarded here
-        log.info("  %s: %.1f MB fetched in %.1fs; %d pages extracted in %.1fs (%s)",
-                 label, size_mb, fetch_s, pages, time.time() - t0, method)
+        log.info("  %s: %.1f MB fetched in %.1fs; %d pages extracted in %.1fs (%s)%s",
+                 label, size_mb, fetch_s, pages, time.time() - t0, method,
+                 " — mirrored" if storage_url else "")
         methods.add(method)
         total_pages += pages
         parts.append((label, text))
@@ -237,6 +278,7 @@ def extract_issuance(session: requests.Session, rec: dict, delay: float) -> dict
         "extraction_method": "+".join(sorted(methods)),
         "page_count": total_pages,
         "parts": parts,
+        "pdfs": pdfs,
     }
 
 
@@ -394,10 +436,11 @@ def store_extraction(conn, slug: str, extraction: dict, chunks: list[dict], embe
         cur.execute(
             """update irdai_documents
                set full_text = %s, content_sha1 = %s, extraction_method = %s,
-                   page_count = %s, loaded_at = %s
+                   page_count = %s, pdf_storage = %s, loaded_at = %s
                where id = %s""",
             (extraction["full_text"], extraction["content_sha1"],
              extraction["extraction_method"], extraction["page_count"],
+             Json(extraction.get("pdfs") or []),
              datetime.now(timezone.utc), slug),
         )
         cur.execute("delete from irdai_chunks where doc_id = %s", (slug,))
@@ -418,13 +461,15 @@ def store_extraction(conn, slug: str, extraction: dict, chunks: list[dict], embe
 
 
 def write_text_json(slug: str, title: str, method: str, pages: int,
-                    full_text: str, chunk_rows: list[dict]) -> None:
-    """Per-doc payload consumed by the wiki's Text tab (lazy fetch)."""
+                    full_text: str, chunk_rows: list[dict],
+                    pdfs: list[dict] | None = None) -> None:
+    """Per-doc payload consumed by the wiki's Document tab (lazy fetch)."""
     TEXT_DIR.mkdir(parents=True, exist_ok=True)
     payload = {
         "slug": slug, "title": title, "method": method, "pages": pages,
         "full_text": full_text,
         "chunks": chunk_rows,
+        "pdfs": pdfs or [],
         "generated_at": datetime.now(timezone.utc).isoformat(),
     }
     with open(TEXT_DIR / f"{slug}.json", "w", encoding="utf-8") as f:
@@ -435,11 +480,12 @@ def export_text_from_db(conn) -> int:
     """Backfill data/text/*.json for everything already loaded in Supabase
     (the wiki reads static files, not the DB — this bridges existing rows)."""
     with conn.cursor() as cur:
-        cur.execute("""select id, title, extraction_method, page_count, full_text
+        cur.execute("""select id, title, extraction_method, page_count, full_text,
+                              coalesce(pdf_storage, '[]'::jsonb)
                        from irdai_documents where full_text is not null""")
         docs = cur.fetchall()
         n = 0
-        for slug, title, method, pages, full_text in docs:
+        for slug, title, method, pages, full_text, pdfs in docs:
             cur.execute("""select chunk_index, heading, attachment, content,
                                   (embedding is not null) as embedded
                            from irdai_chunks where doc_id = %s
@@ -448,7 +494,7 @@ def export_text_from_db(conn) -> int:
                 {"i": ci, "heading": h, "attachment": a, "content": c, "embedded": e}
                 for ci, h, a, c, e in cur.fetchall()
             ]
-            write_text_json(slug, title, method, pages, full_text, chunk_rows)
+            write_text_json(slug, title, method, pages, full_text, chunk_rows, pdfs)
             n += 1
     log.info("exported text payloads for %d documents -> %s", n, TEXT_DIR)
     return n
@@ -508,7 +554,7 @@ def run(args) -> None:
         done = failed = skipped = 0
         for slug, d in pending:
             try:
-                extraction = extract_issuance(session, d, args.delay)
+                extraction = extract_issuance(session, d, args.delay, slug=slug)
                 if extraction is None:
                     failed += 1
                     log.warning("%s: no extractable attachment", slug)
@@ -516,6 +562,13 @@ def run(args) -> None:
                 if not args.refresh and hashes.get(slug) == extraction["content_sha1"]:
                     skipped += 1
                     continue
+                if args.refresh and hashes.get(slug) == extraction["content_sha1"] \
+                        and any(p.get("url") for p in extraction.get("pdfs", [])):
+                    # text unchanged, but we (re)mirrored the PDFs — record them
+                    with conn.cursor() as cur:
+                        cur.execute("update irdai_documents set pdf_storage = %s where id = %s",
+                                    (Json(extraction["pdfs"]), slug))
+                    conn.commit()
                 chunks = chunk_issuance(extraction)
                 if not chunks:
                     failed += 1
@@ -542,7 +595,8 @@ def run(args) -> None:
                     extraction["page_count"], extraction["full_text"],
                     [{"i": c["chunk_index"], "heading": c["heading"],
                       "attachment": c["attachment"], "content": c["content"],
-                      "embedded": bool(m)} for c, m in zip(chunks, mask)])
+                      "embedded": bool(m)} for c, m in zip(chunks, mask)],
+                    extraction.get("pdfs"))
                 done += 1
                 log.info("%s: %d pages -> %d chunks (%s), embedded %d in %.1fs%s",
                          slug, extraction["page_count"], len(chunks),
