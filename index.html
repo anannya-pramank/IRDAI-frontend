@@ -80,7 +80,6 @@
   html.dark .chip.on{background:var(--ink);border-color:var(--ink);color:#141518;}
   html.dark tr.prov-target td{background:#3a331d;}
   html.dark tr.diffrow td{background:#232322;}
-  html.dark .queuebox{background:var(--amber-bg);border-color:#5a4a28;}
   html.dark .hatnote.rust{background:var(--rust-bg);border-color:#5a352c;color:#e8b7ac;}
   html.dark .hatnote.amber{background:var(--amber-bg);border-color:#5a4a28;color:#e3c78f;}
   html.dark .sb-brand .glyph{background:var(--ink);color:#1d1e21;}
@@ -272,8 +271,6 @@
   .cat-card .t{font-size:12.5px;font-weight:600;margin-top:3px;}
   .cat-card .d{font-size:11px;color:var(--ink-faint);margin-top:3px;line-height:1.5;}
 
-  .queuebox{border:1px solid #dcc79a;background:var(--amber-bg);padding:12px 16px;margin:0 0 18px 0;font-size:12.5px;line-height:1.6;}
-  .queuebox .q-title{font-weight:600;color:#6e4e1a;margin-bottom:4px;font-size:12px;}
 
   .idx-letters{font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;}
   .idx-group h3{font-family:'Fraunces',serif;font-size:16px;margin:18px 0 4px 0;border-bottom:1px solid var(--line-soft);}
@@ -322,7 +319,6 @@
       <div class="sb-label">Special pages</div>
       <a onclick="location.hash='#/special/index'">A–Z index</a>
       <a onclick="location.hash='#/special/stats'">Statistics</a>
-      <a onclick="location.hash='#/special/maintenance'">Maintenance queue</a>
     </div>
     <div class="sb-group">
       <div class="sb-label">About</div>
@@ -386,7 +382,7 @@
    MOCK DATA — placeholder entries only.
    Field notes:
    - status: repository status (Existing / Repealed / Superseded / Withdrawn /
-     Lapsed / draft-lifecycle stages / Unclassified). Distinct from `archived`,
+     Lapsed / draft-lifecycle stages). Distinct from `archived`,
      which mirrors IRDAI's own Archived / Non-Archived flag on the site.
    - sourceCategory: where the doc actually sits in the IRDAI Legal menu
      (e.g. Master Circulars live under "Circulars" on irdai.gov.in).
@@ -655,17 +651,17 @@ const DOCS = {
     history:"Circulated for comment before being finalised without material change to its core structure.",
     relations:{ finalisedAs:["mc-web-agg-2023"] } },
 
-  "stub-cir-cyber-2026": { type:"Circulars", title:"Circular on Information & Cyber Security — reporting timelines", entity:"Common", subtype:"—", status:"Unclassified", year:2026,
+  "stub-cir-cyber-2026": { type:"Circulars", title:"Circular on Information & Cyber Security — reporting timelines", entity:"Common", subtype:"—", status:"Existing", year:2026,
     dept:"F&I", refNo:"IRDAI/GA&HR/CIR/MISC/104/07/2026", dateIssued:"2026-07-08", archived:false, sourceCategory:"Circulars",
-    aliases:[], subjects:[], attachments:1, maintenance:["stub","verify"],
-    lede:"Detected by the watcher on 8 Jul 2026; entity classification and relationship mapping pending human review.",
-    history:"Auto-created stub. Classification pending.",
+    aliases:[], subjects:[], attachments:1, maintenance:[],
+    lede:"Circular on Information & Cyber Security — reporting timelines.",
+    history:"Auto-classified by irdai_watcher on 2026-07-08.",
     relations:{} }
 };
 
 /* Merge scraper-generated corpus (window.IRDAI_DOCS from data/docs.generated.js).
    Runs before the redirect index and all views are built, so auto-ingested
-   docs get search, facets, portals, backlinks and the review queue for free.
+   docs get search, facets, portals, backlinks and stats for free.
    Hand-curated entries win on slug collision. */
 if (typeof window !== 'undefined' && window.IRDAI_DOCS) {
   Object.entries(window.IRDAI_DOCS).forEach(([id, d]) => { if (!DOCS[id]) DOCS[id] = d; });
@@ -714,8 +710,6 @@ const DISAMBIG = {
 };
 const DISAMBIG_ALIASES = { "reinsurance regulations":"reinsurance-regulations" };
 
-const MAINT_LABELS = { stub:"Stub — auto-created, classification pending", verify:"Needs verification against the source PDF", disputed:"Classification disputed on the Talk page" };
-
 /* Redirect index: normalized alias/title → doc id */
 const REDIRECT_INDEX = {};
 function normQ(s){ return (s||'').trim().toLowerCase().replace(/[.,()]/g,'').replace(/\s+/g,' '); }
@@ -744,7 +738,7 @@ function synthHistory(id){
     const y = Math.min(2026, d.year + 1 + i);
     const m = ((h + i*5) % 12);
     const day = 3 + ((h + i*7) % 24);
-    const editor = i===0 ? (d.maintenance && d.maintenance.includes('stub') ? "classification-bot" : EDITORS[h % EDITORS.length]) : EDITORS[(h + i*7) % EDITORS.length];
+    const editor = i===0 ? (d._source ? "classification-bot" : EDITORS[h % EDITORS.length]) : EDITORS[(h + i*7) % EDITORS.length];
     const summary = i===0 ? "Initial entry created" : REV_SUMMARIES[(h + i*13) % REV_SUMMARIES.length];
     let diff = null;
     if(i>0){
@@ -940,15 +934,11 @@ function viewHome(){
   const counts = {}; TYPE_ORDER.forEach(t=>counts[t]=0);
   Object.values(DOCS).forEach(d=>counts[d.type]=(counts[d.type]||0)+1);
   const recent = Object.entries(DOCS).filter(([id,d])=>d.status!=='Unclassified').sort((a,b)=>(b[1].dateIssued||'').localeCompare(a[1].dateIssued||'')).slice(0,6);
-  const queue = Object.entries(DOCS).filter(([id,d])=>d.maintenance && d.maintenance.length);
   document.getElementById('view').innerHTML = `
     <div class="home-hero">
       <h1>The IRDAI Regulatory Repository</h1>
       <p>A hyperlinked reference for IRDAI regulatory material. Every entry links to what repeals, amends, withdraws, supersedes or finalises it — trace a provision's lineage without leaving the page. All content is placeholder data for prototyping only.</p>
     </div>
-    ${queue.length?`<div class="queuebox"><div class="q-title">Review queue — ${queue.length} entr${queue.length===1?'y':'ies'} awaiting classification</div>
-      ${queue.map(([id,d])=>`${docLink(id)} <span style="color:var(--ink-faint);">· detected ${fmtDate(d.dateIssued)}</span>`).join('<br>')}
-      <div style="margin-top:6px;"><a onclick="location.hash='#/special/maintenance'">Open maintenance queue →</a></div></div>`:''}
     <h2 class="sec" style="border:none;margin-top:0;">Subject portals</h2>
     <div class="cat-cards">
       ${Object.entries(PORTALS).map(([k,p])=>`<button class="cat-card" onclick="location.hash='#/portal/${k}'"><div class="t">${p.title}</div><div class="d">${p.blurb}</div></button>`).join('')}
@@ -1056,7 +1046,6 @@ function viewSpecial(page){
   if(page==='index') return specialIndex();
   if(page==='stats') return specialStats();
   if(page==='recent') return specialRecent();
-  if(page==='maintenance') return specialMaintenance();
   viewHome();
 }
 function specialIndex(){
@@ -1109,10 +1098,8 @@ function specialStats(){
 }
 function specialRecent(){
   const events = Object.keys(DOCS).flatMap(id=>synthHistory(id)).sort((a,b)=>b.sortKey-a.sortKey).slice(0,30);
-  const queue = Object.entries(DOCS).filter(([id,d])=>d.maintenance && d.maintenance.length);
   document.getElementById('view').innerHTML = `
     <div class="cat-header"><h1>Recent changes</h1><p>Classification activity across all entries (placeholder revision data).</p></div>
-    ${queue.length?`<div class="queuebox"><div class="q-title">Review queue</div>${queue.map(([id,d])=>`${docLink(id)} — ${(d.maintenance||[]).map(m=>MAINT_LABELS[m]).join('; ')}`).join('<br>')}</div>`:''}
     <table class="revtable">
       <thead><tr><th>Date</th><th>Editor</th><th>Entry</th><th>Summary</th></tr></thead>
       <tbody>
@@ -1121,18 +1108,6 @@ function specialRecent(){
     </table>
   `;
 }
-function specialMaintenance(){
-  const flags = Object.keys(MAINT_LABELS);
-  document.getElementById('view').innerHTML = `
-    <div class="cat-header"><h1>Maintenance queue</h1><p>Entries carrying maintenance flags, grouped by flag.</p></div>
-    ${flags.map(f=>{
-      const docs = Object.entries(DOCS).filter(([id,d])=>(d.maintenance||[]).includes(f));
-      return `<h2 class="sec">${MAINT_LABELS[f]}</h2>
-        ${docs.length?`<div class="doc-grid">${docs.map(([id,d])=>docRow(id,d)).join('')}</div>`:'<div class="empty-note">No entries under this flag.</div>'}`;
-    }).join('')}
-  `;
-}
-
 /* ---------- Doc views ---------- */
 let currentDocId = null;
 let currentTab = 'article';
@@ -1199,9 +1174,6 @@ function renderArticleTab(id, d, params){
     const by = (rel[byKey]||[])[0];
     hats.push(`<div class="hatnote rust"><span><span class="hn-tag">${d.status}</span>This instrument was ${d.status.toLowerCase()}${by?` by ${docLink(by)}`:''}${d.wefEnd?` w.e.f. ${fmtDate(d.wefEnd)}`:''}. Retained for historical, transitional and litigation reference.</span></div>`);
   }
-  (d.maintenance||[]).forEach(m=>{
-    hats.push(`<div class="hatnote amber"><span><span class="hn-tag">Maintenance</span>${MAINT_LABELS[m]}. <a onclick="location.hash='#/special/maintenance'">View queue</a></span></div>`);
-  });
 
   /* ----- lifecycle strip (exposure drafts) ----- */
   let lifecycle = '';
@@ -1330,7 +1302,6 @@ function renderArticleTab(id, d, params){
             ${d.subtype && d.subtype!=='—' ? ' · <a onclick="return false;">'+d.subtype.split(',')[0]+'</a>' : ''}
             ${statusClass(d.status)==='repealed' ? ` · <a onclick="location.hash='#/type/${encodeURIComponent(d.type)}?status=${encodeURIComponent('Not in force')}'">Not-in-force instruments</a>` : ''}
             ${(d.subjects||[]).map(s=>` · <a onclick="location.hash='#/portal/${s}'">Portal: ${PORTALS[s]?PORTALS[s].title:s}</a>`).join('')}
-            ${(d.maintenance||[]).length?` · <a onclick="location.hash='#/special/maintenance'">Maintenance</a>`:''}
           </div>
         </div>
         <div class="page-footer">This entry was last classified based on placeholder data. Not sourced from a live IRDAI issuance.</div>
