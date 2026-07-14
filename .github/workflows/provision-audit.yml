@@ -23,9 +23,6 @@ jobs:
   audit:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: provision_proto   # adjust if the scripts live elsewhere
     steps:
       - uses: actions/checkout@v4
 
@@ -60,6 +57,6 @@ jobs:
         with:
           name: provision-audit-report
           path: |
-            provision_proto/audit_report.jsonl
-            provision_proto/audit.log
+            audit_report.jsonl
+            audit.log
           retention-days: 30
