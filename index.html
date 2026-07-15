@@ -376,6 +376,8 @@
 <!-- Optional: scraper-generated corpus from irdai_watcher.py.
      If the file is absent (pure prototype mode), the 404 is harmless. -->
 <script src="data/docs.generated.js"></script>
+<!-- Optional: clause-level lineages from build_provisions.py. -->
+<script src="data/provisions.generated.js"></script>
 
 <script>
 /* =====================================================================
@@ -401,6 +403,34 @@ const DOCS = {};
    Hand-curated overrides added to DOCS above would win on slug collision. */
 if (typeof window !== 'undefined' && window.IRDAI_DOCS) {
   Object.entries(window.IRDAI_DOCS).forEach(([id, d]) => { if (!DOCS[id]) DOCS[id] = d; });
+}
+
+/* Merge clause-level lineages (window.IRDAI_PROVISIONS from build_provisions.py).
+   Each lineage attaches provisions + amendment timeline to its principal and
+   back-fills amends/amendedBy relations so Related documents and
+   What-links-here reflect the parsed gazette record. */
+if (typeof window !== 'undefined' && window.IRDAI_PROVISIONS) {
+  Object.entries(window.IRDAI_PROVISIONS).forEach(([id, lin]) => {
+    const d = DOCS[id]; if(!d) return;
+    d.provisions = lin.provisions || [];
+    d.provCutoffs = lin.cutoffs || [];
+    d.provTextFrom = lin.textFrom || null;
+    d.amendments = (lin.amendments||[]).map(a=>{
+      const ad = DOCS[a.doc] || {};
+      return { date:a.date, wef:ad.wef, doc: DOCS[a.doc]?a.doc:null, title: ad.title || a.doc,
+               note:`${a.applied}/${a.edges} operative instructions applied to provisions`+
+                    `${a.unresolved?`, ${a.unresolved} unresolved`:''}${a.unparsed?`, ${a.unparsed} unparsed`:''}.` };
+    });
+    (lin.amendments||[]).forEach(a=>{
+      if(!DOCS[a.doc]) return;
+      const rel = d.relations = d.relations || {};
+      rel.amendedBy = rel.amendedBy || [];
+      if(!rel.amendedBy.includes(a.doc)) rel.amendedBy.push(a.doc);
+      const ar = DOCS[a.doc].relations = DOCS[a.doc].relations || {};
+      ar.amends = ar.amends || [];
+      if(!ar.amends.includes(id)) ar.amends.push(id);
+    });
+  });
 }
 
 /* ===================== Taxonomies ===================== */
@@ -494,7 +524,7 @@ function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 
 function provLabel(docId, anchor){
   const d = DOCS[docId]; if(!d || !d.provisions) return anchor;
-  const p = d.provisions.find(x=>x.id===anchor);
+  const p = d.provisions.find(x=>provDomId(x)===anchor || x.id===anchor || x.ref===anchor);
   return p ? p.ref : anchor;
 }
 function gotoDoc(id, anchor){
@@ -844,24 +874,71 @@ function viewDoc(id, tab, params){
   if(pendingAnchor){ const a = pendingAnchor; pendingAnchor = null; setTimeout(()=>flashAnchor(a), 60); }
 }
 
-/* provisions with point-in-time toggle */
-function provStatus(p, cutoff){
-  if(!p.repealedOn) return "Existing";
-  if(cutoff==='current') return "Repealed";
-  return p.repealedOn <= cutoff ? "Repealed" : "Existing";
+/* provisions with point-in-time toggle — event model.
+   Each provision carries events [{action: substitute|omit|amend|insert|renumber,
+   doc, date, detail, verified}] plus introducedBy/introducedOn for clauses
+   brought in by an amendment instrument. */
+let _provChangedOnly = false;
+
+function provDomId(p){ return 'prov-' + String(p.path||p.id||p.ref).replace(/[^\w-]/g,'_'); }
+
+function provState(p, cutoff){
+  const upto = e => cutoff==='current' || ((e.date||'') <= cutoff);
+  if(p.introducedOn && cutoff!=='current' && cutoff < p.introducedOn)
+    return {label:'Not yet inserted', cls:'neutral'};
+  const evs = (p.events||[]).filter(upto);
+  const last = a => evs.filter(e=>e.action===a).slice(-1)[0];
+  const om = last('omit');
+  if(om) return {label:'Omitted', cls:'repealed', ev:om};
+  if(last('substitute')) return {label:'Substituted', cls:'existing', ev:last('substitute')};
+  if(last('amend')) return {label:'Amended', cls:'existing', ev:last('amend')};
+  if(p.introducedOn) return {label:'Inserted', cls:'existing'};
+  return {label:'Existing', cls:'existing'};
 }
+
+const PROV_GROUP_LEVELS = ['schedule','part','chapter'];
+const PROV_PAD = {regulation:0, clause:16, subclause:32};
+const EV_VERB = {omit:'Omitted', substitute:'Substituted', amend:'Amended', renumber:'Renumbered', insert:'Inserted'};
+
 function provRows(docId, cutoff){
   const d = DOCS[docId];
-  return d.provisions.map(p=>{
-    const st = provStatus(p, cutoff);
-    return `<tr id="${p.id}"><td style="white-space:nowrap;"><strong>${p.ref}</strong><span class="provlink" title="Copy provision permalink" onclick="copyText('#/doc/${docId}#${p.id}', null)">¶</span></td>
-      <td>${p.desc}</td>
-      <td>${badge(st)}${st==='Repealed'&&p.repealedBy?`<br><span style="font-size:11px;">→ ${docLink(p.repealedBy,'by '+DOCS[p.repealedBy].title)} w.e.f. ${fmtDate(p.repealedOn)}</span>`:''}</td></tr>`;
+  const upto = e => cutoff==='current' || ((e.date||'') <= cutoff);
+  return (d.provisions||[]).map(p=>{
+    if(PROV_GROUP_LEVELS.includes(p.level)){
+      if(_provChangedOnly) return '';
+      return `<tr><td colspan="3" style="font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-faint);padding-top:14px;">${esc(p.level)} ${esc(p.ref)}${p.heading?' — '+esc(p.heading):''}</td></tr>`;
+    }
+    const changed = (p.events&&p.events.length) || p.introducedBy;
+    if(_provChangedOnly && !changed) return '';
+    const st = provState(p, cutoff);
+    const domId = provDomId(p);
+    const lineage = [];
+    if(p.introducedBy) lineage.push(`Inserted by ${docLink(p.introducedBy)}${p.introducedOn?' w.e.f. '+fmtDate(p.introducedOn):''}`);
+    (p.events||[]).filter(upto).forEach(e=>{
+      if(e.action==='insert') return; /* shown via introducedBy */
+      lineage.push(`${EV_VERB[e.action]||e.action} by ${docLink(e.doc)}${e.date?' w.e.f. '+fmtDate(e.date):''}`+
+        (e.verified?'':` <span title="medium-confidence parse — verify against the gazette text" style="color:var(--amber);cursor:help;">±</span>`)+
+        (e.detail?` <span class="provlink" title="${esc(e.detail).replace(/"/g,'&quot;')}">…</span>`:''));
+    });
+    const desc = p.heading ? esc(p.heading)
+      : p.ghost ? '<span style="color:var(--ink-faint);font-style:italic;">not present in the consolidated text on file — reconstructed from the amendment record</span>'
+      : '<span style="color:var(--ink-faint);">—</span>';
+    const refLabel = (p.level==='clause'?'(' + esc(p.ref) + ')' : p.level==='subclause'?'(' + esc(p.ref) + ')' : esc(p.ref));
+    return `<tr id="${domId}"><td style="white-space:nowrap;padding-left:${PROV_PAD[p.level]||0}px;"><strong>${refLabel}</strong><span class="provlink" title="Copy provision permalink" onclick="copyText('#/doc/${docId}#${domId}', null)">¶</span></td>
+      <td>${desc}</td>
+      <td><span class="status-badge ${st.cls}"><span class="dot"></span>${st.label}</span>${lineage.length?`<br><span style="font-size:11px;line-height:1.7;">${lineage.join('<br>')}</span>`:''}</td></tr>`;
   }).join('');
 }
 function updateProv(docId, v){
+  window._provCutoff = v;
   const el = document.getElementById('provbody');
   if(el) el.innerHTML = provRows(docId, v);
+}
+function toggleProvChanged(docId){
+  _provChangedOnly = !_provChangedOnly;
+  const chip = document.getElementById('provChangedChip');
+  if(chip) chip.classList.toggle('on', _provChangedOnly);
+  updateProv(docId, window._provCutoff || 'current');
 }
 
 function renderArticleTab(id, d, params){
@@ -907,22 +984,30 @@ function renderArticleTab(id, d, params){
     ${d.enablingText?`<p class="body-text" style="font-size:12.5px;color:var(--ink-soft);">Issued in exercise of powers under ${d.enablingText}${(rel.issuedUnder||[]).length?` — see ${(rel.issuedUnder||[]).map(t=>docLink(t)).join('; ')}.`:'.'}</p>`:''}
   `});
 
-  if(d.provisions){
-    const repealDates = [...new Set(d.provisions.filter(p=>p.repealedOn).map(p=>p.repealedOn))].sort();
+  if(d.provisions && d.provisions.length){
+    window._provCutoff = 'current'; _provChangedOnly = false;
+    const cutDates = (d.provCutoffs && d.provCutoffs.length)
+      ? d.provCutoffs
+      : [...new Set(d.provisions.flatMap(p=>(p.events||[]).map(e=>e.date).concat(p.introducedOn||[])))].filter(Boolean).sort();
     let asat = '';
-    if(repealDates.length){
+    if(cutDates.length){
       const opts = [`<option value="current">Current (as amended)</option>`]
-        .concat(repealDates.slice().reverse().map(dt=>{
+        .concat(cutDates.slice().reverse().map(dt=>{
           const t = new Date(dt); t.setDate(t.getDate()-1);
           const dv = t.toISOString().slice(0,10);
           return `<option value="${dv}">As it stood on ${fmtDate(dv)}</option>`;
         }));
-      asat = `<div class="asat">Point-in-time view: <select onchange="updateProv('${id}', this.value)">${opts.join('')}</select></div>`;
+      asat = `<div class="asat">Point-in-time view: <select onchange="updateProv('${id}', this.value)">${opts.join('')}</select>
+        <button class="chip" id="provChangedChip" style="margin-left:10px;" onclick="toggleProvChanged('${id}')">Changed provisions only</button></div>`;
     }
+    const nEv = d.provisions.reduce((s,p)=>s+((p.events||[]).length)+(p.introducedBy?1:0),0);
+    const segNote = d.provTextFrom && d.provTextFrom!==id
+      ? ` Segmented from the text of ${docLink(d.provTextFrom)}.` : '';
     sections.push({id:'sec-provisions', title:'Provisions', html:`
+      <p class="body-text" style="font-size:12px;color:var(--ink-soft);">${d.provisions.filter(p=>!PROV_GROUP_LEVELS.includes(p.level)).length} provisions extracted, ${nEv} amendment events anchored.${segNote} Events marked <span style="color:var(--amber);">±</span> parsed at medium confidence — verify against the gazette.</p>
       ${asat}
       <table class="provisions">
-        <thead><tr><th>Provision</th><th>Description</th><th>Status</th></tr></thead>
+        <thead><tr><th>Provision</th><th>Description</th><th>Status &amp; lineage</th></tr></thead>
         <tbody id="provbody">${provRows(id,'current')}</tbody>
       </table>
       <p class="body-text" style="font-size:11.5px;color:var(--ink-faint);">Use ¶ to copy a provision-level permalink; orders and circulars can target individual provisions.</p>
