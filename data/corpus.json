@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-14T03:43:37.458331+00:00",
+  "generated_at": "2026-07-15T03:43:44.305918+00:00",
   "count": 135,
   "docs": {
     "act-irda-act-1999-updated-with-sbsr-act-2025-2026": {
@@ -7,7 +7,7 @@
       "title": "IRDA Act 1999 (updated with SBSR Act 2025)",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -17,12 +17,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDA Act 1999 (updated with SBSR Act 2025) — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDA Act 1999 (updated with SBSR Act 2025).",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9604505",
@@ -40,7 +37,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -49,7 +46,7 @@
       "title": "Insurance Act 1938 (updated with SBSR Act 2025)",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "Insurance Act 1938 (updated with SBSR Act 2025)",
@@ -59,12 +56,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Act 1938 (updated with SBSR Act 2025) — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Act 1938 (updated with SBSR Act 2025).",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9603959",
@@ -82,7 +76,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -91,7 +85,7 @@
       "title": "Insurance (Amendment) Act, 2021",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": null,
       "refNo": "--",
@@ -101,12 +95,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance (Amendment) Act, 2021 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance (Amendment) Act, 2021.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "397174",
@@ -124,7 +115,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -133,7 +124,7 @@
       "title": "THE INSURANCE ACT, 1938 (Incorporating all amendments including the amendme",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2020,
       "dept": null,
       "refNo": "--",
@@ -143,12 +134,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "THE INSURANCE ACT, 1938 (Incorporating all amendments including the amendme — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "THE INSURANCE ACT, 1938 (Incorporating all amendments including the amendme.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "394331",
@@ -166,7 +154,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -175,7 +163,7 @@
       "title": "IRDA Act as amended by Insurance Laws(Amendment) Act 2015",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2018,
       "dept": null,
       "refNo": "--",
@@ -185,12 +173,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDA Act as amended by Insurance Laws(Amendment) Act 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDA Act as amended by Insurance Laws(Amendment) Act 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "388345",
@@ -208,7 +193,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -217,7 +202,7 @@
       "title": "THE INSURANCE LAWS (AMENDMENT) ACT, 2015",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2015,
       "dept": null,
       "refNo": "--",
@@ -227,12 +212,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "THE INSURANCE LAWS (AMENDMENT) ACT, 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "THE INSURANCE LAWS (AMENDMENT) ACT, 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "378041",
@@ -250,7 +232,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -259,7 +241,7 @@
       "title": "The Insurance Laws (Amendment) Ordinance, 2014",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2014,
       "dept": null,
       "refNo": "--",
@@ -269,12 +251,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "The Insurance Laws (Amendment) Ordinance, 2014 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "The Insurance Laws (Amendment) Ordinance, 2014.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "377423",
@@ -292,7 +271,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -301,7 +280,7 @@
       "title": "The IRDA Act 1999",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2007,
       "dept": null,
       "refNo": "--",
@@ -311,12 +290,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "The IRDA Act 1999 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "The IRDA Act 1999.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "366291",
@@ -334,7 +310,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -343,7 +319,7 @@
       "title": "The Insurance Act 1938",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2007,
       "dept": null,
       "refNo": "--",
@@ -353,12 +329,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "The Insurance Act 1938 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "The Insurance Act 1938.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "366196",
@@ -376,7 +349,7 @@
         ],
         "source_page": "https://irdai.gov.in/acts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -385,7 +358,7 @@
       "title": "Motor Vehicles (Third Party Insurance Base Premium and Liability) Rules, 2022",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": null,
       "refNo": "G.S.R. 394(E).",
@@ -395,12 +368,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Motor Vehicles (Third Party Insurance Base Premium and Liability) Rules, 2022 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Motor Vehicles (Third Party Insurance Base Premium and Liability) Rules, 2022.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1298255",
@@ -418,7 +388,7 @@
         ],
         "source_page": "https://irdai.gov.in/rules",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -427,7 +397,7 @@
       "title": "Insurance (Appeal to Securities Appellate Tribunal) Rules, 2016",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2016,
       "dept": null,
       "refNo": "G.S.R. 179(E).",
@@ -437,12 +407,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance (Appeal to Securities Appellate Tribunal) Rules, 2016 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance (Appeal to Securities Appellate Tribunal) Rules, 2016.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "381295",
@@ -460,7 +427,7 @@
         ],
         "source_page": "https://irdai.gov.in/rules",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -469,7 +436,7 @@
       "title": "Insurance (Procedure for Holding Inquiry by Adjudicating Officer) Rules, 2016",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2016,
       "dept": null,
       "refNo": "G.S.R. 178(E).",
@@ -479,12 +446,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance (Procedure for Holding Inquiry by Adjudicating Officer) Rules, 2016 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance (Procedure for Holding Inquiry by Adjudicating Officer) Rules, 2016.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "919803",
@@ -502,7 +466,7 @@
         ],
         "source_page": "https://irdai.gov.in/rules",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -511,7 +475,7 @@
       "title": "Insurance Business in Special Economic Zone",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2015,
       "dept": null,
       "refNo": "S.O. 870(E).",
@@ -521,12 +485,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Business in Special Economic Zone — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Business in Special Economic Zone.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "379299",
@@ -544,7 +505,7 @@
         ],
         "source_page": "https://irdai.gov.in/rules",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -553,7 +514,7 @@
       "title": "Indian Insurance Companies (Foreign Investment) Amendment Rules, 2015",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2015,
       "dept": null,
       "refNo": "G.S.R. 534(E).",
@@ -563,12 +524,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Indian Insurance Companies (Foreign Investment) Amendment Rules, 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Indian Insurance Companies (Foreign Investment) Amendment Rules, 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "379088",
@@ -586,7 +544,7 @@
         ],
         "source_page": "https://irdai.gov.in/rules",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -595,7 +553,7 @@
       "title": "Indian Insurance Companies (Foreign Investment) Rules, 2015",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2015,
       "dept": null,
       "refNo": "G.S.R 115(E).",
@@ -605,12 +563,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Indian Insurance Companies (Foreign Investment) Rules, 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Indian Insurance Companies (Foreign Investment) Rules, 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "377875",
@@ -628,7 +583,7 @@
         ],
         "source_page": "https://irdai.gov.in/rules",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -637,7 +592,7 @@
       "title": "राजपत्र अधिसूचना - वित्तीय वर्ष 2026-27 के लिए अनिवार्य अभ्यर्पण / Gazette Notification - Obligatory Cession for the financial year 2026-27",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "राजपत्र अधिसूचना - वित्तीय वर्ष 2026-27 के लिए अनिवार्य अभ्यर्पण / Gazette Notification - Obligatory Cession for the financial year 2026-27",
@@ -647,12 +602,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "राजपत्र अधिसूचना - वित्तीय वर्ष 2026-27 के लिए अनिवार्य अभ्यर्पण / Gazette Notification - Obligatory Cession for the financial year 2026-27 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "राजपत्र अधिसूचना - वित्तीय वर्ष 2026-27 के लिए अनिवार्य अभ्यर्पण / Gazette Notification - Obligatory Cession for the financial year 2026-27.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9290793",
@@ -670,7 +622,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -686,7 +638,7 @@
       "title": "भारतीय बीमा विनियामक और विकास प्राधिकरण (बीमाकर्ताओं के बीमांकिक, वित्त और निवेश कार्य ) (संशोधन) विनियम, 2026 / IRDAI (Actuarial, Finance and Investment Functions of Insurers), (Amendment) Regulations, 2026",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "भारतीय बीमा विनियामक और विकास प्राधिकरण (बीमाकर्ताओं के बीमांकिक, वित्त और निवेश कार्य ) (संशोधन) विनियम, 2026 / IRDAI (Actuarial, Finance and Investment Functions of Insurers), (Amendment) Regulations, 2026",
@@ -698,12 +650,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "भारतीय बीमा विनियामक और विकास प्राधिकरण (बीमाकर्ताओं के बीमांकिक, वित्त और निवेश कार्य ) (संशोधन) विनियम, 2026 / IRDAI (Actuarial, Finance and Investment Functions of Insurers), (Amendment) Regulations, 2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "भारतीय बीमा विनियामक और विकास प्राधिकरण (बीमाकर्ताओं के बीमांकिक, वित्त और निवेश कार्य ) (संशोधन) विनियम, 2026 / IRDAI (Actuarial, Finance and Investment Functions of Insurers), (Amendment) Regulations, 2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9065935",
@@ -721,7 +670,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -737,7 +686,7 @@
       "title": "IRDAI (Maintenance of Information by the Regulated Entities and Sharing of Information by the Authority), Regulations 2025",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "IRDAI/Reg/4/211/2025",
@@ -747,12 +696,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Maintenance of Information by the Regulated Entities and Sharing of Information by the Authority), Regulations 2025 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Maintenance of Information by the Regulated Entities and Sharing of Information by the Authority), Regulations 2025.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6540652",
@@ -770,7 +716,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -786,7 +732,7 @@
       "title": "IRDAI (Regulatory Sandbox) Regulations, 2025",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/5/212/2025",
@@ -796,12 +742,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Regulatory Sandbox) Regulations, 2025 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Regulatory Sandbox) Regulations, 2025.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6541188",
@@ -819,7 +762,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -835,7 +778,7 @@
       "title": "IRDAI(Meetings)(Amendment) Regulations,2025",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/1/208/2025",
@@ -845,12 +788,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI(Meetings)(Amendment) Regulations,2025 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI(Meetings)(Amendment) Regulations,2025.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6543031",
@@ -868,7 +808,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -884,7 +824,7 @@
       "title": "IRDAI (Re-insurance Advisory Committee) (Amendment) Regulations, 2025",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "F.No. IRDAI/Reg/3/210/2025",
@@ -894,12 +834,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Re-insurance Advisory Committee) (Amendment) Regulations, 2025 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Re-insurance Advisory Committee) (Amendment) Regulations, 2025.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6542424",
@@ -917,7 +854,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -933,7 +870,7 @@
       "title": "IRDAI(Insurance Advisory Committee) (Amendment) Regulations, 2025",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/2/209/2025.",
@@ -943,12 +880,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI(Insurance Advisory Committee) (Amendment) Regulations, 2025 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI(Insurance Advisory Committee) (Amendment) Regulations, 2025.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6541790",
@@ -966,7 +900,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -982,7 +916,7 @@
       "title": "IRDAI Consolidated Re-insurance Regulations",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI Consolidated Re-insurance Regulations",
@@ -992,12 +926,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI Consolidated Re-insurance Regulations — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI Consolidated Re-insurance Regulations.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "5170524",
@@ -1015,7 +946,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1031,7 +962,7 @@
       "title": "IRDAI (Bima Sugam- Insurance Electronic Marketplace) Regulations, 2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/5/199/2024",
@@ -1041,12 +972,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Bima Sugam- Insurance Electronic Marketplace) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Bima Sugam- Insurance Electronic Marketplace) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4583640",
@@ -1064,7 +992,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1080,7 +1008,7 @@
       "title": "IRDAI (Actuarial, Finance and Investment  Functions of Insurers) Reg 2024",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/Reg/10/204/2024",
@@ -1092,12 +1020,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Actuarial, Finance and Investment  Functions of Insurers) Reg 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Actuarial, Finance and Investment  Functions of Insurers) Reg 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4589093",
@@ -1115,7 +1040,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1131,7 +1056,7 @@
       "title": "IRDAI (Corporate Governance for Insurers) Regulations, 2024",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/Reg/7/201/2024",
@@ -1143,12 +1068,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Corporate Governance for Insurers) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Corporate Governance for Insurers) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4590027",
@@ -1166,7 +1088,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1182,7 +1104,7 @@
       "title": "IRDAI (Insurance Products) Regulations, 2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/Reg/8/202/2024",
@@ -1192,12 +1114,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Insurance Products) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Insurance Products) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4590475",
@@ -1215,7 +1134,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1231,7 +1150,7 @@
       "title": "IRDAI (Protection of  Policyholder's Interests, operations and allied matters of insurers) Regulations, 2024",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/Reg/11/205/2024",
@@ -1243,12 +1162,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Protection of  Policyholder's Interests, operations and allied matters of insurers) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Protection of  Policyholder's Interests, operations and allied matters of insurers) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4590885",
@@ -1266,7 +1182,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1282,7 +1198,7 @@
       "title": "IRDAI (Registration and operations of Foreign Reinsurers Branches and Lloyd's India) Regulations, 2024",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/Reg/9/203/2024",
@@ -1294,12 +1210,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Registration and operations of Foreign Reinsurers Branches and Lloyd's India) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Registration and operations of Foreign Reinsurers Branches and Lloyd's India) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4591301",
@@ -1317,7 +1230,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1333,7 +1246,7 @@
       "title": "IRDAI (Registration, capital structure, transfer of shares and amalgamation of insurers) Regulations, 2024",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/Reg/6/200/2024",
@@ -1345,12 +1258,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Registration, capital structure, transfer of shares and amalgamation of insurers) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Registration, capital structure, transfer of shares and amalgamation of insurers) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4591837",
@@ -1368,7 +1278,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1384,7 +1294,7 @@
       "title": "IRDAI (Rural, social sector and Motor third party obligations) Regulations, 2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/Reg/4/198/2024",
@@ -1394,12 +1304,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Rural, social sector and Motor third party obligations) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Rural, social sector and Motor third party obligations) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4592224",
@@ -1417,7 +1324,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1433,7 +1340,7 @@
       "title": "IRDAI (EOM including Commission) Regulations,2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/2/196/2024",
@@ -1443,12 +1350,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (EOM including Commission) Regulations,2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (EOM including Commission) Regulations,2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4359902",
@@ -1466,7 +1370,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1482,7 +1386,7 @@
       "title": "IRDAI Reinsurance (Amendment) Regulation, 2023",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": null,
       "refNo": "F. No. IRDAI/ Reg/5/193/2023",
@@ -1494,12 +1398,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI Reinsurance (Amendment) Regulation, 2023 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI Reinsurance (Amendment) Regulation, 2023.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "3791151",
@@ -1517,7 +1418,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1533,7 +1434,7 @@
       "title": "Insurance Regulatory and Development Authority of India (Payment of Commission) Regulations, 2023",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/2/190/2023",
@@ -1543,12 +1444,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory and Development Authority of India (Payment of Commission) Regulations, 2023 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory and Development Authority of India (Payment of Commission) Regulations, 2023.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "3230806",
@@ -1566,7 +1464,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1582,7 +1480,7 @@
       "title": "IRDAI (Expenses of Management of Insurers transacting life insurance business) Regulations, 2023",
       "entity": "Insurers",
       "subtype": "Life Insurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": null,
       "refNo": "F.No. IRDAI/Reg./3/191/2023",
@@ -1594,12 +1492,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Expenses of Management of Insurers transacting life insurance business) Regulations, 2023 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Expenses of Management of Insurers transacting life insurance business) Regulations, 2023.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "3231362",
@@ -1617,7 +1512,7 @@
         ],
         "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       },
       "versions": [
@@ -1633,7 +1528,7 @@
       "title": "IRDAI (Minimum Information Required for Investigation and Inspection) Regulations, 2020",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2020,
       "dept": null,
       "refNo": null,
@@ -1643,12 +1538,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Minimum Information Required for Investigation and Inspection) Regulations, 2020 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Minimum Information Required for Investigation and Inspection) Regulations, 2020.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "604838",
@@ -1682,7 +1574,7 @@
       "title": "Insurance Regulatory And Development Authority Of India (Registration Of Insurance Marketing Firm) Regulations, 2015",
       "entity": "Intermediaries",
       "subtype": "Insurance Marketing Firms (IMFs)",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2020,
       "dept": null,
       "refNo": null,
@@ -1694,12 +1586,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory And Development Authority Of India (Registration Of Insurance Marketing Firm) Regulations, 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory And Development Authority Of India (Registration Of Insurance Marketing Firm) Regulations, 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "602980",
@@ -1733,7 +1622,7 @@
       "title": "IRDAI (Registration and Operations of Branch Offices of Foreign Reinsurers other than Lloyd’s) Regulations, 2015",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2020,
       "dept": null,
       "refNo": null,
@@ -1745,12 +1634,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Registration and Operations of Branch Offices of Foreign Reinsurers other than Lloyd’s) Regulations, 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Registration and Operations of Branch Offices of Foreign Reinsurers other than Lloyd’s) Regulations, 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "603042",
@@ -1784,7 +1670,7 @@
       "title": "IRDAI (Insurance Brokers) Regulations, 2018",
       "entity": "Intermediaries",
       "subtype": "Insurance Brokers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2019,
       "dept": null,
       "refNo": null,
@@ -1796,12 +1682,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Insurance Brokers) Regulations, 2018 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Insurance Brokers) Regulations, 2018.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "602819",
@@ -1835,7 +1718,7 @@
       "title": "IRDAI (Appointment Of Insurance Agents) Regulations, 2016",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2016,
       "dept": null,
       "refNo": null,
@@ -1845,12 +1728,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Appointment Of Insurance Agents) Regulations, 2016 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Appointment Of Insurance Agents) Regulations, 2016.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "605121",
@@ -1884,7 +1764,7 @@
       "title": "IRDAI (Registration Of Corporate Agents) Regulations, 2015",
       "entity": "Intermediaries",
       "subtype": "Corporate Agents",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -1896,12 +1776,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Registration Of Corporate Agents) Regulations, 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Registration Of Corporate Agents) Regulations, 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "605103",
@@ -1935,7 +1812,7 @@
       "title": "IRDAI (Re-Insurance Advisory Committee) Regulations, 2019",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -1945,12 +1822,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Re-Insurance Advisory Committee) Regulations, 2019 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Re-Insurance Advisory Committee) Regulations, 2019.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "605139",
@@ -1984,7 +1858,7 @@
       "title": "IRDAI (Re-Insurance Advisory Committee) Regulations, 2019",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -1994,12 +1868,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Re-Insurance Advisory Committee) Regulations, 2019 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Re-Insurance Advisory Committee) Regulations, 2019.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "605157",
@@ -2033,7 +1904,7 @@
       "title": "IRDAI (Re-Insurance) Regulations, 2018",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2043,12 +1914,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Re-Insurance) Regulations, 2018 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Re-Insurance) Regulations, 2018.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "605175",
@@ -2082,7 +1950,7 @@
       "title": "IRDAI (Micro Insurance) Regulations, 2015",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2092,12 +1960,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Micro Insurance) Regulations, 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Micro Insurance) Regulations, 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "617801",
@@ -2131,7 +1996,7 @@
       "title": "IRDAI (Insurance Web Aggregators) Regulations, 2017",
       "entity": "Intermediaries",
       "subtype": "Web Aggregators",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2143,12 +2008,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Insurance Web Aggregators) Regulations, 2017 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Insurance Web Aggregators) Regulations, 2017.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "602869",
@@ -2182,7 +2044,7 @@
       "title": "Insurance Regulatory And Development Authority Of India (Health Insurance) Regulations, 2016",
       "entity": "Insurers",
       "subtype": "Standalone Health Insurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2194,12 +2056,9 @@
         "health"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory And Development Authority Of India (Health Insurance) Regulations, 2016 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory And Development Authority Of India (Health Insurance) Regulations, 2016.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "602887",
@@ -2233,7 +2092,7 @@
       "title": "Insurance Regulatory and Development Authority of India (Appointed Actuary) Regulations, 2017",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2243,12 +2102,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory and Development Authority of India (Appointed Actuary) Regulations, 2017 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory and Development Authority of India (Appointed Actuary) Regulations, 2017.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "602906",
@@ -2282,7 +2138,7 @@
       "title": "Insurance Regulatory and Development Authority (Insurance Advertisements and Disclosure) Regulations, 2021",
       "entity": "Common",
       "subtype": "Applicable across multiple regulated entities",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2294,12 +2150,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory and Development Authority (Insurance Advertisements and Disclosure) Regulations, 2021 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory and Development Authority (Insurance Advertisements and Disclosure) Regulations, 2021.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "602947",
@@ -2333,7 +2186,7 @@
       "title": "Insurance Regulatory And Development Authority Of India (Third Party Administrators- Health Services) Regulations, 2016",
       "entity": "Intermediaries",
       "subtype": "Third Party Administrators (TPAs)",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2345,12 +2198,9 @@
         "health"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory And Development Authority Of India (Third Party Administrators- Health Services) Regulations, 2016 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory And Development Authority Of India (Third Party Administrators- Health Services) Regulations, 2016.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "602997",
@@ -2384,7 +2234,7 @@
       "title": "Insurance Regulatory and Development Authority of India (Lloyd’s India) Regulations, 2016",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2396,12 +2246,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory and Development Authority of India (Lloyd’s India) Regulations, 2016 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory and Development Authority of India (Lloyd’s India) Regulations, 2016.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "603021",
@@ -2435,7 +2282,7 @@
       "title": "IRDAI's (Payment of commission, remuneration and rewards to insurance agents and insurance intermediaries) Regulations 2016",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2445,12 +2292,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI's (Payment of commission, remuneration and rewards to insurance agents and insurance intermediaries) Regulations 2016 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI's (Payment of commission, remuneration and rewards to insurance agents and insurance intermediaries) Regulations 2016.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "603060",
@@ -2484,7 +2328,7 @@
       "title": "Insurance Regulatory and Development Authority (Registration of Indian Insurance Companies) Regulations, 2000 (Updated upto 8th Amendment)",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2494,12 +2338,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory and Development Authority (Registration of Indian Insurance Companies) Regulations, 2000 (Updated upto 8th Amendment) — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory and Development Authority (Registration of Indian Insurance Companies) Regulations, 2000 (Updated upto 8th Amendment).",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "603082",
@@ -2533,7 +2374,7 @@
       "title": "Insurance Regulatory and Development Authority (Sharing of Confidential Information concerning domestic or foreign Entity) Regulations, 2012",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2543,12 +2384,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory and Development Authority (Sharing of Confidential Information concerning domestic or foreign Entity) Regulations, 2012 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory and Development Authority (Sharing of Confidential Information concerning domestic or foreign Entity) Regulations, 2012.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "603201",
@@ -2582,7 +2420,7 @@
       "title": "Insurance Regulatory and Development Authority of India (Inspection and Fee for Supply of Copies of Returns) Regulations, 2015",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -2592,12 +2430,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Regulatory and Development Authority of India (Inspection and Fee for Supply of Copies of Returns) Regulations, 2015 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Regulatory and Development Authority of India (Inspection and Fee for Supply of Copies of Returns) Regulations, 2015.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "603334",
@@ -2631,7 +2466,7 @@
       "title": "अधिसूचना - अनिवार्य अध्यर्पण अधिसूचना में संशोधन / Notification - Amendment to Obligatory Cession Notification",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "F. No. IRDAI/RI/5/219/2026",
@@ -2641,12 +2476,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "अधिसूचना - अनिवार्य अध्यर्पण अधिसूचना में संशोधन / Notification - Amendment to Obligatory Cession Notification — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "अधिसूचना - अनिवार्य अध्यर्पण अधिसूचना में संशोधन / Notification - Amendment to Obligatory Cession Notification.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9585445",
@@ -2664,7 +2496,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -2673,7 +2505,7 @@
       "title": "शक्ति का प्रत्यायोजन सम्बंधी राजपत्र अधिसूचना / Gazette Notification on Delegation of powers",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "F. No IRDAI /DoP/4/218/2026",
@@ -2683,12 +2515,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "शक्ति का प्रत्यायोजन सम्बंधी राजपत्र अधिसूचना / Gazette Notification on Delegation of powers — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "शक्ति का प्रत्यायोजन सम्बंधी राजपत्र अधिसूचना / Gazette Notification on Delegation of powers.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9312427",
@@ -2706,7 +2535,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -2715,7 +2544,7 @@
       "title": "Reconstitution of Reinsurance Advisory Committee (RAC) - 28.01.2026",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": "REIN",
       "refNo": "IRDAI/REIN/ORD/RIN/18/1/2026",
@@ -2727,12 +2556,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Reconstitution of Reinsurance Advisory Committee (RAC) - 28.01.2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Reconstitution of Reinsurance Advisory Committee (RAC) - 28.01.2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "8626390",
@@ -2750,7 +2576,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -2759,7 +2585,7 @@
       "title": "Obligatory Cession for the financial year 2025-26",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "F. No IRDAI/RI/6/213/2025",
@@ -2769,12 +2595,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Obligatory Cession for the financial year 2025-26 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Obligatory Cession for the financial year 2025-26.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6811221",
@@ -2792,7 +2615,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -2801,7 +2624,7 @@
       "title": "De-Notification of All Tariffs",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI//Gen Insurance/Tariff/13/207/2024",
@@ -2811,12 +2634,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "De-Notification of All Tariffs — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "De-Notification of All Tariffs.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4592839",
@@ -2834,7 +2654,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -2843,7 +2663,7 @@
       "title": "Obligatory Cession for the financial year 2024-25",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "F. No IRDAI/RI/3/197/2024",
@@ -2853,12 +2673,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Obligatory Cession for the financial year 2024-25 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Obligatory Cession for the financial year 2024-25.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4442504",
@@ -2876,7 +2693,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -2885,7 +2702,7 @@
       "title": "Denotification of Arbitration Clause",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "F. No. IRDAI/Gen Insurance/Tariff/1/195/2024",
@@ -2895,12 +2712,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Denotification of Arbitration Clause — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Denotification of Arbitration Clause.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4360309",
@@ -2918,7 +2732,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -2927,7 +2741,7 @@
       "title": "Insurance Ombudsman (Amendment)Rules, 2023",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": null,
       "refNo": "G.S.R. 828(E)",
@@ -2937,12 +2751,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Insurance Ombudsman (Amendment)Rules, 2023 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Insurance Ombudsman (Amendment)Rules, 2023.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4172569",
@@ -2960,7 +2771,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -2969,7 +2780,7 @@
       "title": "Annulment of Expression of interest for Empanelment of Advertising Agencies-2022",
       "entity": "Common",
       "subtype": "Applicable across multiple regulated entities",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": null,
       "refNo": "IRDAI/PG&GR/empanelment of AA/2022-23/2-annulment",
@@ -2981,12 +2792,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Annulment of Expression of interest for Empanelment of Advertising Agencies-2022 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Annulment of Expression of interest for Empanelment of Advertising Agencies-2022.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "3423989",
@@ -3004,7 +2812,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3013,7 +2821,7 @@
       "title": "Obligatory Cession for the financial year 2023-24",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": null,
       "refNo": "F. No. IRDAI/RI/1/189/2023",
@@ -3023,12 +2831,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Obligatory Cession for the financial year 2023-24 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Obligatory Cession for the financial year 2023-24.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "2404285",
@@ -3046,7 +2851,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3055,7 +2860,7 @@
       "title": "IRDAI Insurance Intermediaries (Amendment) Regulations 2022",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/4/183/2022",
@@ -3065,12 +2870,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI Insurance Intermediaries (Amendment) Regulations 2022 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI Insurance Intermediaries (Amendment) Regulations 2022.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1629328",
@@ -3088,7 +2890,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3097,7 +2899,7 @@
       "title": "IRDAI (Other Forms of Capital) Regulations, 2022",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/8/187/2022",
@@ -3107,12 +2909,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Other Forms of Capital) Regulations, 2022 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Other Forms of Capital) Regulations, 2022.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1629583",
@@ -3130,7 +2929,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3139,7 +2938,7 @@
       "title": "Reconstitution of Reinsurance Advisory Committee",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": "REIN",
       "refNo": "Ref: IRDAI/REIN/NOT/RIN/101/5/2022",
@@ -3151,12 +2950,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Reconstitution of Reinsurance Advisory Committee — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Reconstitution of Reinsurance Advisory Committee.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1290726",
@@ -3174,7 +2970,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3183,7 +2979,7 @@
       "title": "Appointment Notification of Insurance Advisory committee Members",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": null,
       "refNo": "F. No. IRDAI/IAC/2/181/2022",
@@ -3193,12 +2989,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Appointment Notification of Insurance Advisory committee Members — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Appointment Notification of Insurance Advisory committee Members.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1262906",
@@ -3216,7 +3009,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3225,7 +3018,7 @@
       "title": "Obligatory cession for financial year 2022-2023",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": null,
       "refNo": "F. No. IRDAI/RI/1/180/2022",
@@ -3235,12 +3028,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Obligatory cession for financial year 2022-2023 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Obligatory cession for financial year 2022-2023.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1107267",
@@ -3258,7 +3048,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3267,7 +3057,7 @@
       "title": "Reconstitution Of Insurance Advisory Committee",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": null,
       "refNo": "F. No. IRDAI/IAC/7/179/2021",
@@ -3277,12 +3067,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Reconstitution Of Insurance Advisory Committee — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Reconstitution Of Insurance Advisory Committee.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "977453",
@@ -3300,7 +3087,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3309,7 +3096,7 @@
       "title": "IRDAI (Indian Insurance Companies) (Amendment) Regulations, 2021, Jul 2021",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": null,
       "refNo": "F. No. IRDAI/Reg/6/178/2021",
@@ -3319,12 +3106,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Indian Insurance Companies) (Amendment) Regulations, 2021, Jul 2021 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Indian Insurance Companies) (Amendment) Regulations, 2021, Jul 2021.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "903887",
@@ -3342,7 +3126,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3351,7 +3135,7 @@
       "title": "Indian Insurance Companies (Foreign Investment) Amendment Rules, 2021",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": null,
       "refNo": "G.S.R. 337(E)",
@@ -3361,12 +3145,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Indian Insurance Companies (Foreign Investment) Amendment Rules, 2021 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Indian Insurance Companies (Foreign Investment) Amendment Rules, 2021.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "397711",
@@ -3384,7 +3165,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3393,7 +3174,7 @@
       "title": "RECONSTITUTION OF INSURANCE ADVISORY COMMITTEE",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": null,
       "refNo": "F. No. IRDAI/IAC/1/173/2021",
@@ -3403,12 +3184,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "RECONSTITUTION OF INSURANCE ADVISORY COMMITTEE — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "RECONSTITUTION OF INSURANCE ADVISORY COMMITTEE.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "831440",
@@ -3426,7 +3204,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3435,7 +3213,7 @@
       "title": "Obligatory Cession for the financial year 2021-22",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2020,
       "dept": null,
       "refNo": "F. No. IRDAI/RI/6/172/2020",
@@ -3445,12 +3223,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Obligatory Cession for the financial year 2021-22 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Obligatory Cession for the financial year 2021-22.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "396238",
@@ -3468,7 +3243,7 @@
         ],
         "source_page": "https://irdai.gov.in/notifications",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -3477,7 +3252,7 @@
       "title": "परिपत्र / Circular",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3487,12 +3262,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परिपत्र / Circular — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परिपत्र / Circular.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9646724",
@@ -3519,7 +3291,7 @@
       "title": "परिपत्र / Circular",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3529,12 +3301,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परिपत्र / Circular — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परिपत्र / Circular.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9613196",
@@ -3561,7 +3330,7 @@
       "title": "परिपत्र / Circular",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3571,12 +3340,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परिपत्र / Circular — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परिपत्र / Circular.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9508062",
@@ -3603,7 +3369,7 @@
       "title": "परिपत्र / Circular",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3613,12 +3379,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परिपत्र / Circular — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परिपत्र / Circular.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9196320",
@@ -3645,7 +3408,7 @@
       "title": "परिपत्र / Circular",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3655,12 +3418,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परिपत्र / Circular — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परिपत्र / Circular.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9122615",
@@ -3687,7 +3447,7 @@
       "title": "परिपत्र / CIRCULAR",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3697,12 +3457,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परिपत्र / CIRCULAR — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परिपत्र / CIRCULAR.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9027284",
@@ -3729,7 +3486,7 @@
       "title": "Circular",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3739,12 +3496,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Circular — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Circular.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "8971093",
@@ -3771,7 +3525,7 @@
       "title": "Clarifications on provisions with respect to investment in Alternative Investment Funds(AIFs)",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3781,12 +3535,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Clarifications on provisions with respect to investment in Alternative Investment Funds(AIFs) — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Clarifications on provisions with respect to investment in Alternative Investment Funds(AIFs).",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "8760558",
@@ -3813,7 +3564,7 @@
       "title": "1600-शृंखला के अनिवार्य अंगीकरण संबंधी ट्राई (भारतीय दूरसंचार विनियामक प्राधिकरण) के निदेश का कार्यान्वयन / Implementation of 1600 Series TRAI directions",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": null,
@@ -3823,12 +3574,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "1600-शृंखला के अनिवार्य अंगीकरण संबंधी ट्राई (भारतीय दूरसंचार विनियामक प्राधिकरण) के निदेश का कार्यान्वयन / Implementation of 1600 Series TRAI directions — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "1600-शृंखला के अनिवार्य अंगीकरण संबंधी ट्राई (भारतीय दूरसंचार विनियामक प्राधिकरण) के निदेश का कार्यान्वयन / Implementation of 1600 Series TRAI directions.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "8446575",
@@ -3855,7 +3603,7 @@
       "title": "बीमाकर्ताओं को आरबीआई द्वारा विनियमित एआईएफआईएस के एटी1 बांडों और टियर 2 पूँजी में निवेश करने के लिए अनुमति देना/Permitting insurers’ investments in AT1 bonds and Tier 2 Capital of RBI regulated AIFIs",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -3867,12 +3615,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "बीमाकर्ताओं को आरबीआई द्वारा विनियमित एआईएफआईएस के एटी1 बांडों और टियर 2 पूँजी में निवेश करने के लिए अनुमति देना/Permitting insurers’ investments in AT1 bonds and Tier 2 Capital of RBI regulated AIFIs — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "बीमाकर्ताओं को आरबीआई द्वारा विनियमित एआईएफआईएस के एटी1 बांडों और टियर 2 पूँजी में निवेश करने के लिए अनुमति देना/Permitting insurers’ investments in AT1 bonds and Tier 2 Capital of RBI regulated AIFIs.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "8324151",
@@ -3899,7 +3644,7 @@
       "title": "Cessation of the practice of allowing additional line of business/department to surveyor and loss assessors based on categorization letter issued in 2001-02",
       "entity": "Intermediaries",
       "subtype": "Surveyors & Loss Assessors",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -3911,12 +3656,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Cessation of the practice of allowing additional line of business/department to surveyor and loss assessors based on categorization letter issued in 2001-02 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Cessation of the practice of allowing additional line of business/department to surveyor and loss assessors based on categorization letter issued in 2001-02.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7957321",
@@ -3943,7 +3685,7 @@
       "title": "परिपत्र / Circular",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -3953,12 +3695,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परिपत्र / Circular — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परिपत्र / Circular.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7935471",
@@ -3985,7 +3724,7 @@
       "title": "Risk Based Capital (RBC)- Quantitative Impact Study-2",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -3995,12 +3734,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Risk Based Capital (RBC)- Quantitative Impact Study-2 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Risk Based Capital (RBC)- Quantitative Impact Study-2.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7716046",
@@ -4027,7 +3763,7 @@
       "title": "Master Circular on Rural, Social Sector and Motor Third Party Obligations",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -4037,12 +3773,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Master Circular on Rural, Social Sector and Motor Third Party Obligations — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Master Circular on Rural, Social Sector and Motor Third Party Obligations.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7643594",
@@ -4069,7 +3802,7 @@
       "title": "Clarification on IRDAI (Maintenance of Information by the Regulated Entities and Sharing of information by the Authority) Reg, 2025",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -4079,12 +3812,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Clarification on IRDAI (Maintenance of Information by the Regulated Entities and Sharing of information by the Authority) Reg, 2025 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Clarification on IRDAI (Maintenance of Information by the Regulated Entities and Sharing of information by the Authority) Reg, 2025.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7628074",
@@ -4111,7 +3841,7 @@
       "title": "सभी बीमाकर्ताओं, पुनर्बीमाकर्ताओं, जीवन बीमा परिषद और साधारण बीमा परिषद के लिए परामर्शक / Advisory to All Insurers, Reinsurers, Life Insurance Council and General Insurance Council",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -4123,12 +3853,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "सभी बीमाकर्ताओं, पुनर्बीमाकर्ताओं, जीवन बीमा परिषद और साधारण बीमा परिषद के लिए परामर्शक / Advisory to All Insurers, Reinsurers, Life Insurance Council and General Insurance Council — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "सभी बीमाकर्ताओं, पुनर्बीमाकर्ताओं, जीवन बीमा परिषद और साधारण बीमा परिषद के लिए परामर्शक / Advisory to All Insurers, Reinsurers, Life Insurance Council and General Insurance Council.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7461953",
@@ -4155,7 +3882,7 @@
       "title": "Corporate Agency Matters Concerning RRBs Amalgamated from 1st May 2025 and Beyond",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -4165,12 +3892,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Corporate Agency Matters Concerning RRBs Amalgamated from 1st May 2025 and Beyond — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Corporate Agency Matters Concerning RRBs Amalgamated from 1st May 2025 and Beyond.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7269046",
@@ -4197,7 +3921,7 @@
       "title": "Circular on Cyber Incident or Crisis Preparedness",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -4207,12 +3931,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Circular on Cyber Incident or Crisis Preparedness — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Circular on Cyber Incident or Crisis Preparedness.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6975996",
@@ -4239,7 +3960,7 @@
       "title": "Servicing to the policyholder - Special measure for FY 2024-25",
       "entity": "Common",
       "subtype": "Applicable across multiple regulated entities",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -4251,12 +3972,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Servicing to the policyholder - Special measure for FY 2024-25 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Servicing to the policyholder - Special measure for FY 2024-25.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6912470",
@@ -4283,7 +4001,7 @@
       "title": "Exposure to Forward Contracts in Government Securities (Bond Forwards)",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": null,
@@ -4293,12 +4011,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Exposure to Forward Contracts in Government Securities (Bond Forwards) — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Exposure to Forward Contracts in Government Securities (Bond Forwards).",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6876266",
@@ -4325,7 +4040,7 @@
       "title": "आईआरडीएआई सूचना और साइबर सुरक्षा दिशानिर्देश, 2026 / IRDAI Information and Cybersecurity Guidelines, 2026",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": "GA&HR",
       "refNo": "IRDAI/GA&HR/CIR/MISC/51/4/2026",
@@ -4335,12 +4050,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "आईआरडीएआई सूचना और साइबर सुरक्षा दिशानिर्देश, 2026 / IRDAI Information and Cybersecurity Guidelines, 2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "आईआरडीएआई सूचना और साइबर सुरक्षा दिशानिर्देश, 2026 / IRDAI Information and Cybersecurity Guidelines, 2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9189223",
@@ -4358,7 +4070,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4367,7 +4079,7 @@
       "title": "Guidelines on Establishment and Closure of Liaison Office in India by an Insurance Company registered outside India",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": "F&I",
       "refNo": "IRDAI/F&I/GDL/MISC/27/02/2026",
@@ -4377,12 +4089,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on Establishment and Closure of Liaison Office in India by an Insurance Company registered outside India — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on Establishment and Closure of Liaison Office in India by an Insurance Company registered outside India.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "8752913",
@@ -4400,7 +4109,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4409,7 +4118,7 @@
       "title": "IRDAI (Insurance Fraud Monitoring Framework) Guidelines, 2025",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "IRDAI/IID/GDL/MISC/112/10/2025",
@@ -4419,12 +4128,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Insurance Fraud Monitoring Framework) Guidelines, 2025 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Insurance Fraud Monitoring Framework) Guidelines, 2025.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7948519",
@@ -4442,7 +4148,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4451,7 +4157,7 @@
       "title": "Amendment to Clause 15(a) of “Revised Guidelines on Insurance Repositories and Electronic Issuance of Insurance Policies”",
       "entity": "Intermediaries",
       "subtype": "Insurance Repositories",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": "INT",
       "refNo": "IRDAI/INT/GDL/MISC/87/7/2025",
@@ -4463,12 +4169,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Amendment to Clause 15(a) of “Revised Guidelines on Insurance Repositories and Electronic Issuance of Insurance Policies” — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Amendment to Clause 15(a) of “Revised Guidelines on Insurance Repositories and Electronic Issuance of Insurance Policies”.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7651843",
@@ -4486,7 +4189,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4495,7 +4198,7 @@
       "title": "Guidelines on Hedging Through Equity Derivatives",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": "F&I",
       "refNo": "IRDAI/F&I/GDL/INV/041/02/2025",
@@ -4505,12 +4208,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on Hedging Through Equity Derivatives — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on Hedging Through Equity Derivatives.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6809311",
@@ -4528,7 +4228,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4537,7 +4237,7 @@
       "title": "IRDAI Bima Vahak Guidelines, 2023",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": "LIFE",
       "refNo": "IRDAI/LIFE/CIR/GDL/174/10/2023",
@@ -4547,12 +4247,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI Bima Vahak Guidelines, 2023 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI Bima Vahak Guidelines, 2023.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "3982975",
@@ -4570,7 +4267,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4579,7 +4276,7 @@
       "title": "Guidelines on Remuneration of Directors and Key Managerial Persons of Insurers",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": "F&I",
       "refNo": "IRDAI/F&A/GDL/MISC/141/6/2023",
@@ -4591,12 +4288,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on Remuneration of Directors and Key Managerial Persons of Insurers — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on Remuneration of Directors and Key Managerial Persons of Insurers.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "3562210",
@@ -4614,7 +4308,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4623,7 +4317,7 @@
       "title": "IRDAI Information and Cyber Security Guidelines, 2023.",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": "GA&HR",
       "refNo": "IRDAI/GA&HR/GDL/MISC/88/04/2023",
@@ -4633,12 +4327,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI Information and Cyber Security Guidelines, 2023. — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI Information and Cyber Security Guidelines, 2023..",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "3314780",
@@ -4656,7 +4347,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4665,7 +4356,7 @@
       "title": "Guidelines on Operational Issues pertaining to the  Regulatory Sandbox",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": null,
       "refNo": "IRDAI/I&AT/GDL/MISC/77/3/2023",
@@ -4675,12 +4366,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on Operational Issues pertaining to the  Regulatory Sandbox — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on Operational Issues pertaining to the  Regulatory Sandbox.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "3226826",
@@ -4698,7 +4386,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4707,7 +4395,7 @@
       "title": "Guidelines on issuance of FRNs to Cross Border Reinsurers",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2023,
       "dept": "REIN",
       "refNo": "IRDAI/REIN/GDL/MISC/2/1/2023",
@@ -4719,12 +4407,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on issuance of FRNs to Cross Border Reinsurers — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on issuance of FRNs to Cross Border Reinsurers.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1640570",
@@ -4742,7 +4427,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4751,7 +4436,7 @@
       "title": "Guidelines on Establishment and Closure of Liaison Office in India by an Insurance Company registered outside India",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": "F&I",
       "refNo": "IRDAI/F&I/GDL/MISC/219/10/2022",
@@ -4761,12 +4446,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on Establishment and Closure of Liaison Office in India by an Insurance Company registered outside India — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on Establishment and Closure of Liaison Office in India by an Insurance Company registered outside India.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1445464",
@@ -4784,7 +4466,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4793,7 +4475,7 @@
       "title": "Guidelines in respect of Conflict of Interest and Common Directorship  among Intermediary or Insurance intermediary",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": "INT",
       "refNo": "IRDAI/INT/GDL/MISC/202/9/2022",
@@ -4803,12 +4485,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines in respect of Conflict of Interest and Common Directorship  among Intermediary or Insurance intermediary — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines in respect of Conflict of Interest and Common Directorship  among Intermediary or Insurance intermediary.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1441871",
@@ -4826,7 +4505,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4835,7 +4514,7 @@
       "title": "Guidelines on Information and Cyber Security",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": "GA&HR",
       "refNo": "IRDAI/GA&HR/GDL/MISC/184/09/2022",
@@ -4845,12 +4524,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on Information and Cyber Security — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on Information and Cyber Security.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1354286",
@@ -4868,7 +4544,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4877,7 +4553,7 @@
       "title": "Master Guidelines on Anti-Money Laundering/ Counter Financing of Terrorism (AML/CFT), 2022",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": null,
       "refNo": "IRDAI/IID/GDL/MISC/160/8/2022",
@@ -4887,12 +4563,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Master Guidelines on Anti-Money Laundering/ Counter Financing of Terrorism (AML/CFT), 2022 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Master Guidelines on Anti-Money Laundering/ Counter Financing of Terrorism (AML/CFT), 2022.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1345417",
@@ -4910,7 +4583,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4919,7 +4592,7 @@
       "title": "IRDAI (Surety Insurance Contracts) Guidelines, 2022",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2022,
       "dept": "NL",
       "refNo": "IRDAI/NL/GDL/SIC/01/01/2022",
@@ -4929,12 +4602,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Surety Insurance Contracts) Guidelines, 2022 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Surety Insurance Contracts) Guidelines, 2022.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "1090056",
@@ -4952,7 +4622,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -4961,7 +4631,7 @@
       "title": "IRDAI (Trade Credit Insurance) Guidelines, 2021",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": "NL",
       "refNo": "IRDAI/NL/GDL/MISC/244/09/2021",
@@ -4971,12 +4641,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Trade Credit Insurance) Guidelines, 2021 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Trade Credit Insurance) Guidelines, 2021.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "976476",
@@ -4994,7 +4661,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5003,7 +4670,7 @@
       "title": "Guidelines on settlement of Life Insurance Claims to the victims of Flood i",
       "entity": "Insurers",
       "subtype": "Life Insurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": "LIFE",
       "refNo": "IRDA/LIFE/GDL/MISC/222/08/2021",
@@ -5015,12 +4682,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on settlement of Life Insurance Claims to the victims of Flood i — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on settlement of Life Insurance Claims to the victims of Flood i.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "977411",
@@ -5038,7 +4702,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5047,7 +4711,7 @@
       "title": "GUIDELINES ON STANDARD PROFESSIONAL INDEMNITY POLICY FOR INSURANCE BROKERS/",
       "entity": "Intermediaries",
       "subtype": "Insurance Brokers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": "INT",
       "refNo": "IRDAI/ INT/ GDL/ 146/ 05/ 2021",
@@ -5059,12 +4723,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "GUIDELINES ON STANDARD PROFESSIONAL INDEMNITY POLICY FOR INSURANCE BROKERS/ — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "GUIDELINES ON STANDARD PROFESSIONAL INDEMNITY POLICY FOR INSURANCE BROKERS/.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "397859",
@@ -5082,7 +4743,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5091,7 +4752,7 @@
       "title": "Guidelines on Standard Domestic Travel Insurance Product",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": "HLT",
       "refNo": "IRDAI/HLT/REG/CIR/ 119/05/2021",
@@ -5101,12 +4762,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines on Standard Domestic Travel Insurance Product — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines on Standard Domestic Travel Insurance Product.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "397579",
@@ -5124,7 +4782,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5133,7 +4791,7 @@
       "title": "Guidelines for Practical Training for Surveyors and Loss Assessors",
       "entity": "Intermediaries",
       "subtype": "Surveyors & Loss Assessors",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2021,
       "dept": null,
       "refNo": "IRDA/SUR/GDL/MISC/068/03/2021",
@@ -5145,12 +4803,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Guidelines for Practical Training for Surveyors and Loss Assessors — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Guidelines for Practical Training for Surveyors and Loss Assessors.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "397219",
@@ -5168,7 +4823,7 @@
         ],
         "source_page": "https://irdai.gov.in/guidelines",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5177,7 +4832,7 @@
       "title": "परामर्श पत्र - एक्सपोजर ड्राफ्ट आईआरडीएआई (पालिसीधारकों की शिक्षा और संरक्षण निधि) विनियम, 2026 / Consultation Paper - Exposure Draft IRDAI (POLICYHOLDERS’ EDUCATION AND PROTECTION FUND) REGULATIONS, 2026",
       "entity": "Common",
       "subtype": "Applicable across multiple regulated entities",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "परामर्श पत्र - एक्सपोजर ड्राफ्ट आईआरडीएआई (पालिसीधारकों की शिक्षा और संरक्षण निधि) विनियम, 2026 / Consultation Paper - Exposure Draft IRDAI (POLICYHOLDERS’ EDUCATION AND PROTECTION FUND) REGULATIONS, 2026",
@@ -5189,12 +4844,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परामर्श पत्र - एक्सपोजर ड्राफ्ट आईआरडीएआई (पालिसीधारकों की शिक्षा और संरक्षण निधि) विनियम, 2026 / Consultation Paper - Exposure Draft IRDAI (POLICYHOLDERS’ EDUCATION AND PROTECTION FUND) REGULATIONS, 2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परामर्श पत्र - एक्सपोजर ड्राफ्ट आईआरडीएआई (पालिसीधारकों की शिक्षा और संरक्षण निधि) विनियम, 2026 / Consultation Paper - Exposure Draft IRDAI (POLICYHOLDERS’ EDUCATION AND PROTECTION FUND) REGULATIONS, 2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9589177",
@@ -5212,7 +4864,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5221,7 +4873,7 @@
       "title": "आईआरडीएआई (अन्य पक्ष प्रबंधक – स्वास्थ्य सेवाएँ) (संशोधन) विनियम, 2026 पर एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI (Third Party Administrators - Health Services) (Amendment) Regulations, 2026.",
       "entity": "Intermediaries",
       "subtype": "Third Party Administrators (TPAs)",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "आईआरडीएआई (अन्य पक्ष प्रबंधक – स्वास्थ्य सेवाएँ) (संशोधन) विनियम, 2026 पर एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI (Third Party Administrators - Health Services) (Amendment) Regulations, 2026.",
@@ -5233,12 +4885,9 @@
         "health"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "आईआरडीएआई (अन्य पक्ष प्रबंधक – स्वास्थ्य सेवाएँ) (संशोधन) विनियम, 2026 पर एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI (Third Party Administrators - Health Services) (Amendment) Regulations, 2026. — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "आईआरडीएआई (अन्य पक्ष प्रबंधक – स्वास्थ्य सेवाएँ) (संशोधन) विनियम, 2026 पर एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI (Third Party Administrators - Health Services) (Amendment) Regulations, 2026..",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9572466",
@@ -5256,7 +4905,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5265,7 +4914,7 @@
       "title": "आईआरडीएआई (अर्थदंड लगाने के लिए पद्धति और प्रक्रिया) विनियम, 2026 संबंधी एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI(Manner and Procedure for Imposing Penalties) Regulations, 2026",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "Public Consultation Note- IRDAI (Manner and Procedure for Imposition of Penalties) Regulations, 2026",
@@ -5275,12 +4924,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "आईआरडीएआई (अर्थदंड लगाने के लिए पद्धति और प्रक्रिया) विनियम, 2026 संबंधी एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI(Manner and Procedure for Imposing Penalties) Regulations, 2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "आईआरडीएआई (अर्थदंड लगाने के लिए पद्धति और प्रक्रिया) विनियम, 2026 संबंधी एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI(Manner and Procedure for Imposing Penalties) Regulations, 2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9573085",
@@ -5298,7 +4944,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5307,7 +4953,7 @@
       "title": "परामर्श पत्र - आईआरडीएआई (बीमा मध्यवर्ती) (संशोधन) विनियम, 2026 / Consultation Paper-IRDAI (Insurance Intermediaries)(Amendment) Regulations,2026",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "परामर्श पत्र - आईआरडीएआई (बीमा मध्यवर्ती) (संशोधन) विनियम, 2026 / Consultation Paper-IRDAI (Insurance Intermediaries)(Amendment) Regulations,2026",
@@ -5317,12 +4963,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परामर्श पत्र - आईआरडीएआई (बीमा मध्यवर्ती) (संशोधन) विनियम, 2026 / Consultation Paper-IRDAI (Insurance Intermediaries)(Amendment) Regulations,2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परामर्श पत्र - आईआरडीएआई (बीमा मध्यवर्ती) (संशोधन) विनियम, 2026 / Consultation Paper-IRDAI (Insurance Intermediaries)(Amendment) Regulations,2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9576161",
@@ -5340,7 +4983,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5349,7 +4992,7 @@
       "title": "परामर्श पत्र एक्सपोज़र ड्राफ्ट आईआरडीएआई(विदेशी पुनर्बीमाकर्ता शाखाओं और लायड्स इंडिया का पंजीकरण और परिचालन)(संशोधन)विनियम, 2024/ Consultation Paper-Exposure Draft IRDAI(Registration and Operations of FRBs and Lloyd’s India)(Amendment) Regulations, 2024",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "परामर्श पत्र एक्सपोज़र ड्राफ्ट आईआरडीएआई(विदेशी पुनर्बीमाकर्ता शाखाओं और लायड्स इंडिया का पंजीकरण और परिचालन)(संशोधन)विनियम, 2024/ Consultation Paper-Exposure Draft IRDAI(Registration and Operations of FRBs and Lloyd’s India)(Amendment) Regulations, 2024",
@@ -5361,12 +5004,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परामर्श पत्र एक्सपोज़र ड्राफ्ट आईआरडीएआई(विदेशी पुनर्बीमाकर्ता शाखाओं और लायड्स इंडिया का पंजीकरण और परिचालन)(संशोधन)विनियम, 2024/ Consultation Paper-Exposure Draft IRDAI(Registration and Operations of FRBs and Lloyd’s India)(Amendment) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परामर्श पत्र एक्सपोज़र ड्राफ्ट आईआरडीएआई(विदेशी पुनर्बीमाकर्ता शाखाओं और लायड्स इंडिया का पंजीकरण और परिचालन)(संशोधन)विनियम, 2024/ Consultation Paper-Exposure Draft IRDAI(Registration and Operations of FRBs and Lloyd’s India)(Amendment) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9575749",
@@ -5384,7 +5024,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5393,7 +5033,7 @@
       "title": "आईआरडीएआई (बीमाकर्ताओं के बीमांकिक, वित्त और निवेश कार्य) विनियम, 2024 में प्रस्तावित संशोधनों संबंधी परामर्श-पत्र / Consultation Paper on IRDAI (Actuarial, Finance and Investment Functions of Insurers) (Second Amendment) Regulations 2026",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "आईआरडीएआई (बीमाकर्ताओं के बीमांकिक, वित्त और निवेश कार्य) विनियम, 2024 में प्रस्तावित संशोधनों संबंधी परामर्श-पत्र / Consultation Paper on IRDAI (Actuarial, Finance and Investment Functions of Insurers) (Second Amendment) Regulations 2026",
@@ -5405,12 +5045,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "आईआरडीएआई (बीमाकर्ताओं के बीमांकिक, वित्त और निवेश कार्य) विनियम, 2024 में प्रस्तावित संशोधनों संबंधी परामर्श-पत्र / Consultation Paper on IRDAI (Actuarial, Finance and Investment Functions of Insurers) (Second Amendment) Regulations 2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "आईआरडीएआई (बीमाकर्ताओं के बीमांकिक, वित्त और निवेश कार्य) विनियम, 2024 में प्रस्तावित संशोधनों संबंधी परामर्श-पत्र / Consultation Paper on IRDAI (Actuarial, Finance and Investment Functions of Insurers) (Second Amendment) Regulations 2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9574275",
@@ -5428,7 +5065,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": [
           "amends:?"
         ]
@@ -5439,7 +5076,7 @@
       "title": "आईआरडीएआई (बीमा सर्वेक्षक और हानि निर्धारक) (तीसरा संशोधन) विनियम, 2026 के प्रस्तावित संशोधनों संबंधी एक्सपोज़र प्रारूप / Exposure Draft on IRDAI (Insurance Surveyors and Loss Assessors) (Third Amendment) Regulations, 2026",
       "entity": "Intermediaries",
       "subtype": "Surveyors & Loss Assessors",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "आईआरडीएआई (बीमा सर्वेक्षक और हानि निर्धारक) (तीसरा संशोधन) विनियम, 2026 के प्रस्तावित संशोधनों संबंधी एक्सपोज़र प्रारूप / Exposure Draft on IRDAI (Insurance Surveyors and Loss Assessors) (Third Amendment) Regulations, 2026",
@@ -5451,12 +5088,9 @@
         "distribution"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "आईआरडीएआई (बीमा सर्वेक्षक और हानि निर्धारक) (तीसरा संशोधन) विनियम, 2026 के प्रस्तावित संशोधनों संबंधी एक्सपोज़र प्रारूप / Exposure Draft on IRDAI (Insurance Surveyors and Loss Assessors) (Third Amendment) Regulations, 2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "आईआरडीएआई (बीमा सर्वेक्षक और हानि निर्धारक) (तीसरा संशोधन) विनियम, 2026 के प्रस्तावित संशोधनों संबंधी एक्सपोज़र प्रारूप / Exposure Draft on IRDAI (Insurance Surveyors and Loss Assessors) (Third Amendment) Regulations, 2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9574845",
@@ -5474,7 +5108,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": [
           "amends:?"
         ]
@@ -5485,7 +5119,7 @@
       "title": "आईआरडीएआई (विनियम और सहायक अनुदेश बनाने के लिए प्रक्रिया) विनियम, 2026 संबंधी एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI (Procedure for Making Regulations and Subsidiary Instructions) Regulations, 2026",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "आईआरडीएआई (विनियम और सहायक अनुदेश बनाने के लिए प्रक्रिया) विनियम, 2026 संबंधी एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI (Procedure for Making Regulations and Subsidiary Instructions) Regulations, 2026",
@@ -5495,12 +5129,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "आईआरडीएआई (विनियम और सहायक अनुदेश बनाने के लिए प्रक्रिया) विनियम, 2026 संबंधी एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI (Procedure for Making Regulations and Subsidiary Instructions) Regulations, 2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "आईआरडीएआई (विनियम और सहायक अनुदेश बनाने के लिए प्रक्रिया) विनियम, 2026 संबंधी एक्सपोज़र प्रारूप / Exposure Draft on the IRDAI (Procedure for Making Regulations and Subsidiary Instructions) Regulations, 2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9563121",
@@ -5518,7 +5149,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5527,7 +5158,7 @@
       "title": "परामर्श दस्तावेज़-आईआरडीएआई(बीमाकर्ताओं का पंजीकरण,पूँजी विन्यास,शेयरों का अंतरण और समामेलन) (प्रथम संशोधन),विनियम,2026/Consultation Paper-IRDAI(Registration,Capital Structure,Transfer of Shares and Amalgamation of Insurers)(1st Amendment)Regulations,2026",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "परामर्श दस्तावेज़-आईआरडीएआई(बीमाकर्ताओं का पंजीकरण,पूँजी विन्यास,शेयरों का अंतरण और समामेलन) (प्रथम संशोधन),विनियम,2026/Consultation Paper-IRDAI(Registration,Capital Structure,Transfer of Shares and Amalgamation of Insurers)(1st Amendment)Regulations,2026",
@@ -5539,12 +5170,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "परामर्श दस्तावेज़-आईआरडीएआई(बीमाकर्ताओं का पंजीकरण,पूँजी विन्यास,शेयरों का अंतरण और समामेलन) (प्रथम संशोधन),विनियम,2026/Consultation Paper-IRDAI(Registration,Capital Structure,Transfer of Shares and Amalgamation of Insurers)(1st Amendment)Regulations,2026 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "परामर्श दस्तावेज़-आईआरडीएआई(बीमाकर्ताओं का पंजीकरण,पूँजी विन्यास,शेयरों का अंतरण और समामेलन) (प्रथम संशोधन),विनियम,2026/Consultation Paper-IRDAI(Registration,Capital Structure,Transfer of Shares and Amalgamation of Insurers)(1st Amendment)Regulations,2026.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "9546932",
@@ -5562,7 +5190,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": [
           "amends:?"
         ]
@@ -5573,7 +5201,7 @@
       "title": "Exposure draft on Ind AS Implementation",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2026,
       "dept": null,
       "refNo": "100/2/IFRS-Mission Mode/2026/ Vol 3",
@@ -5583,12 +5211,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Exposure draft on Ind AS Implementation — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Exposure draft on Ind AS Implementation.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "8885226",
@@ -5606,7 +5231,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5615,7 +5240,7 @@
       "title": "बुनियादी संरचना विशेष प्रयोजन माध्यमों (एसपीवीएस) में  बीमाकर्ताओं के निवेश के संबंध में परामर्श / Consultation on Insurers’ Investment in Infrastructure SPVs",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/INV/CIR/08/2024-25/01",
@@ -5627,12 +5252,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "बुनियादी संरचना विशेष प्रयोजन माध्यमों (एसपीवीएस) में  बीमाकर्ताओं के निवेश के संबंध में परामर्श / Consultation on Insurers’ Investment in Infrastructure SPVs — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "बुनियादी संरचना विशेष प्रयोजन माध्यमों (एसपीवीएस) में  बीमाकर्ताओं के निवेश के संबंध में परामर्श / Consultation on Insurers’ Investment in Infrastructure SPVs.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "8292873",
@@ -5650,7 +5272,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5659,7 +5281,7 @@
       "title": "Exposure Draft IRDAI (Internal Insurance Ombudsman) Guidelines, 2025",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2025,
       "dept": null,
       "refNo": "Exposure Draft IRDAI (Internal Insurance Ombudsman) Guidelines, 2025",
@@ -5669,12 +5291,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Exposure Draft IRDAI (Internal Insurance Ombudsman) Guidelines, 2025 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Exposure Draft IRDAI (Internal Insurance Ombudsman) Guidelines, 2025.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "7629967",
@@ -5692,7 +5311,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5701,7 +5320,7 @@
       "title": "IRDAI(Meetings) Amendment REGULATIONS, 2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI(Meetings) Amendment REGULATIONS, 2024",
@@ -5711,12 +5330,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI(Meetings) Amendment REGULATIONS, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI(Meetings) Amendment REGULATIONS, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6096228",
@@ -5734,7 +5350,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5743,7 +5359,7 @@
       "title": "IRDAI (IAC)(Amendment) Regulations, 2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI (IAC)(Amendment) Regulations, 2024",
@@ -5753,12 +5369,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (IAC)(Amendment) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (IAC)(Amendment) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6098056",
@@ -5776,7 +5389,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5785,7 +5398,7 @@
       "title": "Exposure draft IRDAI (RAC)(Amendment) Regulations, 2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "Exposure draft IRDAI (RAC)(Amendment) Regulations, 2024",
@@ -5795,12 +5408,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Exposure draft IRDAI (RAC)(Amendment) Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Exposure draft IRDAI (RAC)(Amendment) Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6099932",
@@ -5818,7 +5428,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5827,7 +5437,7 @@
       "title": "Draft IRDAI (Regulatory Sandbox) (Amendment) Regulations",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "Draft IRDAI (Regulatory Sandbox) (Amendment) Regulations",
@@ -5837,12 +5447,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Draft IRDAI (Regulatory Sandbox) (Amendment) Regulations — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Draft IRDAI (Regulatory Sandbox) (Amendment) Regulations.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6094821",
@@ -5860,7 +5467,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5869,7 +5476,7 @@
       "title": "IRDAI (Maintenance of Information by the Regulated Entities and Sharing of information by the Authority), Regulations, 2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/Sup-Dept/MIRESI-REG/2024",
@@ -5879,12 +5486,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Maintenance of Information by the Regulated Entities and Sharing of information by the Authority), Regulations, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Maintenance of Information by the Regulated Entities and Sharing of information by the Authority), Regulations, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6064140",
@@ -5902,7 +5506,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5911,7 +5515,7 @@
       "title": "IRDAI (Insurance Fraud Monitoring Framework) Guidelines, 2024",
       "entity": "Common",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/IIDD/TF-Fraud/2024",
@@ -5921,12 +5525,9 @@
       "aliases": [],
       "subjects": [],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "IRDAI (Insurance Fraud Monitoring Framework) Guidelines, 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "IRDAI (Insurance Fraud Monitoring Framework) Guidelines, 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "6023734",
@@ -5944,7 +5545,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5953,7 +5554,7 @@
       "title": "Exposure Draft Guidelines on Collateralized reinsurance transactions for placement of reinsurance business with Cross Border Reinsurers",
       "entity": "Insurers",
       "subtype": "Reinsurers",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "IRDAI/ RI/ GDL/Misc./02/2024",
@@ -5965,12 +5566,9 @@
         "reinsurance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Exposure Draft Guidelines on Collateralized reinsurance transactions for placement of reinsurance business with Cross Border Reinsurers — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Exposure Draft Guidelines on Collateralized reinsurance transactions for placement of reinsurance business with Cross Border Reinsurers.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4432973",
@@ -5988,7 +5586,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     },
@@ -5997,7 +5595,7 @@
       "title": "Exposure Draft IRDAI(Protection of Policyholders’ Interests and Allied Matters of Insurers) regulations 2024",
       "entity": "Insurers",
       "subtype": "—",
-      "status": "Unclassified",
+      "status": "Existing",
       "year": 2024,
       "dept": null,
       "refNo": "Exposure Draft IRDAI(Protection of Policyholders’ Interests and Allied Matters of Insurers) regulations 2024",
@@ -6009,12 +5607,9 @@
         "governance"
       ],
       "attachments": 2,
-      "maintenance": [
-        "stub",
-        "verify"
-      ],
-      "lede": "Exposure Draft IRDAI(Protection of Policyholders’ Interests and Allied Matters of Insurers) regulations 2024 — auto-ingested; entity classification and relationship mapping pending human review.",
-      "history": "Auto-created by irdai_watcher on 2026-07-13. Classification pending.",
+      "maintenance": [],
+      "lede": "Exposure Draft IRDAI(Protection of Policyholders’ Interests and Allied Matters of Insurers) regulations 2024.",
+      "history": "Auto-classified by irdai_watcher on 2026-07-13.",
       "relations": {},
       "_source": {
         "liferay_id": "4416546",
@@ -6032,7 +5627,7 @@
         ],
         "source_page": "https://irdai.gov.in/exposure-drafts",
         "first_seen": "2026-07-13T11:25:52.981576+00:00",
-        "last_seen": "2026-07-14T03:42:43.412011+00:00",
+        "last_seen": "2026-07-15T03:42:54.463709+00:00",
         "pending_relations": []
       }
     }
