@@ -322,13 +322,13 @@
     </div>
     <div class="sb-group">
       <div class="sb-label">About</div>
-      <span style="font-size:11.5px;color:var(--ink-faint);line-height:1.6;display:block;">Internal reference prototype. Placeholder data only — not sourced from live IRDAI issuances.</span>
+      <span style="font-size:11.5px;color:var(--ink-faint);line-height:1.6;display:block;">Internal reference. Auto-ingested from the IRDAI Legal section by irdai_watcher — classifications are heuristic; verify against the source PDF before relying on an entry.</span>
     </div>
   </nav>
 
   <div>
     <div class="searchbar">
-      <span class="searchhint">try&nbsp; type:Circulars entity:Brokers</span>
+      <span class="searchhint">try&nbsp; type:Circulars year:2026</span>
       <div class="searchbar-wrap">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#767676" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.6" y2="16.6"/></svg>
         <input id="topSearchInput" type="text" placeholder="Search titles, aliases, ref. nos…" autocomplete="off">
@@ -379,7 +379,7 @@
 
 <script>
 /* =====================================================================
-   MOCK DATA — placeholder entries only.
+   DOCS — populated entirely from data/docs.generated.js (irdai_watcher.py).
    Field notes:
    - status: repository status (Existing / Repealed / Superseded / Withdrawn /
      Lapsed / draft-lifecycle stages). Distinct from `archived`,
@@ -393,276 +393,12 @@
      supersedes/supersededBy, invokes/invokedBy, issuedUnder (inverse: enables),
      readWith (symmetric). Targets may carry a provision anchor: "docid#prov-x".
    ===================================================================== */
-const DOCS = {
+const DOCS = {};
 
-  "act-insurance-1938": { type:"Acts", title:"Insurance Act, 1938", entity:"Common", subtype:"—", status:"Existing", year:1938,
-    dept:"LGL", refNo:"Act No. 4 of 1938", dateIssued:"1938-02-26", archived:false, sourceCategory:"Acts",
-    aliases:["Insurance Act","Insurance Act 1938","the Act"], subjects:["governance"], attachments:1,
-    lede:"The founding statute governing the business of insurance in India, providing the legal basis for licensing, solvency, and conduct requirements later elaborated through IRDAI regulations.",
-    history:"Enacted prior to the establishment of IRDAI, this Act remains the parent legislation under which the Authority's regulation-making powers are ultimately traceable, though day-to-day rule-making now sits with IRDAI under the 1999 Act.",
-    amendments:[
-      {date:"2015-03-23", wef:"2014-12-26", title:"Insurance Laws (Amendment) Act, 2015", note:"Raised the FDI cap and revised the penalty framework (placeholder summary)."},
-      {date:"2021-03-25", wef:"2021-04-01", title:"Insurance (Amendment) Act, 2021", note:"Raised FDI limit in insurers to 74% (placeholder summary)."}
-    ],
-    relations:{} },
-
-  "act-irda-1999": { type:"Acts", title:"IRDA Act, 1999", entity:"Common", subtype:"—", status:"Existing", year:1999,
-    dept:"LGL", refNo:"Act No. 41 of 1999", dateIssued:"1999-12-29", archived:false, sourceCategory:"Acts",
-    aliases:["IRDA Act","IRDAI Act","Insurance Regulatory and Development Authority Act, 1999"], subjects:["governance"], attachments:1,
-    lede:"Establishes the Insurance Regulatory and Development Authority of India and its rule-making powers, forming the constitutional basis for the regulatory framework layer.",
-    history:"Passed to open the Indian insurance sector to private participation and to create an independent regulator; all subsequent Regulations, Master Circulars, and Guidelines derive their rule-making authority from this Act.",
-    relations:{} },
-
-  "rules-insurance-1939": { type:"Rules", title:"Insurance Rules, 1939", entity:"Common", subtype:"—", status:"Existing", year:1939,
-    dept:"LGL", refNo:"G.S.R. (placeholder)", dateIssued:"1939-07-01", archived:false, sourceCategory:"Rules",
-    aliases:["Insurance Rules"], subjects:["governance"], attachments:1,
-    lede:"Central Government rules framed under the Insurance Act, 1938, addressing procedural and administrative matters not delegated to the Authority.",
-    history:"Framed by the Central Government under the parent Act; retained as the procedural companion to the statute.",
-    relations:{ issuedUnder:["act-insurance-1938"] } },
-
-  "reg-brokers-2018": { type:"Regulations", title:"IRDAI (Insurance Brokers) Regulations, 2018", entity:"Intermediaries", subtype:"Insurance Brokers", status:"Existing", year:2018,
-    dept:"INT", refNo:"F. No. IRDAI/Reg/2/145/2018", dateIssued:"2018-01-12", wef:"2018-01-12", archived:false, sourceCategory:"Regulations",
-    aliases:["Brokers Regulations","Broker Regs","Insurance Brokers Regulations 2018","Brokers Regulations 2018"],
-    subjects:["distribution"], attachments:2,
-    enablingText:"s. 42D & 114A, Insurance Act, 1938; s. 14 & 26, IRDA Act, 1999",
-    lede:"Sets out registration, capital adequacy, and code-of-conduct requirements for entities carrying on insurance broking business.",
-    history:"Consolidated and replaced earlier standalone broker regulations to align capital and conduct norms with revised solvency benchmarks introduced in the same period.",
-    provisions:[
-      {id:"prov-reg5", ref:"Reg. 5", desc:"Capital and net worth requirements at registration", repealedOn:null, repealedBy:null},
-      {id:"prov-reg12", ref:"Reg. 12", desc:"Ongoing net worth maintenance for direct and reinsurance brokers", repealedOn:"2024-02-20", repealedBy:"cir-broker-networth-2024"},
-      {id:"prov-reg18", ref:"Reg. 18", desc:"Code of conduct for principal officers", repealedOn:null, repealedBy:null}
-    ],
-    amendments:[
-      {date:"2022-08-04", wef:"2022-08-04", title:"IRDAI (Insurance Brokers) (First Amendment) Regulations, 2022", doc:"not-brokers-amend-2022", note:"Amended remuneration and disclosure norms (placeholder summary)."},
-      {date:"2024-02-20", wef:"2024-02-20", title:"Reg. 12 superseded by Circular on Revised Net Worth Norms", doc:"cir-broker-networth-2024", note:"Net worth maintenance thresholds now prescribed by circular."}
-    ],
-    versions:[
-      {label:"As gazette-notified (2018)", bucket:"Consolidated & Gazette Notified Regulations", date:"2018-01-12"},
-      {label:"Updated upto First Amendment", bucket:"Updated Regulations", date:"2022-08-04"}
-    ],
-    relations:{ issuedUnder:["act-insurance-1938","act-irda-1999"], crossRef:["mc-corp-gov-2024"] } },
-
-  "not-brokers-amend-2022": { type:"Notifications", title:"IRDAI (Insurance Brokers) (First Amendment) Regulations, 2022 — Gazette Notification", entity:"Intermediaries", subtype:"Insurance Brokers", status:"Existing", year:2022,
-    dept:"INT", refNo:"F. No. IRDAI/Reg/9/183/2022", dateIssued:"2022-08-04", wef:"2022-08-04", archived:false, sourceCategory:"Notifications",
-    aliases:["Brokers First Amendment 2022"], subjects:["distribution"], attachments:1,
-    lede:"Gazette notification effecting the first amendment to the Insurance Brokers Regulations, 2018; the amended text is consolidated in the updated version of the parent regulations.",
-    history:"Notified in the Gazette of India; IRDAI publishes the resulting consolidated text separately under its Updated Regulations section.",
-    relations:{ amends:["reg-brokers-2018"], issuedUnder:["act-irda-1999"] } },
-
-  "cir-broker-networth-2024": { type:"Circulars", title:"Circular on Revised Net Worth Norms for Insurance Brokers", entity:"Intermediaries", subtype:"Insurance Brokers", status:"Existing", year:2024,
-    dept:"INT", refNo:"IRDAI/INT/CIR/BRK/44/02/2024", dateIssued:"2024-02-20", wef:"2024-02-20", archived:false, sourceCategory:"Circulars",
-    aliases:["Broker Net Worth Circular","Revised Net Worth Norms Circular"], subjects:["distribution"], attachments:2,
-    enablingText:"s. 14(2)(i), IRDA Act, 1999",
-    lede:"Revises the net worth maintenance thresholds previously prescribed under Regulation 12 of the Insurance Brokers Regulations, in light of updated solvency benchmarks.",
-    history:"Issued following a sector-wide review of broker solvency following several licence suspensions attributed to inadequate net worth buffers.",
-    relations:{ repeals:["reg-brokers-2018#prov-reg12"], crossRef:["act-insurance-1938"], issuedUnder:["act-irda-1999"] } },
-
-  "reg-corp-agents-2015": { type:"Regulations", title:"IRDAI (Registration of Corporate Agents) Regulations, 2015", entity:"Intermediaries", subtype:"Corporate Agents", status:"Existing", year:2015,
-    dept:"INT", refNo:"F. No. IRDAI/Reg/14/107/2015", dateIssued:"2015-08-20", wef:"2015-08-20", archived:false, sourceCategory:"Regulations",
-    aliases:["Corporate Agents Regulations"], subjects:["distribution"], attachments:1,
-    enablingText:"s. 42D, Insurance Act, 1938; s. 14 & 26, IRDA Act, 1999",
-    lede:"Governs the registration, tenure, and permissible tie-ups of corporate agents distributing insurance products on behalf of insurers.",
-    history:"Introduced open architecture, allowing corporate agents to tie up with multiple insurers within prescribed limits, a departure from the earlier single-insurer tie-up model.",
-    relations:{ issuedUnder:["act-insurance-1938","act-irda-1999"] } },
-
-  "reg-tpa-2016": { type:"Regulations", title:"IRDAI (Third Party Administrators – Health Services) Regulations, 2016", entity:"Intermediaries", subtype:"Third Party Administrators (TPAs)", status:"Existing", year:2016,
-    dept:"HLT", refNo:"F. No. IRDAI/Reg/10/119/2016", dateIssued:"2016-03-14", wef:"2016-03-14", archived:false, sourceCategory:"Regulations",
-    aliases:["TPA Regulations","Third Party Administrators Regulations"], subjects:["health"], attachments:1,
-    enablingText:"s. 114A, Insurance Act, 1938; s. 26, IRDA Act, 1999",
-    lede:"Regulates entities providing claims processing and health services administration on behalf of insurers.",
-    history:"Updated licensing and reporting obligations for TPAs following concerns over claim-settlement transparency raised in earlier supervisory reviews.",
-    relations:{ crossRef:["cir-tpa-tat-2019"], issuedUnder:["act-insurance-1938","act-irda-1999"] } },
-
-  "reg-reinsurance-2018": { type:"Regulations", title:"IRDAI (Life Insurance – Reinsurance) Regulations, 2018", entity:"Insurers", subtype:"Reinsurers", status:"Existing", year:2018,
-    dept:"REIN", refNo:"F. No. IRDAI/Reg/22/151/2018", dateIssued:"2018-12-03", wef:"2019-01-01", archived:false, sourceCategory:"Regulations",
-    aliases:["Life Reinsurance Regulations"], subjects:["reinsurance"], attachments:1,
-    enablingText:"s. 101A, Insurance Act, 1938; s. 26, IRDA Act, 1999",
-    lede:"Prescribes reinsurance cession norms and reporting obligations for life insurers and reinsurers operating in India.",
-    history:"Replaced the general insurance-era reinsurance framework with a dedicated life-insurance-specific instrument as the reinsurance market matured.",
-    versions:[{label:"As gazette-notified (2018)", bucket:"Consolidated & Gazette Notified Regulations", date:"2018-12-03"}],
-    relations:{ repeals:["reg-gi-reinsurance-2000"], issuedUnder:["act-insurance-1938","act-irda-1999"] } },
-
-  "reg-gi-reinsurance-2000": { type:"Regulations", title:"IRDAI (General Insurance – Reinsurance) Regulations, 2000", entity:"Insurers", subtype:"General Insurers", status:"Repealed", year:2000,
-    dept:"REIN", refNo:"F. No. IRDA/Reg/6/2000", dateIssued:"2000-07-14", wef:"2000-07-14", archived:true, sourceCategory:"Regulations",
-    aliases:["GI Reinsurance Regulations","General Insurance Reinsurance Regulations 2000"], subjects:["reinsurance"], attachments:1,
-    lede:"The earlier reinsurance framework for general insurers, retained here for historical and litigation reference only.",
-    history:"One of the earliest regulations issued after IRDAI's constitution, superseded in 2018 as reinsurance cession practices evolved.",
-    relations:{ repealedBy:["reg-reinsurance-2018"], issuedUnder:["act-irda-1999"] } },
-
-  "reg-health-proposal-2020": { type:"Regulations", title:"IRDAI (Standard Proposal Form for Health Insurance) Regulations, 2020", entity:"Insurers", subtype:"Standalone Health Insurers", status:"Existing", year:2020,
-    dept:"HLT", refNo:"F. No. IRDAI/Reg/3/162/2020", dateIssued:"2020-02-06", wef:"2020-04-01", archived:false, sourceCategory:"Regulations",
-    aliases:["Standard Proposal Form Regulations"], subjects:["health"], attachments:1,
-    enablingText:"s. 114A, Insurance Act, 1938",
-    lede:"Standardises the proposal form used across health insurers to improve comparability of disclosures at the point of sale.",
-    history:"Followed a market study finding significant variance in pre-sale disclosure quality across health insurers.",
-    relations:{ crossRef:["gl-health-filing-2024"], issuedUnder:["act-insurance-1938"] } },
-
-  "mc-web-agg-2023": { type:"Master Circulars", title:"Master Circular on Web Aggregators", entity:"Intermediaries", subtype:"Web Aggregators", status:"Existing", year:2023,
-    dept:"INT", refNo:"IRDAI/INT/MSTCIR/WBA/61/04/2023", dateIssued:"2023-04-18", wef:"2023-04-18", archived:false, sourceCategory:"Circulars",
-    aliases:["Web Aggregators Master Circular"], subjects:["distribution"], attachments:2,
-    reviewCycle:"Reviewed every year unless review or repeal is warranted earlier",
-    enablingText:"s. 14(2)(i), IRDA Act, 1999",
-    lede:"Consolidates prior circulars on web aggregator registration, display of insurer quotes, and grievance redressal into a single reference instrument.",
-    history:"Brought together several standalone circulars issued over the preceding six years into a single consolidated reference document.",
-    relations:{ finalises:["ed-web-agg-2023"], issuedUnder:["act-irda-1999"] } },
-
-  "mc-life-products-2024": { type:"Master Circulars", title:"Master Circular on Life Insurance Products", entity:"Insurers", subtype:"Life Insurers", status:"Existing", year:2024,
-    dept:"ACTL", refNo:"IRDAI/ACTL/MSTCIR/MISC/89/6/2024", dateIssued:"2024-06-12", wef:"2024-06-12", archived:false, sourceCategory:"Circulars",
-    aliases:["Life Products Master Circular"], subjects:["governance"], attachments:1,
-    reviewCycle:"Reviewed every year unless review or repeal is warranted earlier",
-    enablingText:"s. 34, Insurance Act, 1938; s. 14(2)(i), IRDA Act, 1999",
-    lede:"Sets out product design, surrender value, and disclosure norms applicable to life insurance products.",
-    history:"Reflects revised surrender value norms introduced after a public consultation on policyholder outcomes.",
-    relations:{ crossRef:["cir-bancassurance-2022"], issuedUnder:["act-insurance-1938","act-irda-1999"] } },
-
-  "mc-corp-gov-2024": { type:"Master Circulars", title:"Master Circular on Corporate Governance for Insurers, 2024", entity:"Insurers", subtype:"Life Insurers, General Insurers, Standalone Health Insurers", status:"Existing", year:2024,
-    dept:"F&I", refNo:"IRDAI/F&I/CIR/MISC/82/5/2024", dateIssued:"2024-05-22", wef:"2024-05-22", archived:false, sourceCategory:"Circulars",
-    aliases:["Corporate Governance Master Circular","CG Master Circular"], subjects:["governance"], attachments:1,
-    reviewCycle:"Reviewed every year unless review or repeal is warranted earlier",
-    enablingText:"s. 34, Insurance Act, 1938; s. 14(2)(i), IRDA Act, 1999",
-    lede:"Consolidated governance requirements covering board composition, committee structures, and fit-and-proper norms for insurers.",
-    history:"Consolidated a decade of incremental governance circulars into a single instrument for ease of reference.",
-    relations:{ issuedUnder:["act-insurance-1938","act-irda-1999"], readWith:["mc-life-products-2024"] } },
-
-  "mc-surveyors-2017": { type:"Master Circulars", title:"Master Circular on Surveyors and Loss Assessors (2017)", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Superseded", year:2017,
-    dept:"NL", refNo:"IRDAI/NL/MSTCIR/SUR/98/06/2017", dateIssued:"2017-06-08", archived:true, sourceCategory:"Circulars",
-    aliases:["Surveyors Master Circular 2017"], subjects:["distribution"], attachments:1,
-    lede:"Earlier consolidated guidance for licensed surveyors, superseded by the 2023 consolidation covering the same subject matter.",
-    history:"Served as the primary reference for surveyor licensing for six years before being folded into a broader consolidation exercise.",
-    relations:{ supersededBy:["mc-surveyors-2023"] } },
-
-  "mc-surveyors-2023": { type:"Master Circulars", title:"Master Circular on Surveyors and Loss Assessors, 2023", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Existing", year:2023,
-    dept:"NL", refNo:"IRDAI/NL/MSTCIR/SUR/141/09/2023", dateIssued:"2023-09-27", wef:"2023-09-27", archived:false, sourceCategory:"Circulars",
-    aliases:["Surveyors Master Circular"], subjects:["distribution"], attachments:2,
-    reviewCycle:"Reviewed every year unless review or repeal is warranted earlier",
-    lede:"Consolidates surveyor and loss assessor licensing, categorisation, and conduct requirements, superseding the 2017 master circular.",
-    history:"Issued as part of the consolidation drive that replaced legacy master circulars with updated instruments referencing the current regulations.",
-    relations:{ supersedes:["mc-surveyors-2017"] } },
-
-  "cir-bancassurance-2022": { type:"Circulars", title:"Circular on Bancassurance Reporting Format", entity:"Insurers", subtype:"Life Insurers, General Insurers", status:"Existing", year:2022,
-    dept:"LIFE", refNo:"IRDAI/LIFE/CIR/MISC/152/09/2022", dateIssued:"2022-09-15", archived:false, sourceCategory:"Circulars",
-    aliases:["Bancassurance Circular"], subjects:["distribution"], attachments:1,
-    lede:"Prescribes the periodic reporting format for bancassurance channel business, read together with the Master Circular on Life Insurance Products.",
-    history:"Standardised a reporting format that had previously varied by insurer, following supervisory difficulty comparing bancassurance disclosures across entities.",
-    relations:{ readWith:["mc-life-products-2024"] } },
-
-  "cir-imf-onboarding-2023": { type:"Circulars", title:"Circular on IMF Onboarding Timelines", entity:"Intermediaries", subtype:"Insurance Marketing Firms (IMFs)", status:"Existing", year:2023,
-    dept:"INT", refNo:"IRDAI/INT/CIR/IMF/77/05/2023", dateIssued:"2023-05-11", archived:false, sourceCategory:"Circulars",
-    aliases:["IMF Onboarding Circular"], subjects:["distribution"], attachments:1,
-    lede:"Fixes the timelines within which insurance marketing firms must complete onboarding formalities with tied insurers.",
-    history:"Issued in response to onboarding delays flagged during the first wave of IMF registrations.",
-    relations:{} },
-
-  "cir-tpa-tat-2019": { type:"Circulars", title:"Circular on TPA Claim Settlement TAT", entity:"Intermediaries", subtype:"Third Party Administrators (TPAs)", status:"Superseded", year:2019,
-    dept:"HLT", refNo:"IRDAI/HLT/CIR/TPA/103/07/2019", dateIssued:"2019-07-22", archived:true, sourceCategory:"Circulars",
-    aliases:["TPA TAT Circular"], subjects:["health"], attachments:1,
-    lede:"Set turnaround-time benchmarks for TPA-administered health claims; superseded by later service-level norms issued under the TPA Regulations.",
-    history:"An early attempt at standardising claim TAT before service-level requirements were folded directly into the TPA Regulations framework.",
-    relations:{ supersededBy:["reg-tpa-2016"] } },
-
-  "cir-grievance-2009": { type:"Circulars", title:"Circular on Grievance Disposal Reporting (2009)", entity:"Common", subtype:"Applicable across multiple regulated entities", status:"Withdrawn", year:2009,
-    dept:"LGL", refNo:"IRDA/LGL/CIR/MISC/080/12/2009", dateIssued:"2009-12-17", archived:true, sourceCategory:"Circulars",
-    aliases:["2009 Grievance Circular"], subjects:["governance"], attachments:1,
-    lede:"Legacy reporting requirement on grievance disposal, formally withdrawn in 2024 as part of the regulatory rationalisation exercise.",
-    history:"Operated for fifteen years before being expressly withdrawn by a dedicated withdrawal circular — withdrawal being effected as a distinct action, not a repeal-and-replace.",
-    relations:{ withdrawnBy:["cir-withdrawal-2024"] } },
-
-  "cir-withdrawal-2024": { type:"Circulars", title:"Withdrawal of Circular No. IRDA/LGL/CIR/MISC/080/12/2009", entity:"Common", subtype:"Applicable across multiple regulated entities", status:"Existing", year:2024,
-    dept:"LGL", refNo:"IRDAI/LGL/CIR/71/5/2024", dateIssued:"2024-05-01", wef:"2024-05-01", archived:false, sourceCategory:"Circulars",
-    aliases:["Withdrawal Circular May 2024"], subjects:["governance"], attachments:1,
-    lede:"Formally withdraws the 2009 grievance disposal reporting circular. A worked example of withdrawal as a first-class regulatory action effected through its own instrument.",
-    history:"Part of IRDAI's rationalisation of legacy circulars; the withdrawn instrument moves to Archived status on the IRDAI site but is retained here with its withdrawal linkage.",
-    relations:{ withdraws:["cir-grievance-2009"] } },
-
-  "gl-repositories-2015": { type:"Guidelines", title:"Guidelines on Insurance Repositories", entity:"Intermediaries", subtype:"Insurance Repositories", status:"Existing", year:2015,
-    dept:"LIFE", refNo:"IRDAI/LIFE/GDL/GLD/090/05/2015", dateIssued:"2015-05-29", archived:false, sourceCategory:"Guidelines",
-    aliases:["Insurance Repositories Guidelines"], subjects:["distribution"], attachments:1,
-    lede:"Sets out eligibility, functions, and data security obligations for entities operating as insurance repositories holding policies in electronic form.",
-    history:"Issued alongside the initial push toward electronic policy holding, aimed at reducing paper-policy loss and fraud.",
-    relations:{} },
-
-  "gl-health-filing-2024": { type:"Guidelines", title:"Guidelines on Product Filing Procedure – Health", entity:"Insurers", subtype:"Standalone Health Insurers", status:"Existing", year:2024,
-    dept:"HLT", refNo:"IRDAI/HLT/GDL/PRO/58/03/2024", dateIssued:"2024-03-04", archived:false, sourceCategory:"Guidelines",
-    aliases:["Health Filing Guidelines"], subjects:["health"], attachments:3,
-    lede:"Details the file-and-use procedure and supporting documentation required for health insurance product approval.",
-    history:"Updated filing timelines and documentation requirements to align with the revised Standard Proposal Form Regulations.",
-    relations:{ crossRef:["reg-health-proposal-2020"] } },
-
-  "gl-advertisement-2021": { type:"Guidelines", title:"Guidelines on Advertisement, Promotion and Publicity", entity:"Common", subtype:"Applicable across multiple regulated entities", status:"Existing", year:2021,
-    dept:"PP&GR", refNo:"IRDAI/PP&GR/GDL/ADV/119/06/2021", dateIssued:"2021-06-24", archived:false, sourceCategory:"Guidelines",
-    aliases:["Advertisement Guidelines"], subjects:["governance","distribution"], attachments:1,
-    lede:"Governs permissible content, disclosures, and approval requirements for insurance-related advertising across all regulated entities.",
-    history:"Tightened disclosure requirements for return projections in advertising following complaints of misleading illustrations.",
-    relations:{} },
-
-  "gl-group-2005": { type:"Guidelines", title:"Guidelines on Group Insurance Policies", entity:"Insurers", subtype:"General Insurers", status:"Repealed", year:2005,
-    dept:"NL", refNo:"IRDA/NL/GDL/GRP/015/07/2005", dateIssued:"2005-07-14", archived:true, sourceCategory:"Guidelines",
-    aliases:["Group Insurance Guidelines"], subjects:["governance"], attachments:1,
-    lede:"Earlier framework for group policy administration, retained for transitional and litigation reference.",
-    history:"One of the earliest guidelines specific to group products, later absorbed into broader product regulations.",
-    relations:{} },
-
-  "ord-broker-suspension-2023": { type:"Orders", title:"Order in the matter of a Broker Entity — licence suspension", entity:"Intermediaries", subtype:"Insurance Brokers", status:"—", year:2023,
-    dept:"INT", refNo:"IRDAI/INT/ORD/MISC/188/11/2023", dateIssued:"2023-11-09", archived:false, sourceCategory:"Orders",
-    aliases:[], subjects:["distribution"], attachments:1,
-    lede:"Suspends the certificate of registration of a named broker for non-compliance with net worth and reporting requirements.",
-    history:"Followed an inspection that found the broker's net worth had fallen below the threshold prescribed under the Brokers Regulations.",
-    relations:{ invokes:["reg-brokers-2018#prov-reg5","reg-brokers-2018#prov-reg12"] } },
-
-  "ord-unregistered-2022": { type:"Orders", title:"Order against an unregistered entity soliciting insurance business", entity:"Others", subtype:"Others (as required)", status:"—", year:2022,
-    dept:"LGL", refNo:"IRDAI/LGL/ORD/MISC/141/08/2022", dateIssued:"2022-08-18", archived:false, sourceCategory:"Orders",
-    aliases:[], subjects:["governance"], attachments:1,
-    lede:"Directs cessation of insurance solicitation activity by an entity found to be operating without the requisite registration.",
-    history:"Arose from a complaint-driven investigation into unregistered solicitation activity in a regional market.",
-    relations:{} },
-
-  "ord-reinsurer-2024": { type:"Orders", title:"Order in the matter of a Reinsurer — compliance directions", entity:"Insurers", subtype:"Reinsurers", status:"—", year:2024,
-    dept:"REIN", refNo:"IRDAI/REIN/ORD/MISC/102/06/2024", dateIssued:"2024-06-20", archived:false, sourceCategory:"Orders",
-    aliases:[], subjects:["reinsurance"], attachments:1,
-    lede:"Issues compliance directions to a reinsurer following an inspection under the Reinsurance Regulations.",
-    history:"Followed a routine inspection cycle under the Life Insurance – Reinsurance Regulations.",
-    relations:{ invokes:["reg-reinsurance-2018"] } },
-
-  "not-health-comments-2025": { type:"Notices", title:"Notice inviting comments on Health Insurance product design", entity:"Common", subtype:"By Subject", status:"—", year:2025,
-    dept:"HLT", refNo:"IRDAI/HLT/NTC/MISC/33/02/2025", dateIssued:"2025-02-12", archived:false, sourceCategory:"Notices",
-    aliases:[], subjects:["health"], attachments:1,
-    lede:"Invites stakeholder comments ahead of a proposed revision to health insurance product design norms.",
-    history:"Part of a broader stakeholder consultation exercise preceding the next round of health product design reform.",
-    relations:{} },
-
-  "ed-imf-2026": { type:"Exposure Drafts", title:"Exposure Draft — IRDAI (Insurance Marketing Firms) Regulations, 2026", entity:"Intermediaries", subtype:"Insurance Marketing Firms (IMFs)", status:"Open for Comments", year:2026,
-    dept:"INT", refNo:"IRDAI/INT/ED/IMF/12/06/2026", dateIssued:"2026-06-15", archived:false, sourceCategory:"Exposure Drafts",
-    aliases:["IMF Exposure Draft"], subjects:["distribution"], attachments:2, deadline:"2026-08-31",
-    lede:"Proposes a dedicated regulatory framework for insurance marketing firms, currently open for public comment.",
-    history:"Follows several years of IMFs operating under interim circular-level guidance pending a dedicated regulation.",
-    relations:{ readWith:["cir-imf-onboarding-2023"] } },
-
-  "ed-surveyors-2025": { type:"Exposure Drafts", title:"Exposure Draft — Amendments to Surveyors Regulations", entity:"Intermediaries", subtype:"Surveyors & Loss Assessors", status:"Comments Closed", year:2025,
-    dept:"NL", refNo:"IRDAI/NL/ED/SUR/88/09/2025", dateIssued:"2025-09-02", archived:false, sourceCategory:"Exposure Drafts",
-    aliases:["Surveyors Amendment Draft"], subjects:["distribution"], attachments:1, deadline:"2025-10-15",
-    lede:"Proposed amendments to licensing norms for surveyors and loss assessors; the comment window has closed and finalisation is pending.",
-    history:"Comment window closed after a standard consultation period; finalisation is pending as of this entry.",
-    relations:{} },
-
-  "ed-web-agg-2023": { type:"Exposure Drafts", title:"Exposure Draft — Master Circular on Web Aggregators", entity:"Intermediaries", subtype:"Web Aggregators", status:"Finalised", year:2023,
-    dept:"INT", refNo:"IRDAI/INT/ED/WBA/09/01/2023", dateIssued:"2023-01-20", archived:true, sourceCategory:"Exposure Drafts",
-    aliases:[], subjects:["distribution"], attachments:1, deadline:"2023-02-28",
-    lede:"The drafting-stage version of what was finalised as the Master Circular on Web Aggregators; retained here for drafting history.",
-    history:"Circulated for comment before being finalised without material change to its core structure.",
-    relations:{ finalisedAs:["mc-web-agg-2023"] } },
-
-  "stub-cir-cyber-2026": { type:"Circulars", title:"Circular on Information & Cyber Security — reporting timelines", entity:"Common", subtype:"—", status:"Existing", year:2026,
-    dept:"F&I", refNo:"IRDAI/GA&HR/CIR/MISC/104/07/2026", dateIssued:"2026-07-08", archived:false, sourceCategory:"Circulars",
-    aliases:[], subjects:[], attachments:1, maintenance:[],
-    lede:"Circular on Information & Cyber Security — reporting timelines.",
-    history:"Auto-classified by irdai_watcher on 2026-07-08.",
-    relations:{} }
-};
-
-/* Merge scraper-generated corpus (window.IRDAI_DOCS from data/docs.generated.js).
+/* Load scraper-generated corpus (window.IRDAI_DOCS from data/docs.generated.js).
    Runs before the redirect index and all views are built, so auto-ingested
    docs get search, facets, portals, backlinks and stats for free.
-   Hand-curated entries win on slug collision. */
+   Hand-curated overrides added to DOCS above would win on slug collision. */
 if (typeof window !== 'undefined' && window.IRDAI_DOCS) {
   Object.entries(window.IRDAI_DOCS).forEach(([id, d]) => { if (!DOCS[id]) DOCS[id] = d; });
 }
@@ -704,11 +440,10 @@ const PORTALS = {
   governance:{ title:"Governance & Conduct", blurb:"Corporate governance, advertising conduct, grievance handling, and the statutory frame." }
 };
 
-const DISAMBIG = {
-  "reinsurance-regulations": { title:"Reinsurance Regulations", entries:["reg-reinsurance-2018","reg-gi-reinsurance-2000"],
-    desc:"Two instruments in this repository are commonly cited as the “Reinsurance Regulations”." }
-};
-const DISAMBIG_ALIASES = { "reinsurance regulations":"reinsurance-regulations" };
+/* Disambiguation pages — add entries here when two live instruments share a
+   commonly-cited name. Empty until curated against the real corpus. */
+const DISAMBIG = {};
+const DISAMBIG_ALIASES = {};
 
 /* Redirect index: normalized alias/title → doc id */
 const REDIRECT_INDEX = {};
@@ -718,50 +453,26 @@ Object.entries(DOCS).forEach(([id,d])=>{
   (d.aliases||[]).forEach(a=>{ REDIRECT_INDEX[normQ(a)] = id; });
 });
 
-/* ===================== Deterministic placeholder talk/history ===================== */
-function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))|0;} return Math.abs(h); }
-const EDITORS = ["a.krishnan","r.iyer (Trilegal)","s.bose","classification-bot","m.rao","reviewer-2"];
-const REV_SUMMARIES = ["Marked entity classification","Added cross-reference","Flagged for repeal review","Corrected sub-category","Linked provisions to repealing instrument","Verified against IRDAI Legal section","Recorded gazette reference"];
+/* ===================== Real provenance (from watcher _source) ===================== */
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const TALK_TEMPLATES = [
-  "Should this be filed under {entity} only, or does it also touch Common given the cross-reference? Flagging for a second look.",
-  "Confirmed the repeal linkage against the source PDF — looks correct, no changes needed.",
-  "Sub-category feels borderline between {sub} and a neighbouring category. Leaving as-is for now but worth revisiting during the next classification pass.",
-  "Ref. number suggests a different department vertical than the current classification — please verify against the PDF header.",
-];
+function fmtIso(ts){ return ts ? fmtDate(String(ts).slice(0,10)) : "—"; }
+function isoKey(ts){ return ts ? String(ts).slice(0,10) : ""; }
 
-function synthHistory(id){
-  const d = DOCS[id]; const h = hashStr(id);
-  const n = 2 + (h % 3);
+/* Revision history = what actually happened to the entry: created by the
+   watcher when first seen, re-verified each run while still listed. */
+function realHistory(id){
+  const d = DOCS[id]; if(!d) return [];
+  const src = d._source || {};
   const revs = [];
-  for(let i=0;i<n;i++){
-    const y = Math.min(2026, d.year + 1 + i);
-    const m = ((h + i*5) % 12);
-    const day = 3 + ((h + i*7) % 24);
-    const editor = i===0 ? (d._source ? "classification-bot" : EDITORS[h % EDITORS.length]) : EDITORS[(h + i*7) % EDITORS.length];
-    const summary = i===0 ? "Initial entry created" : REV_SUMMARIES[(h + i*13) % REV_SUMMARIES.length];
-    let diff = null;
-    if(i>0){
-      const pool = [
-        {field:"Sub-category", from:"(unset)", to:d.subtype},
-        {field:"Entity", from:"Common", to:d.entity},
-        {field:"Status", from:"(unset)", to:d.status},
-        {field:"Relations", from:"—", to:"+1 cross-reference"},
-        {field:"Ref. No.", from:"(unset)", to:d.refNo||"—"}
-      ];
-      diff = pool[(h + i*3) % pool.length];
-    }
-    revs.push({ id, y, m, day, dateStr:`${String(day).padStart(2,'0')} ${MONTHS[m]} ${y}`, sortKey:y*10000+(m+1)*100+day, editor, summary, diff });
+  if(src.first_seen){
+    revs.push({ id, dateStr: fmtIso(src.first_seen), sortKey: isoKey(src.first_seen),
+      editor: "irdai_watcher", summary: "Entry created — auto-classified from source listing" });
+  }
+  if(src.last_seen && isoKey(src.last_seen) !== isoKey(src.first_seen)){
+    revs.push({ id, dateStr: fmtIso(src.last_seen), sortKey: isoKey(src.last_seen),
+      editor: "irdai_watcher", summary: "Still listed on IRDAI site — metadata re-verified" });
   }
   return revs.reverse(); /* newest first */
-}
-function synthTalk(id){
-  const h = hashStr(id); const n = h % 3; const d = DOCS[id]; const items = [];
-  for(let i=0;i<n;i++){
-    const t = TALK_TEMPLATES[(h+i*3)%TALK_TEMPLATES.length].replace('{entity}', d.entity).replace('{sub}', (d.subtype||'').split(',')[0]||'this category');
-    items.push({ author: EDITORS[(h+i*11)%EDITORS.length], text: t, date: `${8+((h+i*4)%20)} Jun ${Math.min(2026,d.year+1)}`, resolved: ((h+i)%2)===0 });
-  }
-  return items;
 }
 
 /* ===================== Helpers ===================== */
@@ -831,7 +542,7 @@ function filenameFor(d){
   const ent = d.subtype && d.subtype!=='—' ? d.subtype.split(',')[0].trim() : d.entity;
   return `${d.type} – ${ent} – ${shortTitle} – ${d.year}`;
 }
-function latestRevDate(id){ const revs = synthHistory(id); return revs.length ? revs[0].dateStr : "—"; }
+function latestRevDate(id){ const revs = realHistory(id); return revs.length ? revs[0].dateStr : "—"; }
 function disambigKeyFor(id){
   return Object.keys(DISAMBIG).find(k=>DISAMBIG[k].entries.includes(id)) || null;
 }
@@ -844,6 +555,7 @@ document.getElementById('sbPortals').innerHTML = Object.entries(PORTALS).map(([k
 
 function goRandom(){
   const ids = Object.keys(DOCS);
+  if(!ids.length) return;
   location.hash = '#/doc/'+ids[Math.floor(Math.random()*ids.length)];
 }
 
@@ -937,7 +649,7 @@ function viewHome(){
   document.getElementById('view').innerHTML = `
     <div class="home-hero">
       <h1>The IRDAI Regulatory Repository</h1>
-      <p>A hyperlinked reference for IRDAI regulatory material. Every entry links to what repeals, amends, withdraws, supersedes or finalises it — trace a provision's lineage without leaving the page. All content is placeholder data for prototyping only.</p>
+      <p>A hyperlinked reference for IRDAI regulatory material, auto-ingested from the IRDAI Legal section. Every entry links to what repeals, amends, withdraws, supersedes or finalises it — trace a provision's lineage without leaving the page. Classifications are automated; verify against the source instrument.</p>
     </div>
     <h2 class="sec" style="border:none;margin-top:0;">Subject portals</h2>
     <div class="cat-cards">
@@ -1097,15 +809,15 @@ function specialStats(){
   `;
 }
 function specialRecent(){
-  const events = Object.keys(DOCS).flatMap(id=>synthHistory(id)).sort((a,b)=>b.sortKey-a.sortKey).slice(0,30);
+  const events = Object.keys(DOCS).flatMap(id=>realHistory(id)).sort((a,b)=>b.sortKey.localeCompare(a.sortKey)).slice(0,30);
   document.getElementById('view').innerHTML = `
-    <div class="cat-header"><h1>Recent changes</h1><p>Classification activity across all entries (placeholder revision data).</p></div>
-    <table class="revtable">
+    <div class="cat-header"><h1>Recent changes</h1><p>Ingestion activity across all entries, from the watcher's first-seen / last-verified timestamps.</p></div>
+    ${events.length ? `<table class="revtable">
       <thead><tr><th>Date</th><th>Editor</th><th>Entry</th><th>Summary</th></tr></thead>
       <tbody>
         ${events.map(e=>`<tr><td style="white-space:nowrap;">${e.dateStr}</td><td>${e.editor}</td><td>${docLink(e.id, DOCS[e.id].title.length>44?DOCS[e.id].title.slice(0,44)+'…':DOCS[e.id].title)}</td><td>${e.summary}</td></tr>`).join('')}
       </tbody>
-    </table>
+    </table>` : '<div class="empty-note">No ingestion activity recorded yet — run irdai_watcher.py to populate the corpus.</div>'}
   `;
 }
 /* ---------- Doc views ---------- */
@@ -1240,10 +952,15 @@ function renderArticleTab(id, d, params){
     </ul>
   `});
 
+  const src = d._source || {};
   const references = [
-    `${d.refNo?d.refNo+' — ':''}IRDAI, Legal section${d.sourceCategory?` (published under: ${d.sourceCategory})`:''} (placeholder source).`,
-    "Internal classification note, Document Classification Matrix, Jul 2026."
-  ];
+    src.detail_page
+      ? `${d.refNo?d.refNo+' — ':''}IRDAI, <a href="${esc(src.detail_page)}" target="_blank" rel="noopener">document detail page</a>${d.sourceCategory?` (published under: ${d.sourceCategory})`:''}.`
+      : `${d.refNo?d.refNo+' — ':''}IRDAI, Legal section${d.sourceCategory?` (published under: ${d.sourceCategory})`:''}.`,
+    src.source_page
+      ? `Scraped from <a href="${esc(src.source_page)}" target="_blank" rel="noopener">${esc(src.source_page)}</a>${src.first_seen?`, first recorded ${fmtIso(src.first_seen)}`:''}${src.last_seen?`, last verified ${fmtIso(src.last_seen)}`:''}.`
+      : null
+  ].filter(Boolean);
   const citeStr = `${d.title}, ${d.type}${d.refNo?', '+d.refNo:''} (IRDAI, ${fmtDate(d.dateIssued)}). Repository entry rev. ${latestRevDate(id)}. Permalink: #/doc/${id}`;
   sections.push({id:'sec-refs', title:'References', html:`
     <ol class="refs">${references.map((r,i)=>`<li id="ref-${i+1}">${r}</li>`).join('')}</ol>
@@ -1264,7 +981,7 @@ function renderArticleTab(id, d, params){
     <div class="kicker">${d.type} → ${d.entity}${d.subtype && d.subtype!=='—' ? ' → '+d.subtype : ''}</div>
     <h1 class="page-title">${d.title}</h1>
     ${hats.join('')}
-    <div class="disambig">${d.type} · ${d.year} · placeholder entry</div>
+    <div class="disambig">${d.type} · ${d.year}${d.sourceCategory && d.sourceCategory!==d.type ? ' · IRDAI site section: '+d.sourceCategory : ''}</div>
     <div style="margin:0 0 12px 0;">${badge(d.status)}${d.archived!==undefined?` <span class="status-badge neutral" style="margin-left:6px;"><span class="dot"></span>${d.archived?'Archived (IRDAI)':'Non-Archived (IRDAI)'}</span>`:''}${d.dept?`<span class="deptpill" title="${DEPT_NAMES[d.dept]||''}">${d.dept}${DEPT_NAMES[d.dept]?' · '+DEPT_NAMES[d.dept]:''}</span>`:''}</div>
 
     <div class="body-cols">
@@ -1284,6 +1001,9 @@ function renderArticleTab(id, d, params){
             ${d.sourceCategory?`<tr><td class="k">IRDAI site section</td><td class="v">${d.sourceCategory}</td></tr>`:''}
             ${d.attachments?`<tr><td class="k">Attachments</td><td class="v">${d.attachments} file${d.attachments===1?'':'s'}</td></tr>`:''}
             ${d.reviewCycle?`<tr><td class="k">Review cycle</td><td class="v">${d.reviewCycle}</td></tr>`:''}
+            ${src.detail_page?`<tr><td class="k">Source</td><td class="v"><a href="${esc(src.detail_page)}" target="_blank" rel="noopener">IRDAI detail page ↗</a></td></tr>`:''}
+            ${src.first_seen?`<tr><td class="k">First recorded</td><td class="v">${fmtIso(src.first_seen)}</td></tr>`:''}
+            ${src.last_seen?`<tr><td class="k">Last verified</td><td class="v">${fmtIso(src.last_seen)}</td></tr>`:''}
             ${aliasRow}
             <tr><td class="k">Filename</td><td class="v filename">${fname}<br><button class="copybtn" onclick="copyText('${fname.replace(/'/g,"\\'")}', this)">copy</button></td></tr>
             <tr><td class="k">Permalink</td><td class="v filename">#/doc/${id}<br><button class="copybtn" onclick="copyText('#/doc/${id}', this)">copy</button></td></tr>
@@ -1304,45 +1024,39 @@ function renderArticleTab(id, d, params){
             ${(d.subjects||[]).map(s=>` · <a onclick="location.hash='#/portal/${s}'">Portal: ${PORTALS[s]?PORTALS[s].title:s}</a>`).join('')}
           </div>
         </div>
-        <div class="page-footer">This entry was last classified based on placeholder data. Not sourced from a live IRDAI issuance.</div>
+        <div class="page-footer">Entry auto-classified by irdai_watcher${src.first_seen?` on ${fmtIso(src.first_seen)}`:''}${src.last_seen?`, last verified ${fmtIso(src.last_seen)}`:''}. Verify against the source instrument${src.detail_page?` (<a href="${esc(src.detail_page)}" target="_blank" rel="noopener">IRDAI detail page</a>)`:''} before relying on this entry.</div>
       </div>
     </div>
   `;
 }
 
 function renderTalkTab(id,d){
-  const items = synthTalk(id);
   document.getElementById('view').innerHTML = `
     <div class="kicker">Talk</div>
     <h1 class="page-title" style="font-size:22px;">Talk: ${d.title}</h1>
     <div class="disambig">Discussion regarding classification of this entry.</div>
     <div style="margin-top:16px;">
-      ${items.length ? items.map(c=>`
-        <div class="talk-entry">
-          <div class="talk-meta"><b>${c.author}</b> · ${c.date}<span class="talkpill ${c.resolved?'resolved':'open'}">${c.resolved?'Resolved':'Open'}</span></div>
-          <div class="talk-body">${c.text}</div>
-          <div class="talk-signoff">— ${c.author}</div>
-        </div>`).join('') : '<div class="empty-note">No discussion yet on this entry.</div>'}
+      <div class="empty-note">No discussion recorded on this entry. Classification notes require a comments backend, which is not wired up yet.</div>
     </div>
   `;
 }
 
 function renderHistoryTab(id,d){
-  const revs = synthHistory(id);
+  const revs = realHistory(id);
+  const src = d._source || {};
   document.getElementById('view').innerHTML = `
     <div class="kicker">View history</div>
     <h1 class="page-title" style="font-size:22px;">Revision history: ${d.title}</h1>
-    <div class="disambig">Edit history of this repository entry — distinct from the instrument's own amendment history, recorded on the Article tab.</div>
-    <table class="revtable">
+    <div class="disambig">Ingestion history of this repository entry — distinct from the instrument's own amendment history, recorded on the Article tab.</div>
+    ${revs.length ? `<table class="revtable">
       <thead><tr><th>Date</th><th>Editor</th><th>Summary</th><th></th></tr></thead>
       <tbody>
         ${revs.map((r,i)=>`
-          <tr><td>${r.dateStr}</td><td>${r.editor}</td><td>${r.summary}</td>
-            <td class="revdiff" ${r.diff?`onclick="const x=document.getElementById('diff-${i}'); x.style.display = x.style.display==='none'?'table-row':'none';"`:''}>${i===0?'current':(r.diff?'diff':'—')}</td></tr>
-          ${r.diff?`<tr class="diffrow" id="diff-${i}" style="display:none;"><td colspan="4">${r.diff.field}: <span class="dfrom">${esc(r.diff.from)}</span> → <span class="dto">${esc(r.diff.to)}</span></td></tr>`:''}
+          <tr><td>${r.dateStr}</td><td>${r.editor}</td><td>${r.summary}</td><td class="revdiff">${i===0?'current':'—'}</td></tr>
         `).join('')}
       </tbody>
-    </table>
+    </table>` : '<div class="empty-note">No ingestion provenance recorded for this entry.</div>'}
+    ${src.source_page?`<div class="page-footer">Scraped from <a href="${esc(src.source_page)}" target="_blank" rel="noopener">${esc(src.source_page)}</a>${src.liferay_id?` · Liferay ID ${esc(src.liferay_id)}`:''}.</div>`:''}
   `;
 }
 
