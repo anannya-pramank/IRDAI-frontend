@@ -921,9 +921,10 @@ function provRows(docId, cutoff){
         (e.detail?` <span class="provlink" title="${esc(e.detail).replace(/"/g,'&quot;')}">…</span>`:''));
     });
     const desc = p.heading ? esc(p.heading)
-      : p.ghost ? '<span style="color:var(--ink-faint);font-style:italic;">not present in the consolidated text on file — reconstructed from the amendment record</span>'
+      : p.ghost ? '<span style="color:var(--ink-faint);font-style:italic;">not traceable in the consolidated text on file — reconstructed from the amendment record</span>'
       : '<span style="color:var(--ink-faint);">—</span>';
-    const refLabel = (p.level==='clause'?'(' + esc(p.ref) + ')' : p.level==='subclause'?'(' + esc(p.ref) + ')' : esc(p.ref));
+    const bareRef = /^[0-9A-Za-z]+$/.test(String(p.ref||''));
+    const refLabel = (bareRef && (p.level==='clause'||p.level==='subclause')) ? '(' + esc(p.ref) + ')' : esc(p.ref);
     return `<tr id="${domId}"><td style="white-space:nowrap;padding-left:${PROV_PAD[p.level]||0}px;"><strong>${refLabel}</strong><span class="provlink" title="Copy provision permalink" onclick="copyText('#/doc/${docId}#${domId}', null)">¶</span></td>
       <td>${desc}</td>
       <td><span class="status-badge ${st.cls}"><span class="dot"></span>${st.label}</span>${lineage.length?`<br><span style="font-size:11px;line-height:1.7;">${lineage.join('<br>')}</span>`:''}</td></tr>`;
