@@ -39,7 +39,8 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 
-from provision_engine import parse_amendment, segment_provisions, resolve_principal
+from provision_engine import (parse_amendment, segment_provisions,
+                              resolve_principal, normalize_extracted_text)
 
 ROOT = Path(__file__).resolve().parent
 DATA = ROOT / "data"
@@ -88,7 +89,7 @@ def full_text(slug: str) -> str | None:
     if not p.exists():
         return None
     t = json.loads(p.read_text(encoding="utf-8")).get("full_text")
-    return strip_hindi(t) if t else None
+    return normalize_extracted_text(strip_hindi(t)) if t else None
 
 
 DRAFT_STAGE = re.compile(r"exposure\s+draft|consultation\s+paper|draft\b", re.I)
@@ -176,17 +177,46 @@ def anchor_edge(edge, provisions: list[dict], index: dict) -> tuple[dict | None,
 
     if not cands:
         return None, False
+
+    def _overlap(p):
+        return len(set(context) & set(path_locators(p["path"])))
+
     if len(cands) == 1:
-        return cands[0], False
+        p = cands[0]
+        # a ghost reconstructed under one scope must not absorb events aimed
+        # at the same ref under a different scope — force a fresh ghost
+        if p.get("ghost") and context and not _overlap(p):
+            return None, False
+        if context and not _overlap(p):
+            up = _scope_fallback(context, index)
+            if up:
+                return up
+        return p, False
 
     scored = []
     for p in cands:
         ppath = set(path_locators(p["path"]))
         scored.append((len(set(context) & ppath), -len(p["path"]), p))
     scored.sort(key=lambda t: (-t[0], t[1]))
+    if scored[0][0] == 0 and context:
+        # no candidate lies under the edge's stated scope: anchoring to an
+        # arbitrary same-ref sibling is a mis-anchor, so land the event on
+        # the scope unit itself (e.g. the section row) instead
+        up = _scope_fallback(context, index)
+        if up:
+            return up
+        return None, False
     if len(scored) > 1 and scored[0][0] == scored[1][0]:
         return scored[0][2], True
     return scored[0][2], False
+
+
+def _scope_fallback(context, index):
+    for lvl, r in reversed(context):
+        up = index.get((lvl, r), [])
+        if up:
+            return up[0], len(up) > 1
+    return None
 
 
 def prov_index(provisions: list[dict]) -> dict:
@@ -267,10 +297,26 @@ def build(corpus: dict, only_slugs: set | None = None) -> tuple[dict, dict, Coun
                             ptext, ptext_from = vt, vs
                             break
             segs = segment_provisions(ptext, doc_id=pslug) if ptext else []
-            # bilingual/duplicated extractions (same PDF captured twice) yield
-            # each provision twice with identical paths — keep first occurrence
-            seen_ids = set()
-            segs = [p for p in segs if not (p["id"] in seen_ids or seen_ids.add(p["id"]))]
+            # Dedup by legal identity rather than path id: a consolidated act
+            # yields the same section from the arrangement-of-sections, the
+            # body, and bilingual double-captures, each under a different
+            # stack path. Section numbers are unique act-wide; clause refs are
+            # unique within their parent section. Keep the first occurrence
+            # (the TOC comes first and carries the clean heading).
+            seen_keys = set()
+            deduped = []
+            for p in segs:
+                if p["level"] in ("regulation", "schedule", "part", "chapter"):
+                    key = (p["level"], norm_ref(p["ref"]))
+                else:
+                    parent = next((c for c in reversed(p["path"].split("/")[:-1])
+                                   if c.startswith("reg-")), "")
+                    key = (p["level"], norm_ref(p["ref"]), parent)
+                if key in seen_keys:
+                    continue
+                seen_keys.add(key)
+                deduped.append(p)
+            segs = deduped
             seg_cache[pslug] = {"provs": segs, "from": ptext_from if ptext else None}
             if not segs:
                 stats["principal_no_text_or_flat"] += 1
@@ -321,8 +367,16 @@ def build(corpus: dict, only_slugs: set | None = None) -> tuple[dict, dict, Coun
                 chain = decompose_ref(e.unit, e.target_ref or e.anchor)
                 if chain:
                     lvl, ref = chain[-1]
-                    path = "/".join(f"{l[:3]}-{r}" for l, r in chain)
-                    target = {"id": f"{pslug}#{path}", "level": lvl, "ref": e.target_ref or e.anchor,
+                    # display ref without the parsed parentheses — the frontend
+                    # adds level-appropriate wrapping itself
+                    disp = re.sub(r"^\(([^()]+)\)$", r"\1", (e.target_ref or e.anchor).strip())
+                    # prefix the amendment's scope locators so clause (b) of
+                    # regulation 7 and clause (b) of section 42D stay distinct
+                    scope = [loc for loc in scope_locators(e.scope, e.path)
+                             if loc not in chain]
+                    full_chain = scope + chain
+                    path = "/".join(f"{l[:3]}-{r}" for l, r in full_chain)
+                    target = {"id": f"{pslug}#{path}", "level": lvl, "ref": disp,
                               "heading": "", "path": path, "ghost": True}
                     provisions.append(target)
                     pidx.setdefault((lvl, norm_ref(ref)), []).append(target)
