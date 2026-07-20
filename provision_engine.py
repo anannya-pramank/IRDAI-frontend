@@ -393,6 +393,18 @@ def parse_amendment(text: str) -> dict:
 _N_FRONT_HDR = re.compile(r"^#{0,6}\s*LIST OF (?:AMENDING|ABBREVIATIONS)", re.I)
 _N_ANY_HDR = re.compile(r"^#{1,6}\s+\S")
 _N_FOOTNOTE = re.compile(r"^\s*(?:>\s*)+\d{1,3}\.\s")      # blockquoted history footnotes
+# extraction flavors that drop the "> " prefix leave footnotes as bare
+# numbered lines ("8. Ins. by Act 6 of 1946, s. 25 (w.e.f. ...)"); detect
+# them by their citation grammar instead. Operative amendment lines always
+# say "shall be ..." — footnotes never do, so guard on that.
+_N_FOOTNOTE_CITE = re.compile(
+    r"^\s*(?:>\s*)*\d{1,3}\s*[\.\)]\s+.{0,160}?(?:"
+    r"\b(?:Ins|Subs|Rep|Omitted|Added|Renumbered)\.?\s+by\s+(?:Act|Ord|the)\b"
+    r"|\bGazette of India\b"
+    r"|\bnotifn\b"
+    r"|\bvide\s+notification\b"
+    r")", re.I)
+_N_SHALL = re.compile(r"\bshall\s+be\b", re.I)
 _N_BLOCKQUOTE = re.compile(r"^\s*(?:>\s*)+")
 _N_BULLET = re.compile(r"^(\s*)-\s+")
 _N_SUP = re.compile(r"<sup>.*?</sup>")
@@ -417,6 +429,8 @@ def normalize_extracted_text(text: str) -> str:
             skipping = True
             continue
         if _N_FOOTNOTE.match(line):
+            continue
+        if _N_FOOTNOTE_CITE.match(line) and not _N_SHALL.search(line):
             continue
         line = _N_BLOCKQUOTE.sub("", line)
         line = _N_BULLET.sub(r"\1", line)
