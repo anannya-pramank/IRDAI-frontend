@@ -64,7 +64,7 @@ OPERATIVE = re.compile(r"shall be (?:substituted|inserted|omitted|renumbered|del
 # ---------- scope headers ----------
 # "6. In Part II of the Schedule I of principal Regulations:"  /  "12. In the clause 2 of Part II of the Schedule III of principal Regulations"
 SCOPE_HDR = re.compile(
-    rf"^(?:\(?\d+\)?[\.\)]?\s*|[a-z][\.\)]\s*|[ivx]+\.\s*)?In\s+(?:the\s+)?(?P<path>(?:{UNIT})\s*\(?{REF}\)?.*?)\s*[:,\u2013\u2014-]*\s*$",
+    rf"^(?:\(?\d+\)?\s*[\.\)]?\s*|[a-z][\.\)]\s*|[ivx]+\.\s*)?In\s+(?:the\s+)?(?P<path>(?:{UNIT})\s*\(?{REF}\)?.*?)\s*[:,\u2013\u2014-]*\s*$",
     FLAGS)
 SCHEDULE_HDR = re.compile(r"^SCHEDULE\s*[-\u2013\u2014]?\s*(?P<sch>[IVXLC]+A?)\b", FLAGS)
 # "3. Chapter III of principal Regulations: For Regulation 7, ..."
@@ -135,14 +135,14 @@ rule("word_omit",
 
 # unit substitution: "For [the existing] <unit> X [of <path>], the following ... shall be substituted"
 rule("unit_sub",
-     rf"For\s+(?:the\s+existing\s+)?(?P<unit>{UNIT})\s*(?P<ref>{REF})\s*(?:of\s+(?P<path>[^,]+?))?\s*,?\s*the\s+(?:following|existing)\b.*?shall\s+be\s+substituted",
+     rf"For\s+(?:the\s+existing\s+)?(?P<unit>{UNIT})(?:\s+|\s*(?=\())(?P<ref>{REF})\s*(?:of\s+(?P<path>[^,]+?))?\s*,?\s*the\s+(?:following|existing)\b.*?shall\s+be\s+substituted",
      lambda m, s: dict(action="substitute", level="unit", unit=_norm_unit(m.group("unit")),
                        target_ref=m.group("ref").strip(), path=(m.group("path") or "").strip() or None,
                        confidence=None))
 
 # unit-first substitution: "<unit> X [and Y] [of <unit> Z][,] shall be substituted[, namely / as under]"
 rule("unit_sub_first",
-     rf"(?P<unit>{UNIT})\s*(?P<refs>{REFS})\s*(?:of\s+(?:the\s+)?(?P<path>.{{0,80}}?))?\s*,?\s*shall\s+be\s+substituted",
+     rf"(?P<unit>{UNIT})(?:\s+|\s*(?=\())(?P<refs>{REFS})\s*(?:of\s+(?:the\s+)?(?P<path>.{{0,80}}?))?\s*,?\s*shall\s+be\s+substituted",
      lambda m, s: dict(action="substitute", level="unit", unit=_norm_unit(m.group("unit")),
                        target_ref=m.group("refs").strip(),
                        path=(m.group("path") or "").strip() or None, confidence=None))
@@ -190,7 +190,7 @@ rule("insert_before",
 
 # unit omission: "[The] <unit> X [of <path>] shall be omitted"
 rule("unit_omit",
-     rf"(?:The\s+)?(?P<unit>{UNIT})\s*(?P<ref>{REFS})\s*(?:of\s+(?P<path>[^,]+?))?\s+shall\s+be\s+omitted",
+     rf"(?:The\s+)?(?P<unit>{UNIT})(?:\s+|\s*(?=\())(?P<ref>{REFS})\s*(?:of\s+(?P<path>[^,]+?))?\s+shall\s+be\s+omitted",
      lambda m, s: dict(action="omit", level="unit", unit=_norm_unit(m.group("unit")),
                        target_ref=m.group("ref").strip(),
                        path=(m.group("path") or "").strip() or None, confidence=None))
@@ -218,7 +218,7 @@ def _norm_unit(u: str) -> str:
 
 # "In clause (e) of regulation 2, ..." / "In the sub-clause (1) ..." / "In sub clause 5(iii), ..."  -> inline location prefix
 LOC_PREFIX = re.compile(
-    rf"^(?:[0-9a-z]+[\.\)]\s*|\([0-9a-z]+\)\s*|[ivx]+\.\s*)*In\s+(?:the\s+)?(?P<loc>(?:{UNIT})\s*\(?{REF}\)?(?:\s+of\s+(?:the\s+)?(?:{UNIT})\s*[-\s]?\(?{REF}\)?)*)",
+    rf"^(?:[0-9a-z]+\s*[\.\)]\s*|\([0-9a-z]+\)\s*|[ivx]+\.\s*)*In\s+(?:the\s+)?(?P<loc>(?:{UNIT})\s*\(?{REF}\)?(?:\s+of\s+(?:the\s+)?(?:{UNIT})\s*[-\s]?\(?{REF}\)?)*)",
     FLAGS)
 
 PRINCIPAL_PATTERNS = [
@@ -279,7 +279,7 @@ def parse_amendment(text: str) -> dict:
         # numbered top-level item resets the item scope — but only when the
         # line is itself an instruction or scope header; numbered headings
         # inside quoted replacement bodies must not clobber the scope stack.
-        if re.match(r"^\d+[\.\)]\s", line) and (operative or SCOPE_HDR.match(line)):
+        if re.match(r"^\d+\s*[\.\)]\s", line) and (operative or SCOPE_HDR.match(line)):
             item_scope = None
 
         # "In <path>:" header (no operative verb on the line) sets item scope
@@ -379,13 +379,65 @@ def parse_amendment(text: str) -> dict:
     return {"principal": principal, "edges": edges, "unparsed": unparsed}
 
 
+# ================= EXTRACTION NORMALIZER =================
+# Consolidated-act PDFs (India Code style) come out of extraction with:
+#   - markdown blockquotes/bullets:      "> 6[( _7A_ ) ..." / "- 27A. [ _Omitted_ .]."
+#   - footnote insertion markers:        "6[(1) ..." with orphaned "]" tails, "4***.]"
+#   - italicised refs:                   "( _7A_ )" -> "(7A)"
+#   - amendment-history footnote lines:  "> 6. Subs. by Act 5 of 2015, s. 3 ..."
+#   - front matter (LIST OF AMENDING ACTS / ABBREVIATIONS) whose numbering
+#     shadows the real section numbers.
+# None of SEG_PATTERNS can match the raw form, so segmentation degrades to
+# TOC-only (or worse, the amending-acts list). Normalize before segmenting.
+
+_N_FRONT_HDR = re.compile(r"^#{0,6}\s*LIST OF (?:AMENDING|ABBREVIATIONS)", re.I)
+_N_ANY_HDR = re.compile(r"^#{1,6}\s+\S")
+_N_FOOTNOTE = re.compile(r"^\s*(?:>\s*)+\d{1,3}\.\s")      # blockquoted history footnotes
+_N_BLOCKQUOTE = re.compile(r"^\s*(?:>\s*)+")
+_N_BULLET = re.compile(r"^(\s*)-\s+")
+_N_SUP = re.compile(r"<sup>.*?</sup>")
+_N_FN_MARKER = re.compile(r"\b\d{1,3}\[")                   # "6[(1) ..." insertion marker
+_N_ITAL_REF = re.compile(r"\(\s*_\s*([0-9A-Za-z]{1,6})\s*_\s*\)")
+_N_ITALICS = re.compile(r"_([^_\n]{1,60})_")
+_N_ORPHAN = re.compile(r"\s*\d*\*{2,}\s*\.?\]|\*{3,}")     # "4***.]" omission tails
+
+def normalize_extracted_text(text: str) -> str:
+    """Clean markdown/footnote artefacts from PDF extractions and drop
+    front-matter blocks whose numbering collides with section numbers."""
+    out, skipping = [], False
+    for raw in text.splitlines():
+        line = raw.rstrip()
+        s = line.strip()
+        if skipping:
+            if _N_ANY_HDR.match(s):
+                skipping = False           # heading ends the block; re-evaluate it
+            else:
+                continue
+        if _N_FRONT_HDR.match(s):
+            skipping = True
+            continue
+        if _N_FOOTNOTE.match(line):
+            continue
+        line = _N_BLOCKQUOTE.sub("", line)
+        line = _N_BULLET.sub(r"\1", line)
+        line = _N_SUP.sub("", line)
+        line = _N_FN_MARKER.sub("", line)
+        line = _N_ITAL_REF.sub(r"(\1)", line)
+        line = _N_ITALICS.sub(r"\1", line)
+        line = _N_ORPHAN.sub("", line)
+        line = line.replace("**", "")
+        line = re.sub(r"^#{1,6}\s*", "", line)
+        out.append(line)
+    return "\n".join(out)
+
+
 # ================= SEGMENTER =================
 
 SEG_PATTERNS = [
     ("schedule", re.compile(r"^SCHEDULE\s*[-\u2013\u2014]?\s*([IVXLC]+A?)\b[\s:\u2013\u2014-]*(.*)$", re.I)),
     ("part",     re.compile(r"^(?:\*\*)?Part\s+([IVXLC]+)\s*(?:\(([A-Z])\))?[\s:.\u2013\u2014-]*(.*)$", re.I)),
     ("chapter",  re.compile(r"^(?:\*\*)?Chapter\s+([IVXLC]+)\b[\s:.\u2013\u2014-]*(.*)$", re.I)),
-    ("regulation", re.compile(r"^(?:\*\*)?(\d+[A-Z]?)\.\s+([A-Z\u201c\"].{3,120})$")),
+    ("regulation", re.compile(r"^(?:\*\*)?(\d+[A-Z]?)\.\s+([A-Z\u201c\"\[].{3,120})$")),
     ("clause",   re.compile(r"^\((\d+[A-Z]?)\)\s+(.*)$")),
     ("subclause", re.compile(r"^\(([a-z]|[ivx]+)\)\s+(.*)$")),
 ]
