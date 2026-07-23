@@ -1,4 +1,4 @@
-name: probe updated-regulations layout
+name: probe deep
 
 on:
   workflow_dispatch:
@@ -9,13 +9,10 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - name: Install deps
         run: pip install requests beautifulsoup4
-
       - name: Run probe
-        run: python probe.py
+        run: python probe_deep.py
