@@ -89,6 +89,11 @@ PORTLET_NS = "_com_irdai_document_media_IRDAIDocumentMediaPortlet_"
 DELTA = 20
 BACKFILL_MAX_PAGES = 250
 
+# Orders/Notices don't render as a document table — they're a 1-column
+# <ul><li><a documentId>title</a></li> list linking to detail pages. These
+# categories get resolved via their detail pages (see resolve_detail_list).
+DETAIL_LIST_CATEGORIES = {"Orders", "Notices"}
+
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -210,8 +215,37 @@ def norm_title(t: str) -> str:
     return re.sub(r"[^a-z0-9]+", "", (t or "").lower())
 
 
+def _latin_ratio(s: str) -> float:
+    letters = [c for c in s if c.isalpha()]
+    if not letters:
+        return 0.0
+    return sum(1 for c in letters if c.isascii()) / len(letters)
+
+
+def _best_title(cands: list[str]) -> str:
+    """Prefer the most Latin-script candidate (the English title over a Hindi
+    or bilingual one), breaking ties by length. A bilingual type label like
+    'परिपत्र / Circular' scores mid-ratio and loses to a full English title."""
+    best, best_key = "", (-1.0, -1)
+    for c in cands:
+        key = (round(_latin_ratio(c), 3), len(c))
+        if key > best_key:
+            best, best_key = c, key
+    return best
+
+
 def parse_rows(html: str, category: str, source_url: str) -> tuple[list[dict], int]:
-    """Return (valid rows, raw row count). Raw count drives pagination."""
+    """Return (valid rows, raw row count). Raw count drives pagination.
+
+    Field detection is content-based rather than positional: IRDAI serves at
+    least three column arrangements across buckets (a 7-col standard layout and
+    two 6-col 'version'/circular layouts that disagree on which column holds
+    the date and reference, and on which language the title sits in). Rather
+    than fixed indices we locate each field by content — the archived flag by
+    its text, the date by a parseable date pattern, the PDF(s) by the
+    download=true link(s), a reference by its slash-segmented shape — and pick
+    the title by preferring the most Latin-script candidate, so the English
+    title wins over a Hindi/bilingual one regardless of which cell holds it."""
     soup = BeautifulSoup(html, "html.parser")
     table = soup.select_one("table.table")
     if not table:
@@ -222,43 +256,64 @@ def parse_rows(html: str, category: str, source_url: str) -> tuple[list[dict], i
 
     for tr in rows:
         tds = tr.find_all("td")
-        n = len(tds)
-        if n < 6:
+        if len(tds) < 4:  # spacer rows / 1-col detail-link lists (handled elsewhere)
             continue
 
-        # Two table layouts in the wild, sharing cols 0-2 (checkbox,
-        # archived, title) but diverging after. Standard listing (7 cols):
-        #   [chk, archived, title, date, detail, ref, download]
-        # The Updated/Consolidated *version* buckets drop the ref column and
-        # carry a linked-title column instead (6 cols):
-        #   [chk, archived, title, detail, date, download]
-        if n >= 7:
-            i_date, i_detail, i_ref, i_dl = 3, 4, 5, 6
-        else:
-            i_date, i_detail, i_ref, i_dl = 4, 3, None, 5
+        cell_texts = [td.get_text(strip=True) for td in tds]
 
-        archived_txt = tds[1].get_text(strip=True)
+        # archived flag: the cell literally reading Archived / Non-Archived
         archived = None
-        if archived_txt in ("Archived", "Non-Archived"):
-            archived = archived_txt == "Archived"
+        for t in cell_texts:
+            if t in ("Archived", "Non-Archived"):
+                archived = t == "Archived"
+                break
 
-        title = tds[2].get_text(strip=True)
-        date_issued = parse_date(tds[i_date].get_text(strip=True))
+        # date: first cell that parses as a real date
+        date_issued = None
+        for t in cell_texts:
+            d = parse_date(t)
+            if d:
+                date_issued = d
+                break
 
-        detail_link = None
-        a = tds[i_detail].select_one("a[href]")
-        if a:
-            detail_link = urljoin(source_url, a["href"])
+        # reference number: a slash-segmented code (e.g. IRDAI/REG/12/2024)
+        ref = ""
+        for t in cell_texts:
+            if t.count("/") >= 2 and re.search(r"[A-Za-z]", t) and not parse_date(t):
+                ref = t
+                break
 
-        ref = tds[i_ref].get_text(strip=True) if i_ref is not None else ""
-
-        # ALL attachments in the download cell (the "+3 more" nuance):
-        pdf_links, filenames, sizes = [], [], []
-        for pa in tds[i_dl].select("a[href*='download=true']"):
-            pdf_links.append(urljoin(source_url, pa["href"]))
+        # PDF attachments: authoritative via download=true, collected row-wide
+        pdf_links, filenames = [], []
+        for pa in tr.select("a[href*='download=true']"):
+            href = urljoin(source_url, pa["href"])
+            if href in pdf_links:
+                continue
+            pdf_links.append(href)
             filenames.append(pa.get_text(strip=True))
-        for sp in tds[i_dl].select("p.text-muted"):
-            sizes.append(sp.get_text(strip=True))
+        sizes = [sp.get_text(strip=True) for sp in tr.select("p.text-muted")]
+
+        # detail link: first non-download anchor, preferring a document-detail
+        detail_link = None
+        anchors = [a for a in tr.select("a[href]")
+                   if "download=true" not in a["href"].lower()]
+        for a in anchors:
+            if "document-detail" in a["href"].lower():
+                detail_link = urljoin(source_url, a["href"])
+                break
+        if detail_link is None and anchors:
+            detail_link = urljoin(source_url, anchors[0]["href"])
+
+        # title: most Latin-script candidate among the non-metadata cell texts
+        # and the anchor texts (English title wins over Hindi/bilingual).
+        meta = {t for t in cell_texts if t in ("Archived", "Non-Archived")}
+        meta |= {t for t in cell_texts if parse_date(t)}
+        if ref:
+            meta.add(ref)
+        cands = [t for t in cell_texts if t and t not in meta and len(t) >= 5]
+        cands += [a.get_text(strip=True) for a in tr.select("a[href]")
+                  if a.get_text(strip=True)]
+        title = _best_title(cands)
 
         if not title or not (detail_link or pdf_links):
             continue
@@ -282,6 +337,97 @@ def parse_rows(html: str, category: str, source_url: str) -> tuple[list[dict], i
         })
 
     return results, len(rows)
+
+
+def _link_in_nav(a) -> bool:
+    """True if an anchor lives inside a site-navigation / dropdown menu — i.e.
+    it's page chrome (e.g. the boilerplate 'Forms' link) rather than document
+    content. Second guard alongside the download=true filter."""
+    node = a
+    for _ in range(8):
+        node = node.parent
+        if node is None or node.name is None:
+            break
+        ident = node.get("id") or ""
+        classes = " ".join(node.get("class", []))
+        if "SiteNavigationMenu" in ident or node.name == "nav" \
+                or any(c in classes for c in ("dropdown-menu", "submenu", "child-menu")):
+            return True
+    return False
+
+
+def parse_detail_list(html: str, source_url: str) -> list[dict]:
+    """Orders/Notices render as a 1-column <ul><li><a documentId>title</a></li>
+    list, not a document table. Return one stub per entry:
+    {documentId, title, detail_url}."""
+    soup = BeautifulSoup(html, "html.parser")
+    scope = soup.select_one("table.table") or soup
+    out, seen = [], set()
+    for a in scope.select("a[href*='document-detail']"):
+        href = a.get("href", "")
+        m = re.search(r"documentId=(\d+)", href)
+        title = a.get_text(strip=True)
+        if not m or not title or m.group(1) in seen:
+            continue
+        seen.add(m.group(1))
+        out.append({"documentId": m.group(1), "title": title,
+                    "detail_url": urljoin(source_url, href)})
+    return out
+
+
+def scrape_detail_pdfs(session: requests.Session, detail_url: str
+                       ) -> tuple[list[str], list[str]]:
+    """Fetch a document-detail page; return (pdf_links, filenames) for the real
+    attachments — download=true links that aren't navigation chrome. The stray
+    sidebar 'Forms' link is not download=true, so it's excluded on both counts."""
+    try:
+        r = session.get(detail_url, timeout=40)
+        r.raise_for_status()
+    except requests.RequestException as e:
+        log.warning("  detail fetch failed %s — %s", detail_url, e)
+        return [], []
+    soup = BeautifulSoup(r.text, "html.parser")
+    links, names = [], []
+    for a in soup.select("a[href*='download=true']"):
+        if _link_in_nav(a):
+            continue
+        href = urljoin(detail_url, a["href"])
+        if href in links:
+            continue
+        links.append(href)
+        names.append(a.get_text(strip=True))
+    return links, names
+
+
+def resolve_detail_list(session: requests.Session, html: str, source_url: str,
+                        category: str, delay: float) -> list[dict]:
+    """Turn a 1-column detail-link listing into full watcher rows by following
+    each detail page for its real PDF links, so Orders/Notices flow through the
+    loader (chunk + embed + OCR) like any other document. Rows carry the same
+    shape parse_rows returns; date/ref are unknown here and left for downstream
+    classification to derive from the title."""
+    rows = []
+    for stub in parse_detail_list(html, source_url):
+        links, names = scrape_detail_pdfs(session, stub["detail_url"])
+        time.sleep(delay)
+        if not links:
+            log.info("  %s: no downloadable attachment on detail page — skipped",
+                     stub["title"][:60])
+            continue
+        rows.append({
+            "liferay_id": stub["documentId"],
+            "category": category,
+            "title": stub["title"],
+            "reference_no": "",
+            "date_issued": None,
+            "archived": None,
+            "detail_page": stub["detail_url"],
+            "pdf_links": links,
+            "pdf_filenames": names,
+            "file_sizes": [],
+            "source_page": source_url,
+        })
+    return rows
 
 
 # ================= CLASSIFICATION =================
@@ -564,6 +710,13 @@ def run(args) -> None:
                 break
 
             rows, raw_count = parse_rows(html, category, url)
+
+            # Orders/Notices aren't a document table but a 1-column list of
+            # detail-page links. Resolve each entry's detail page to its real
+            # PDF links so they flow through the loader like any other doc.
+            if category in DETAIL_LIST_CATEGORIES and not rows:
+                rows = resolve_detail_list(session, html, url, category, args.delay)
+                raw_count = len(rows)
 
             # Liferay clamps out-of-range `cur` to the last page (or ignores
             # the param entirely and re-serves page 1), so raw_count never
