@@ -222,8 +222,20 @@ def parse_rows(html: str, category: str, source_url: str) -> tuple[list[dict], i
 
     for tr in rows:
         tds = tr.find_all("td")
-        if len(tds) < 7:
+        n = len(tds)
+        if n < 6:
             continue
+
+        # Two table layouts in the wild, sharing cols 0-2 (checkbox,
+        # archived, title) but diverging after. Standard listing (7 cols):
+        #   [chk, archived, title, date, detail, ref, download]
+        # The Updated/Consolidated *version* buckets drop the ref column and
+        # carry a linked-title column instead (6 cols):
+        #   [chk, archived, title, detail, date, download]
+        if n >= 7:
+            i_date, i_detail, i_ref, i_dl = 3, 4, 5, 6
+        else:
+            i_date, i_detail, i_ref, i_dl = 4, 3, None, 5
 
         archived_txt = tds[1].get_text(strip=True)
         archived = None
@@ -231,21 +243,21 @@ def parse_rows(html: str, category: str, source_url: str) -> tuple[list[dict], i
             archived = archived_txt == "Archived"
 
         title = tds[2].get_text(strip=True)
-        date_issued = parse_date(tds[3].get_text(strip=True))
+        date_issued = parse_date(tds[i_date].get_text(strip=True))
 
         detail_link = None
-        a = tds[4].select_one("a[href]")
+        a = tds[i_detail].select_one("a[href]")
         if a:
             detail_link = urljoin(source_url, a["href"])
 
-        ref = tds[5].get_text(strip=True)
+        ref = tds[i_ref].get_text(strip=True) if i_ref is not None else ""
 
         # ALL attachments in the download cell (the "+3 more" nuance):
         pdf_links, filenames, sizes = [], [], []
-        for pa in tds[6].select("a[href*='download=true']"):
+        for pa in tds[i_dl].select("a[href*='download=true']"):
             pdf_links.append(urljoin(source_url, pa["href"]))
             filenames.append(pa.get_text(strip=True))
-        for sp in tds[6].select("p.text-muted"):
+        for sp in tds[i_dl].select("p.text-muted"):
             sizes.append(sp.get_text(strip=True))
 
         if not title or not (detail_link or pdf_links):
@@ -601,6 +613,10 @@ def run(args) -> None:
 
             if raw_count == 0:
                 log.info("%s p%d: empty page, stopping walk", category, cur)
+                break
+            if raw_count and not rows:
+                log.warning("%s p%d: %d raw rows but 0 parsed valid — layout "
+                            "mismatch or end, stopping walk", category, cur, raw_count)
                 break
             if raw_count < DELTA:
                 break
