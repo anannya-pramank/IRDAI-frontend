@@ -1,4 +1,4 @@
-name: probe deep
+name: probe detail
 
 on:
   workflow_dispatch:
@@ -15,4 +15,4 @@ jobs:
       - name: Install deps
         run: pip install requests beautifulsoup4
       - name: Run probe
-        run: python probe_deep.py
+        run: python probe_detail.py
