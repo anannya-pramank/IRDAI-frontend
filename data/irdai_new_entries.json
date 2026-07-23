@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "slug": "cir-14-07-2026-clarifications-on-implementation-2026",
+    "type": "Circulars",
+    "title": "भारतीय अकाउंटिंग स्टैंडर्ड्स को लागू करने के बारे में स्पष्टीकरण 14.07.2026 / Clarifications on implementation of Indian Accounting Standards 14.07.2026",
+    "entity": "Common",
+    "subtype": "—",
+    "status": "Existing",
+    "year": 2026,
+    "dept": null,
+    "refNo": null,
+    "dateIssued": "2026-07-14",
+    "archived": false,
+    "sourceCategory": "Circulars",
+    "aliases": [],
+    "subjects": [],
+    "attachments": 2,
+    "maintenance": [],
+    "lede": "भारतीय अकाउंटिंग स्टैंडर्ड्स को लागू करने के बारे में स्पष्टीकरण 14.07.2026 / Clarifications on implementation of Indian Accounting Standards 14.07.2026.",
+    "history": "Auto-classified by irdai_watcher on 2026-07-23.",
+    "relations": {},
+    "_source": {
+      "liferay_id": "9658463",
+      "detail_page": "https://irdai.gov.in/document-detail?documentId=9658463",
+      "pdf_links": [
+        "https://irdai.gov.in/documents/37343/365525/Circular+-+Clarifications+on+implementation+of+Indian+Accounting+Standards+14.07.2026.pdf/d7e15821-ed60-d8a7-1794-6f6f2d4d2c39?version=2.0&t=1784031409277&download=true",
+        "https://irdai.gov.in/documents/37343/365525/Circular+-+Clarifications+on+implementation+of+Indian+Accounting+Standards+14.07.2026.pdf/d7e15821-ed60-d8a7-1794-6f6f2d4d2c39?version=2.0&t=1784031409277&download=true"
+      ],
+      "pdf_filenames": [
+        "Circular - Clarifications on implementation of Indian Accounting Standards 14.07.2026.pdf",
+        ""
+      ],
+      "file_sizes": [
+        "353 KB"
+      ],
+      "source_page": "https://irdai.gov.in/circulars",
+      "first_seen": "2026-07-23T09:13:48.320455+00:00",
+      "last_seen": "2026-07-23T09:13:48.320455+00:00",
+      "pending_relations": []
+    }
+  }
+]
