@@ -42,6 +42,9 @@ jobs:
           pip install requests beautifulsoup4 urllib3
           pip install psycopg2-binary pymupdf4llm pymupdf
           pip install sentence-transformers --extra-index-url https://download.pytorch.org/whl/cpu
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-hin
+          echo "TESSDATA_PREFIX=$(dirname "$(find /usr/share -name eng.traineddata | head -1)")" >> "$GITHUB_ENV"
 
       - name: Cache MiniLM model
         uses: actions/cache@v4
