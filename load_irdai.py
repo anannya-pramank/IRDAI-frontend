@@ -163,6 +163,29 @@ def fetch_pdf_bytes(session: requests.Session, url: str) -> bytes | None:
     return None
 
 
+def _ocr_text(doc, pages: int) -> str:
+    """OCR every page via pymupdf's Tesseract bridge, for scanned/image-only
+    PDFs that carry no text layer. Needs the tesseract binary + language data
+    (eng + hin) reachable via TESSDATA_PREFIX. Returns '' on any failure, so a
+    missing or broken OCR install degrades cleanly to the pre-OCR behaviour
+    (the doc is simply left untextized, exactly as before)."""
+    lang = os.environ.get("OCR_LANG", "eng+hin")
+    t0 = time.time()
+    out = []
+    for page in doc:
+        try:
+            tp = page.get_textpage_ocr(flags=0, language=lang, dpi=200, full=True)
+            out.append(page.get_text("text", textpage=tp))
+        except Exception as e:
+            log.warning("  OCR unavailable/failed (%s) — need tesseract + "
+                        "TESSDATA_PREFIX with eng+hin; leaving doc untextized", e)
+            return ""
+    text = "\n\n".join(out)
+    log.info("  OCR: %d pages in %.1fs (%d chars)",
+             pages, time.time() - t0, len(text.strip()))
+    return text
+
+
 def extract_text(pdf_bytes: bytes) -> tuple[str, str, int]:
     """Return (text, method, page_count). Bytes never touch disk.
 
@@ -202,6 +225,14 @@ def extract_text(pdf_bytes: bytes) -> tuple[str, str, int]:
             except Exception as e:
                 log.warning("pymupdf4llm failed (%s) — plain-text fallback", e)
         text = "\n\n".join(p.get_text("text") for p in doc)
+        # Scanned / image-only PDFs have no text layer, so both pymupdf4llm
+        # and get_text come back (near-)empty. Fall back to OCR before giving
+        # up — many older IRDAI notices are bilingual scans. Threshold ~16
+        # chars/page distinguishes "no text layer" from a real text PDF.
+        if len(text.strip()) < 16 * max(pages, 1):
+            ocr = _ocr_text(doc, pages)
+            if len(ocr.strip()) > len(text.strip()):
+                return ocr, "tesseract-ocr", pages
         return text, "pymupdf", pages
     finally:
         doc.close()
