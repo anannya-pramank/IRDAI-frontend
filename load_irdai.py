@@ -429,13 +429,25 @@ on conflict (id) do update set
 """
 
 
+def safe_date(value):
+    """Coerce a stored date to a valid YYYY-MM-DD or None, so one malformed
+    source date (e.g. '2015-92-02') can't abort the whole batch upsert."""
+    if not value:
+        return None
+    try:
+        return datetime.strptime(str(value)[:10], "%Y-%m-%d").date().isoformat()
+    except (ValueError, TypeError):
+        log.warning("  dropping invalid date_issued %r", value)
+        return None
+
+
 def doc_row(slug: str, d: dict) -> tuple:
     src = d.get("_source", {})
     return (
         slug, src.get("liferay_id"), d.get("type"), d.get("sourceCategory"),
         d.get("title"), d.get("refNo"), d.get("dept"), d.get("entity"),
         d.get("subtype"), d.get("status", "Unclassified"), d.get("year"),
-        d.get("dateIssued"), bool(d.get("archived")),
+        safe_date(d.get("dateIssued")), bool(d.get("archived")),
         d.get("subjects") or [], d.get("maintenance") or [], d.get("aliases") or [],
         Json(d.get("relations") or {}), src.get("pending_relations") or [],
         d.get("attachments") or 1, src.get("detail_page"),
