@@ -187,14 +187,19 @@ def fetch_page(session: requests.Session, url: str, cur: int = 1) -> str:
 
 
 def parse_date(raw: str) -> str | None:
-    """'19-06-2024' / '19/06/2024' -> '2024-06-19'."""
+    """'19-06-2024' / '19/06/2024' -> '2024-06-19'. Returns None for missing or
+    impossible dates (e.g. a mistyped '02-92-2015') rather than emitting a value
+    the database will reject."""
     if not raw:
         return None
     m = re.search(r"(\d{1,2})[-/](\d{1,2})[-/](\d{4})", raw)
     if not m:
         return None
-    d, mo, y = m.groups()
-    return f"{y}-{int(mo):02d}-{int(d):02d}"
+    d, mo, y = (int(x) for x in m.groups())
+    try:
+        return datetime(y, mo, d).strftime("%Y-%m-%d")
+    except ValueError:
+        return None
 
 
 def parse_refno(ref: str) -> tuple[str | None, int | None]:
