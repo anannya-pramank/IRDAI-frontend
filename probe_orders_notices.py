@@ -1,6 +1,6 @@
-"""Check whether IRDAI's /orders and /notices Legal-menu listings actually
-contain document rows, or are genuinely empty. Mirrors irdai_watcher's fetch
-+ parse so the result reflects exactly what the watcher sees."""
+"""Compare the candidate Orders/Notices listing paths side by side, to find
+which one is actually populated. Mirrors irdai_watcher's fetch + parse so the
+result reflects exactly what the watcher would see."""
 import requests
 from bs4 import BeautifulSoup
 
@@ -9,9 +9,10 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
 
 PAGES = {
-    "Orders": "https://irdai.gov.in/orders",
-    "Notices": "https://irdai.gov.in/notices",
-    # sanity control: a bucket we KNOW has rows, to prove the probe works
+    "Orders  (/orders)":  "https://irdai.gov.in/orders",
+    "Orders  (/orders1)": "https://irdai.gov.in/orders1",
+    "Notices (/notices)":  "https://irdai.gov.in/notices",
+    "Notices (/notices1)": "https://irdai.gov.in/notices1",
     "Circulars (control)": "https://irdai.gov.in/circulars",
 }
 
@@ -28,18 +29,20 @@ def probe(label: str, url: str) -> None:
     soup = BeautifulSoup(r.text, "html.parser")
     table = soup.select_one("table.table")
     if not table:
-        # look for an explicit "no records" style message
         body = soup.get_text(" ", strip=True).lower()
         hint = next((m for m in ("no record", "no data", "not found", "no result")
                      if m in body), None)
-        print(f"    NO table.table found."
-              + (f" Page says '{hint}'." if hint else " (JS-rendered or different markup?)"))
+        print("    NO table.table found."
+              + (f" Page says '{hint}'." if hint else " (JS-rendered / different markup?)"))
         return
     trs = table.select("tbody tr")
-    print(f"    table.table found | tbody rows: {len(trs)}")
-    for n, tr in enumerate(trs[:2]):
+    multicol = sum(1 for tr in trs if len(tr.find_all("td")) >= 4)
+    detail_links = len(table.select("a[href*='document-detail']"))
+    print(f"    tbody rows: {len(trs)} | multi-col doc rows: {multicol} "
+          f"| detail-page links: {detail_links}")
+    for n, tr in enumerate(trs[:3]):
         tds = tr.find_all("td")
-        cells = [td.get_text(strip=True)[:45] for td in tds]
+        cells = [td.get_text(strip=True)[:40] for td in tds]
         print(f"      row {n}: {len(tds)} cols -> {cells}")
 
 
