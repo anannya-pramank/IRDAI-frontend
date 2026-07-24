@@ -80,8 +80,8 @@ PAGES = {
     "Notifications": "/notifications",
     "Circulars": "/circulars",
     "Guidelines": "/guidelines",
-    "Orders": "/orders",
-    "Notices": "/notices",
+    "Orders": "/orders1",
+    "Notices": "/notices1",
     "Exposure Drafts": "/exposure-drafts",
 }
 
@@ -89,10 +89,11 @@ PORTLET_NS = "_com_irdai_document_media_IRDAIDocumentMediaPortlet_"
 DELTA = 20
 BACKFILL_MAX_PAGES = 250
 
-# Orders/Notices don't render as a document table — they're a 1-column
-# <ul><li><a documentId>title</a></li> list linking to detail pages. These
-# categories get resolved via their detail pages (see resolve_detail_list).
-DETAIL_LIST_CATEGORIES = {"Orders", "Notices"}
+# /orders1 and /notices1 are normal 7-column document tables, so no category
+# needs detail-page resolution right now. The resolve_detail_list machinery is
+# kept (dormant) in case IRDAI points another sparse bucket at the 1-column
+# <ul><li><a documentId>…</a></li> layout later.
+DETAIL_LIST_CATEGORIES: set[str] = set()
 
 HEADERS = {
     "User-Agent": (
@@ -165,7 +166,18 @@ def make_session() -> requests.Session:
 
 
 def fetch_page(session: requests.Session, url: str, cur: int = 1) -> str:
-    params = {PORTLET_NS + "delta": str(DELTA), PORTLET_NS + "cur": str(cur)}
+    # Liferay only routes the namespaced cur/delta params to the portlet when
+    # the render-URL params (p_p_id + lifecycle) are present. Without them the
+    # portlet ignores cur/delta entirely and always re-serves page 1 — which is
+    # why paginated buckets were silently capped at their first ~20 rows.
+    params = {
+        "p_p_id": PORTLET_NS.strip("_"),
+        "p_p_lifecycle": "0",
+        "p_p_state": "normal",
+        "p_p_mode": "view",
+        PORTLET_NS + "delta": str(DELTA),
+        PORTLET_NS + "cur": str(cur),
+    }
     r = session.get(url, params=params, timeout=40)
     r.raise_for_status()
     return r.text
