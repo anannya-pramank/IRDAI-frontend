@@ -1,1 +1,49 @@
-[]
+[
+  {
+    "slug": "reg-irdai-third-party-administrators-health-serv-2026",
+    "type": "Regulations",
+    "title": "IRDAI (Third Party Administrators – Health Services) (Amendment) Regulations, 2026.pdf905 KB",
+    "entity": "Intermediaries",
+    "subtype": "Third Party Administrators (TPAs)",
+    "status": "Existing",
+    "year": 2026,
+    "dept": null,
+    "refNo": null,
+    "dateIssued": "2026-07-31",
+    "archived": false,
+    "sourceCategory": "Consolidated & Gazette Notified Regulations",
+    "aliases": [],
+    "subjects": [
+      "health"
+    ],
+    "attachments": 1,
+    "maintenance": [],
+    "lede": "IRDAI (Third Party Administrators – Health Services) (Amendment) Regulations, 2026.pdf905 KB.",
+    "history": "Auto-classified by irdai_watcher on 2026-08-04.",
+    "relations": {},
+    "_source": {
+      "liferay_id": "9703888",
+      "detail_page": "https://irdai.gov.in/document-detail?documentId=9703888",
+      "pdf_links": [
+        "https://irdai.gov.in/documents/37343/366405/IRDAI+%28Third+Party+Administrators+%E2%80%93+Health+Services%29+%28Amendment%29+Regulations%2C+2026.pdf/74ec2d16-6d9d-cb31-4780-2eb74169c58e?version=1.0&t=1785737695021&download=true"
+      ],
+      "pdf_filenames": [
+        "IRDAI (Third Party Administrators – Health Services) (Amendment) Regulations, 2026.pdf"
+      ],
+      "file_sizes": [
+        "905 KB"
+      ],
+      "source_page": "https://irdai.gov.in/consolidated-gazette-notified-regulations",
+      "first_seen": "2026-08-04T03:46:03.903023+00:00",
+      "last_seen": "2026-08-04T03:46:03.903023+00:00",
+      "pending_relations": []
+    },
+    "versions": [
+      {
+        "label": "IRDAI (Third Party Administrators – Health Services) (Amendment) Regulations, 20",
+        "bucket": "Consolidated & Gazette Notified Regulations",
+        "date": "2026-07-31"
+      }
+    ]
+  }
+]
