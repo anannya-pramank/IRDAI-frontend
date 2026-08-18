@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "slug": "ord-cancellation-of-the-order-of-appointment-of-2026",
+    "type": "Orders",
+    "title": "सहारा इंडिया लाइफ इंश्योरेंस कंपनी लिमिटेड के संबंध में प्रशासक की नियुक्ति के आदेश का निरसन _ Cancellation of the order of Appointment of Administrator in respect of Sahara India Life Insurance Company Limited.pdf311 KB",
+    "entity": "Insurers",
+    "subtype": "Life Insurers",
+    "status": "Existing",
+    "year": 2026,
+    "dept": null,
+    "refNo": null,
+    "dateIssued": "2026-08-17",
+    "archived": false,
+    "sourceCategory": "Orders",
+    "aliases": [],
+    "subjects": [
+      "governance"
+    ],
+    "attachments": 1,
+    "maintenance": [],
+    "lede": "सहारा इंडिया लाइफ इंश्योरेंस कंपनी लिमिटेड के संबंध में प्रशासक की नियुक्ति के आदेश का निरसन _ Cancellation of the order of Appointment of Administrator in respect of Sahara India Life Insurance Company Limited.pdf311 KB.",
+    "history": "Auto-classified by irdai_watcher on 2026-08-18.",
+    "relations": {},
+    "_source": {
+      "liferay_id": "9737156",
+      "detail_page": "https://irdai.gov.in/document-detail?documentId=9737156",
+      "pdf_links": [
+        "https://irdai.gov.in/documents/37343/365561/%E0%A4%B8%E0%A4%B9%E0%A4%BE%E0%A4%B0%E0%A4%BE+%E0%A4%87%E0%A4%82%E0%A4%A1%E0%A4%BF%E0%A4%AF%E0%A4%BE+%E0%A4%B2%E0%A4%BE%E0%A4%87%E0%A4%AB+%E0%A4%87%E0%A4%82%E0%A4%B6%E0%A5%8D%E0%A4%AF%E0%A5%8B%E0%A4%B0%E0%A5%87%E0%A4%82%E0%A4%B8+%E0%A4%95%E0%A4%82%E0%A4%AA%E0%A4%A8%E0%A5%80+%E0%A4%B2%E0%A4%BF%E0%A4%AE%E0%A4%BF%E0%A4%9F%E0%A5%87%E0%A4%A1+%E0%A4%95%E0%A5%87+%E0%A4%B8%E0%A4%82%E0%A4%AC%E0%A4%82%E0%A4%A7+%E0%A4%AE%E0%A5%87%E0%A4%82+%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B6%E0%A4%BE%E0%A4%B8%E0%A4%95+%E0%A4%95%E0%A5%80+%E0%A4%A8%E0%A4%BF%E0%A4%AF%E0%A5%81%E0%A4%95%E0%A5%8D%E0%A4%A4%E0%A4%BF+%E0%A4%95%E0%A5%87+%E0%A4%86%E0%A4%A6%E0%A5%87%E0%A4%B6+%E0%A4%95%E0%A4%BE+%E0%A4%A8%E0%A4%BF%E0%A4%B0%E0%A4%B8%E0%A4%A8+_+Cancellation+of+the+order+of+Appointment+of+Administrator+in+respect+of+Sahara+India+Life+Insurance+Company+Limited.pdf/e562e311-dc5f-4e4f-e05e-b5dc50d2eded?version=3.0&t=1786971213497&download=true"
+      ],
+      "pdf_filenames": [
+        "सहारा इंडिया लाइफ इंश्योरेंस कंपनी लिमिटेड के संबंध में प्रशासक की नियुक्ति के आदेश का निरसन _ Cancellation of the order of Appointment of Administrator in respect of Sahara India Life Insurance Company Limited.pdf"
+      ],
+      "file_sizes": [
+        "311 KB"
+      ],
+      "source_page": "https://irdai.gov.in/orders1",
+      "first_seen": "2026-08-18T01:59:29.136233+00:00",
+      "last_seen": "2026-08-18T01:59:29.136233+00:00",
+      "pending_relations": []
+    }
+  }
+]
