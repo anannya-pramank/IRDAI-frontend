@@ -191,6 +191,39 @@
 
   .citebox{border:1px dashed var(--line);background:#fafaf5;padding:10px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;line-height:1.7;word-break:break-word;margin-top:8px;}
 
+  /* ---------- Cross-reference popover (hover a linked doc/provision for an
+     inline detail card, without navigating away — same idea as clicking a
+     defined term in Isaacus's graph viewer) ---------- */
+  #xrefpop{position:fixed;z-index:90;max-width:340px;background:var(--page);border:1px solid var(--line);border-radius:4px;box-shadow:0 4px 18px rgba(0,0,0,0.14);padding:10px 13px;font-size:12px;line-height:1.5;display:none;}
+  html.dark #xrefpop{box-shadow:0 4px 18px rgba(0,0,0,0.5);}
+  #xrefpop .xp-kicker{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-faint);margin-bottom:3px;}
+  #xrefpop .xp-title{font-family:'Fraunces',serif;font-weight:600;font-size:13.5px;margin-bottom:4px;line-height:1.3;}
+  #xrefpop .xp-meta{color:var(--ink-soft);font-size:11px;margin-bottom:5px;}
+  #xrefpop .xp-desc{color:var(--ink-soft);font-size:11.5px;border-top:1px dashed var(--line);padding-top:5px;margin-top:2px;}
+
+  /* ---------- Provisions: reading view — point-in-time gazette-style
+     rendering (styled after the IT Rules 2021 point-in-time viewer):
+     serif running text, redline ins/del, status pills, amendment notes. ---------- */
+  .prov-reading .partbox{margin:22px 0 4px;}
+  .prov-reading .parthead{font-family:'Fraunces',serif;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--ink-soft);border-bottom:1px solid var(--line-soft);padding-bottom:6px;margin-bottom:10px;font-weight:600;}
+  .prov-reading section.rule{margin:0 0 14px;padding:2px 0 2px 12px;border-left:2px solid var(--line-soft);scroll-margin-top:90px;}
+  .prov-reading section.rule.l2{margin-left:18px;}
+  .prov-reading section.rule.l3{margin-left:36px;}
+  .prov-reading section.rule.flash{border-left-color:var(--wikiblue);background:linear-gradient(90deg,var(--infobox-bg),transparent 65%);}
+  .prov-reading .rulehead{font-family:'Fraunces',serif;font-size:14.5px;font-weight:600;margin:0 0 3px;}
+  .prov-reading .rulehead .n{color:var(--wikiblue);}
+  .prov-reading p.prov{margin:.3em 0;font-family:'Source Serif 4',serif;font-size:13.6px;line-height:1.65;text-align:justify;hyphens:auto;color:var(--ink);}
+  .prov-reading ins{background:var(--green-bg);color:var(--green);text-decoration:none;box-shadow:inset 0 -1px 0 var(--green);padding:0 1px;border-radius:2px;}
+  .prov-reading del{background:var(--rust-bg);color:var(--rust);text-decoration:line-through;padding:0 1px;border-radius:2px;}
+  .prov-reading .pill{display:inline-block;font-size:9.5px;font-weight:600;letter-spacing:.03em;padding:1px 7px;border-radius:20px;vertical-align:1px;margin-left:5px;}
+  .prov-reading .pill.ins{background:var(--green-bg);color:var(--green);}
+  .prov-reading .pill.sub{background:var(--amber-bg);color:var(--amber);}
+  .prov-reading .pill.dead{background:var(--rust-bg);color:var(--rust);}
+  .prov-reading .amendnote{font-size:11.5px;color:var(--amber);background:var(--amber-bg);box-shadow:inset 2px 0 0 var(--amber);padding:5px 10px;border-radius:0 4px 4px 0;margin:3px 0 6px;line-height:1.5;}
+  .prov-reading .amendnote.dead{color:var(--rust);background:var(--rust-bg);box-shadow:inset 2px 0 0 var(--rust);}
+  .prov-reading .ghostnote{font-size:11.5px;font-style:italic;color:var(--ink-faint);}
+  html.dark .prov-reading .parthead{border-color:var(--line);}
+
   .categories{margin-top:30px;border-top:2px solid var(--line);padding-top:0;font-size:11.5px;background:#fafaf5;}
   .categories .cat-label{font-weight:600;color:var(--ink-soft);margin-right:6px;}
   .categories a{margin-right:4px;}
@@ -350,6 +383,8 @@
     </div>
   </div>
 </div>
+
+<div id="xrefpop"></div>
 
 <aside class="appearance" id="appearancePanel" aria-label="Appearance settings">
   <div class="ap-head"><span>Appearance</span><button class="ap-hide" onclick="toggleAppearance(false)">hide</button></div>
@@ -544,8 +579,58 @@ function docLink(target, label){
   const [docId, anchor] = target.split('#');
   const d = DOCS[docId]; if(!d) return label||target;
   const text = label || (d.title + (anchor ? ' — ' + provLabel(docId, anchor) : ''));
-  return `<a onclick="gotoDoc('${docId}'${anchor?`,'${anchor}'`:''})">${text}</a>`;
+  return `<a data-xref="${esc(target)}" onclick="gotoDoc('${docId}'${anchor?`,'${anchor}'`:''})">${text}</a>`;
 }
+
+/* ===================== Cross-reference popover =====================
+   Hovering any doc/provision link shows an inline detail card (title,
+   type, status, date; or the provision's own text + lineage) without
+   navigating — the same job Isaacus's graph viewer does when you click
+   a defined term and get its entity detail panel on the side. */
+function xrefContent(target){
+  const [docId, anchor] = target.split('#');
+  const d = DOCS[docId];
+  if(!d) return null;
+  let kicker = d.type || 'Document', title = d.title,
+      meta = [d.type, d.dateIssued?fmtDate(d.dateIssued):null, d.status].filter(Boolean).join(' · '),
+      desc = d.lede ? (d.lede.length>200 ? d.lede.slice(0,200)+'…' : d.lede) : '';
+  if(anchor){
+    const p = (d.provisions||[]).find(x=>provDomId(x)===anchor || x.id===anchor || x.ref===anchor);
+    if(p){
+      kicker = (p.level||'provision').charAt(0).toUpperCase()+(p.level||'provision').slice(1);
+      title = `${kicker} ${p.ref}`;
+      const st = provState(p, 'current');
+      meta = `${d.title} · ${st.label}`;
+      desc = p.heading ? (p.heading.length>200 ? p.heading.slice(0,200)+'…' : p.heading)
+           : (p.ghost ? 'Not traceable in the consolidated text on file — reconstructed from the amendment record.' : '');
+    }
+  }
+  return {kicker, title, meta, desc};
+}
+let _xrefTimer = null;
+function showXref(el){
+  const target = el.getAttribute('data-xref');
+  const c = target && xrefContent(target);
+  const pop = document.getElementById('xrefpop');
+  if(!c){ pop.style.display='none'; return; }
+  pop.innerHTML = `<div class="xp-kicker">${esc(c.kicker)}</div><div class="xp-title">${esc(c.title)}</div>`
+    + (c.meta?`<div class="xp-meta">${esc(c.meta)}</div>`:'')
+    + (c.desc?`<div class="xp-desc">${esc(c.desc)}</div>`:'');
+  pop.style.display = 'block';
+  const r = el.getBoundingClientRect(), pw = pop.offsetWidth;
+  pop.style.left = Math.max(12, Math.min(r.left, window.innerWidth-pw-12)) + 'px';
+  pop.style.top = (r.bottom + 6) + 'px';
+}
+function hideXref(){ document.getElementById('xrefpop').style.display='none'; }
+document.getElementById('view').addEventListener('mouseover', e=>{
+  const a = e.target.closest('a[data-xref]');
+  if(!a) return;
+  clearTimeout(_xrefTimer);
+  _xrefTimer = setTimeout(()=>showXref(a), 200);
+});
+document.getElementById('view').addEventListener('mouseout', e=>{
+  if(e.target.closest('a[data-xref]')){ clearTimeout(_xrefTimer); hideXref(); }
+});
 function backlinksFor(id){
   const found = {};
   Object.entries(DOCS).forEach(([oid,d])=>{
@@ -930,16 +1015,78 @@ function provRows(docId, cutoff){
       <td><span class="status-badge ${st.cls}"><span class="dot"></span>${st.label}</span>${lineage.length?`<br><span style="font-size:11px;line-height:1.7;">${lineage.join('<br>')}</span>`:''}</td></tr>`;
   }).join('');
 }
+/* Reading view — same provisions/events data as provRows(), rendered as
+   running gazette text (serif, indented by nesting, redline ins/del on
+   word-level substitutions, amendment notes) in the style of the IT Rules
+   2021 point-in-time viewer, instead of a wiki infobox table. */
+function provReadingHTML(docId, cutoff){
+  const d = DOCS[docId];
+  const upto = e => cutoff==='current' || ((e.date||'') <= cutoff);
+  const out = [];
+  (d.provisions||[]).forEach(p=>{
+    if(PROV_GROUP_LEVELS.includes(p.level)){
+      if(_provChangedOnly) return;
+      out.push(`<div class="partbox"><div class="parthead">${esc(p.level)} ${esc(p.ref)}${p.heading?' — '+esc(p.heading):''}</div></div>`);
+      return;
+    }
+    const changed = (p.events&&p.events.length) || p.introducedBy;
+    if(_provChangedOnly && !changed) return;
+    if(p.introducedOn && cutoff!=='current' && cutoff < p.introducedOn) return;
+    const st = provState(p, cutoff);
+    const domId = provDomId(p);
+    const depth = String(p.path||'').split('/').length;
+    const lcls = depth>=3 ? 'l3' : (depth===2 ? 'l2' : 'l1');
+    const pillByLabel = {Omitted:'dead', Substituted:'sub', Inserted:'ins', Amended:'sub'};
+    const pill = pillByLabel[st.label] ? ` <span class="pill ${pillByLabel[st.label]}">${st.label.toLowerCase()}</span>` : '';
+    const bareRef = /^[0-9A-Za-z]+$/.test(String(p.ref||''));
+    const refLabel = (bareRef && (p.level==='clause'||p.level==='subclause')) ? '(' + esc(p.ref) + ')' : esc(p.ref);
+    const bodyText = p.heading ? esc(p.heading) : '';
+
+    let notes = '';
+    if(p.introducedBy) notes += `<div class="amendnote">Ins. by ${docLink(p.introducedBy)}${p.introducedOn?', w.e.f. '+fmtDate(p.introducedOn):''}.</div>`;
+    (p.events||[]).filter(upto).forEach(e=>{
+      if(e.action==='insert') return; /* shown via introducedBy above */
+      const dead = e.action==='omit';
+      const dm = e.detail && e.detail.match(/^“(.*)”\s*→\s*“(.*)”$/);
+      const rendered = dm ? `<del>${esc(dm[1])}</del> → <ins>${esc(dm[2])}</ins>` : (e.detail ? esc(e.detail) : '');
+      notes += `<div class="amendnote${dead?' dead':''}">${EV_VERB[e.action]||e.action} by ${docLink(e.doc)}`
+        + (e.date?', w.e.f. '+fmtDate(e.date):'')
+        + (e.verified?'':' <span title="medium-confidence parse — verify against the gazette text" style="cursor:help;">±</span>')
+        + (rendered?': '+rendered:'') + '.</div>';
+    });
+    if(p.ghost && !notes) notes = `<div class="ghostnote">Not traceable in the consolidated text on file — reconstructed from the amendment record.</div>`;
+
+    out.push(`<section class="rule ${lcls}" id="${domId}">
+      <div class="rulehead"><span class="n">${refLabel}</span>${pill}<span class="provlink" title="Copy provision permalink" onclick="copyText('#/doc/${docId}#${domId}', null)">¶</span></div>
+      ${bodyText?`<p class="prov">${bodyText}</p>`:''}
+      ${notes}
+    </section>`);
+  });
+  return out.join('') || '<p class="empty-note">No provisions in this view.</p>';
+}
+
+let _provView = 'table';
 function updateProv(docId, v){
   window._provCutoff = v;
-  const el = document.getElementById('provbody');
-  if(el) el.innerHTML = provRows(docId, v);
+  const tbl = document.getElementById('provbody');
+  if(tbl) tbl.innerHTML = provRows(docId, v);
+  const rv = document.getElementById('provReading');
+  if(rv && _provView==='reading') rv.innerHTML = provReadingHTML(docId, v);
 }
 function toggleProvChanged(docId){
   _provChangedOnly = !_provChangedOnly;
   const chip = document.getElementById('provChangedChip');
   if(chip) chip.classList.toggle('on', _provChangedOnly);
   updateProv(docId, window._provCutoff || 'current');
+}
+function toggleProvView(docId){
+  _provView = _provView==='table' ? 'reading' : 'table';
+  const chip = document.getElementById('provViewChip');
+  if(chip){ chip.textContent = _provView==='reading' ? 'Table view' : 'Reading view'; chip.classList.toggle('on', _provView==='reading'); }
+  document.getElementById('provTableWrap').style.display = _provView==='table' ? '' : 'none';
+  const rv = document.getElementById('provReading');
+  rv.style.display = _provView==='reading' ? '' : 'none';
+  if(_provView==='reading') rv.innerHTML = provReadingHTML(docId, window._provCutoff || 'current');
 }
 
 function renderArticleTab(id, d, params){
@@ -1006,11 +1153,14 @@ function renderArticleTab(id, d, params){
       ? ` Segmented from the text of ${docLink(d.provTextFrom)}.` : '';
     sections.push({id:'sec-provisions', title:'Provisions', html:`
       <p class="body-text" style="font-size:12px;color:var(--ink-soft);">${d.provisions.filter(p=>!PROV_GROUP_LEVELS.includes(p.level)).length} provisions extracted, ${nEv} amendment events anchored.${segNote} Events marked <span style="color:var(--amber);">±</span> parsed at medium confidence — verify against the gazette.</p>
-      ${asat}
-      <table class="provisions">
-        <thead><tr><th>Provision</th><th>Description</th><th>Status &amp; lineage</th></tr></thead>
-        <tbody id="provbody">${provRows(id,'current')}</tbody>
-      </table>
+      <div class="asat-row">${asat}<button class="chip" id="provViewChip" style="margin-left:10px;" onclick="toggleProvView('${id}')">Reading view</button></div>
+      <div id="provTableWrap">
+        <table class="provisions">
+          <thead><tr><th>Provision</th><th>Description</th><th>Status &amp; lineage</th></tr></thead>
+          <tbody id="provbody">${provRows(id,'current')}</tbody>
+        </table>
+      </div>
+      <div id="provReading" class="prov-reading" style="display:none;"></div>
       <p class="body-text" style="font-size:11.5px;color:var(--ink-faint);">Use ¶ to copy a provision-level permalink; orders and circulars can target individual provisions.</p>
     `});
   }
