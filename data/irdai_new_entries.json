@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "slug": "mc-master-circular-on-registration-capital-stru-2026",
+    "type": "Master Circulars",
+    "title": "Master Circular on Registration, Capital Structure, Transfer of Shares and Amalgamation of Insurers, 2026.pdf387 KB",
+    "entity": "Insurers",
+    "subtype": "—",
+    "status": "Existing",
+    "year": 2026,
+    "dept": null,
+    "refNo": null,
+    "dateIssued": "2026-11-02",
+    "archived": false,
+    "sourceCategory": "Circulars",
+    "aliases": [],
+    "subjects": [
+      "governance"
+    ],
+    "attachments": 1,
+    "maintenance": [],
+    "lede": "Master Circular on Registration, Capital Structure, Transfer of Shares and Amalgamation of Insurers, 2026.pdf387 KB.",
+    "history": "Auto-classified by irdai_watcher on 2026-11-03.",
+    "relations": {},
+    "_source": {
+      "liferay_id": "9983016",
+      "detail_page": "https://irdai.gov.in/document-detail?documentId=9983016",
+      "pdf_links": [
+        "https://irdai.gov.in/documents/37343/365525/Master+Circular+on+Registration%2C+Capital+Structure%2C+Transfer+of+Shares+and+Amalgamation+of+Insurers%2C+2026.pdf/90f65b79-1afa-80cc-be02-0a5dae81913a?version=1.0&t=1793627096547&download=true"
+      ],
+      "pdf_filenames": [
+        "Master Circular on Registration, Capital Structure, Transfer of Shares and Amalgamation of Insurers, 2026.pdf"
+      ],
+      "file_sizes": [
+        "387 KB"
+      ],
+      "source_page": "https://irdai.gov.in/circulars",
+      "first_seen": "2026-11-03T07:01:53.187004+00:00",
+      "last_seen": "2026-11-03T07:01:53.187004+00:00",
+      "pending_relations": []
+    }
+  }
+]
