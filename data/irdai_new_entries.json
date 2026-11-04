@@ -1,41 +1,39 @@
 [
   {
-    "slug": "mc-master-circular-on-registration-capital-stru-2026",
-    "type": "Master Circulars",
-    "title": "Master Circular on Registration, Capital Structure, Transfer of Shares and Amalgamation of Insurers, 2026.pdf387 KB",
-    "entity": "Insurers",
+    "slug": "cir-circular-four-layer-structure-motor-insuranc-2026",
+    "type": "Circulars",
+    "title": "परिपत्र चार-स्तरीय संरचना - मोटर बीमा पॉलिसी _ Circular - Four Layer Structure-Motor Insurance Policy.pdf683 KB",
+    "entity": "Common",
     "subtype": "—",
     "status": "Existing",
     "year": 2026,
     "dept": null,
     "refNo": null,
-    "dateIssued": "2026-11-02",
+    "dateIssued": "2026-11-03",
     "archived": false,
     "sourceCategory": "Circulars",
     "aliases": [],
-    "subjects": [
-      "governance"
-    ],
+    "subjects": [],
     "attachments": 1,
     "maintenance": [],
-    "lede": "Master Circular on Registration, Capital Structure, Transfer of Shares and Amalgamation of Insurers, 2026.pdf387 KB.",
-    "history": "Auto-classified by irdai_watcher on 2026-11-03.",
+    "lede": "परिपत्र चार-स्तरीय संरचना - मोटर बीमा पॉलिसी _ Circular - Four Layer Structure-Motor Insurance Policy.pdf683 KB.",
+    "history": "Auto-classified by irdai_watcher on 2026-11-04.",
     "relations": {},
     "_source": {
-      "liferay_id": "9983016",
-      "detail_page": "https://irdai.gov.in/document-detail?documentId=9983016",
+      "liferay_id": "9987995",
+      "detail_page": "https://irdai.gov.in/document-detail?documentId=9987995",
       "pdf_links": [
-        "https://irdai.gov.in/documents/37343/365525/Master+Circular+on+Registration%2C+Capital+Structure%2C+Transfer+of+Shares+and+Amalgamation+of+Insurers%2C+2026.pdf/90f65b79-1afa-80cc-be02-0a5dae81913a?version=1.0&t=1793627096547&download=true"
+        "https://irdai.gov.in/documents/37343/365525/%E0%A4%AA%E0%A4%B0%E0%A4%BF%E0%A4%AA%E0%A4%A4%E0%A5%8D%E0%A4%B0+%E0%A4%9A%E0%A4%BE%E0%A4%B0-%E0%A4%B8%E0%A5%8D%E0%A4%A4%E0%A4%B0%E0%A5%80%E0%A4%AF+%E0%A4%B8%E0%A4%82%E0%A4%B0%E0%A4%9A%E0%A4%A8%E0%A4%BE+-+%E0%A4%AE%E0%A5%8B%E0%A4%9F%E0%A4%B0+%E0%A4%AC%E0%A5%80%E0%A4%AE%E0%A4%BE+%E0%A4%AA%E0%A5%89%E0%A4%B2%E0%A4%BF%E0%A4%B8%E0%A5%80+_+Circular+-+Four+Layer+Structure-Motor+Insurance+Policy.pdf/a8ffd2fe-65dd-e9a4-60af-71c3ef538ef0?version=1.1&t=1793706206160&download=true"
       ],
       "pdf_filenames": [
-        "Master Circular on Registration, Capital Structure, Transfer of Shares and Amalgamation of Insurers, 2026.pdf"
+        "परिपत्र चार-स्तरीय संरचना - मोटर बीमा पॉलिसी _ Circular - Four Layer Structure-Motor Insurance Policy.pdf"
       ],
       "file_sizes": [
-        "387 KB"
+        "683 KB"
       ],
       "source_page": "https://irdai.gov.in/circulars",
-      "first_seen": "2026-11-03T07:01:53.187004+00:00",
-      "last_seen": "2026-11-03T07:01:53.187004+00:00",
+      "first_seen": "2026-11-04T06:44:41.490375+00:00",
+      "last_seen": "2026-11-04T06:44:41.490375+00:00",
       "pending_relations": []
     }
   }
