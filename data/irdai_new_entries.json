@@ -1,1 +1,40 @@
-[]
+[
+  {
+    "slug": "ord-office-order-constitution-of-working-groups-2026",
+    "type": "Orders",
+    "title": "OFFICE ORDER - Constitution of Working Groups on Convergence of the Risk Based Capital (RBC) Framework with the Indian Accounting Standards (IndAS).pdf411 KB",
+    "entity": "Common",
+    "subtype": "—",
+    "status": "Existing",
+    "year": 2026,
+    "dept": null,
+    "refNo": "IRDAI/RBC/ORD/MISC/150/11/2026",
+    "dateIssued": "2026-11-10",
+    "archived": false,
+    "sourceCategory": "Orders",
+    "aliases": [],
+    "subjects": [],
+    "attachments": 1,
+    "maintenance": [],
+    "lede": "OFFICE ORDER - Constitution of Working Groups on Convergence of the Risk Based Capital (RBC) Framework with the Indian Accounting Standards (IndAS).pdf411 KB.",
+    "history": "Auto-classified by irdai_watcher on 2026-11-11.",
+    "relations": {},
+    "_source": {
+      "liferay_id": "10014258",
+      "detail_page": "https://irdai.gov.in/document-detail?documentId=10014258",
+      "pdf_links": [
+        "https://irdai.gov.in/documents/37343/365561/OFFICE+ORDER+-+Constitution+of+Working+Groups+on+Convergence+of+the+Risk+Based+Capital+%28RBC%29+Framework+with+the+Indian+Accounting+Standards+%28IndAS%29.pdf/c34095ef-4825-aec0-f34f-6c799c1fa761?version=1.0&t=1794307084342&download=true"
+      ],
+      "pdf_filenames": [
+        "OFFICE ORDER - Constitution of Working Groups on Convergence of the Risk Based Capital (RBC) Framework with the Indian Accounting Standards (IndAS).pdf"
+      ],
+      "file_sizes": [
+        "411 KB"
+      ],
+      "source_page": "https://irdai.gov.in/orders1",
+      "first_seen": "2026-11-11T06:50:47.350663+00:00",
+      "last_seen": "2026-11-11T06:50:47.350663+00:00",
+      "pending_relations": []
+    }
+  }
+]
