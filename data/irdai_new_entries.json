@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "slug": "ord-2026-constitution-of-fund-management-committ-2026",
+    "type": "Orders",
+    "title": "आईआरडीएआई (पालिसीधारकों की शिक्षा और संरक्षण निधि) विनियम 2026 के अधीन निधि प्रबंधन समिति का गठन _ Constitution of Fund Management Committee under IRDAI (Policyholders’ Education and Protection Fund) Regulations 2026.pdf186 KB",
+    "entity": "Common",
+    "subtype": "Applicable across multiple regulated entities",
+    "status": "Existing",
+    "year": 2026,
+    "dept": "PP&GR",
+    "refNo": "IRDAI/PP&GR/ORD/MISC/155/11/2026",
+    "dateIssued": "2026-11-25",
+    "archived": false,
+    "sourceCategory": "Orders",
+    "aliases": [],
+    "subjects": [
+      "governance"
+    ],
+    "attachments": 1,
+    "maintenance": [],
+    "lede": "आईआरडीएआई (पालिसीधारकों की शिक्षा और संरक्षण निधि) विनियम 2026 के अधीन निधि प्रबंधन समिति का गठन _ Constitution of Fund Management Committee under IRDAI (Policyholders’ Education and Protection Fund) Regulations 2026.pdf186 KB.",
+    "history": "Auto-classified by irdai_watcher on 2026-11-26.",
+    "relations": {},
+    "_source": {
+      "liferay_id": "10067493",
+      "detail_page": "https://irdai.gov.in/document-detail?documentId=10067493",
+      "pdf_links": [
+        "https://irdai.gov.in/documents/37343/365561/%E0%A4%86%E0%A4%88%E0%A4%86%E0%A4%B0%E0%A4%A1%E0%A5%80%E0%A4%8F%E0%A4%86%E0%A4%88+%28%E0%A4%AA%E0%A4%BE%E0%A4%B2%E0%A4%BF%E0%A4%B8%E0%A5%80%E0%A4%A7%E0%A4%BE%E0%A4%B0%E0%A4%95%E0%A5%8B%E0%A4%82+%E0%A4%95%E0%A5%80+%E0%A4%B6%E0%A4%BF%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BE+%E0%A4%94%E0%A4%B0+%E0%A4%B8%E0%A4%82%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%A3+%E0%A4%A8%E0%A4%BF%E0%A4%A7%E0%A4%BF%29+%E0%A4%B5%E0%A4%BF%E0%A4%A8%E0%A4%BF%E0%A4%AF%E0%A4%AE+2026+%E0%A4%95%E0%A5%87+%E0%A4%85%E0%A4%A7%E0%A5%80%E0%A4%A8+%E0%A4%A8%E0%A4%BF%E0%A4%A7%E0%A4%BF+%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%AC%E0%A4%82%E0%A4%A7%E0%A4%A8+%E0%A4%B8%E0%A4%AE%E0%A4%BF%E0%A4%A4%E0%A4%BF+%E0%A4%95%E0%A4%BE+%E0%A4%97%E0%A4%A0%E0%A4%A8+_+Constitution+of+Fund+Management+Committee+under+IRDAI+%28Policyholders%E2%80%99+Education+and+Protection+Fund%29+Regulations+2026.pdf/528ab6e4-d8b2-380a-3b89-249e8cce2ba9?version=1.0&t=1795605301701&download=true"
+      ],
+      "pdf_filenames": [
+        "आईआरडीएआई (पालिसीधारकों की शिक्षा और संरक्षण निधि) विनियम 2026 के अधीन निधि प्रबंधन समिति का गठन _ Constitution of Fund Management Committee under IRDAI (Policyholders’ Education and Protection Fund) Regulations 2026.pdf"
+      ],
+      "file_sizes": [
+        "186 KB"
+      ],
+      "source_page": "https://irdai.gov.in/orders1",
+      "first_seen": "2026-11-26T08:40:53.463177+00:00",
+      "last_seen": "2026-11-26T08:40:53.463177+00:00",
+      "pending_relations": []
+    }
+  }
+]
